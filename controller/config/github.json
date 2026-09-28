@@ -1,0 +1,7 @@
+{
+  "repository": "gastonortigoza/agentapp",
+  "mode": "reviewed_publish",
+  "host": "github.com",
+  "auth": "GitHub CLI credential store",
+  "remote_writes": true
+}
