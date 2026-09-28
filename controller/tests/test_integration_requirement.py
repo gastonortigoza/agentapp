@@ -64,3 +64,30 @@ def test_truncated_remote_is_rejected():
         async def call(self,*args):
             return {**await super().call(*args),'truncated':True}
     with pytest.raises(ValueError):asyncio.run(r.capture('example',Truncated()))
+
+
+@pytest.mark.parametrize('spec',[
+    {'input_key':'nested','attention_states':['failed']},
+    {'input_key':'status','attention_states':['other_state_not_selected']},
+])
+def test_generated_oracle_accepts_valid_parameter_edge_cases(spec,monkeypatch):
+    import types,sys,unittest,io
+    remote=Remote();remote.body=body(spec)
+    source=asyncio.run(r.capture('example',remote))
+    _,tests,_=r.pilot(source)
+    solution=types.ModuleType('solution')
+    def reference(records):
+        if not isinstance(records,list) or any(not isinstance(x,dict) for x in records):raise TypeError()
+        counts={};attention=0
+        for record in records:
+            value=record.get(spec['input_key'])
+            value=(value.strip() or 'unknown') if isinstance(value,str) else 'unknown'
+            counts[value]=counts.get(value,0)+1
+            attention+=value in spec['attention_states']
+        return dict(total=len(records),by_status=dict(sorted(counts.items())),needs_attention=attention)
+    solution.summarize_runs=reference
+    monkeypatch.setitem(sys.modules,'solution',solution)
+    namespace=types.ModuleType('generated_tests');exec(tests,namespace.__dict__)
+    suite=unittest.defaultTestLoader.loadTestsFromModule(namespace)
+    result=unittest.TextTestRunner(stream=io.StringIO()).run(suite)
+    assert result.testsRun==10 and result.wasSuccessful()

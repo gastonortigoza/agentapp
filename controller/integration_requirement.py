@@ -119,6 +119,12 @@ class RemoteSummaryTests(unittest.TestCase):
         for x in [None, [], 3, 'text']:
             with self.subTest(x=x), self.assertRaises(TypeError): summarize_runs([{},x])
 '''.replace('__KEY__', repr(spec['input_key'])).replace('__STATES__', repr(spec['attention_states']))
+    # Keep test fixtures disjoint from valid remote parameters. These are
+    # oracle fixtures, never extra restrictions on the accepted requirement.
+    if spec['input_key'] == 'nested':
+        tests = tests.replace("'nested':[1]", "'metadata':[1]")
+    if 'other_state_not_selected' in spec['attention_states']:
+        tests = tests.replace("{KEY:'other_state_not_selected'}", "{KEY:'_'}")
     return requirement, tests, 'remote_summary'
 
 

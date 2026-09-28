@@ -1,6 +1,6 @@
 {
   "scope": "controller_source_snapshot",
-  "source_identity": "7f80b83c59f8de6a27f3692f8b36a217e8efa6e75f4af134762ea0d7745f2daa",
+  "source_identity": "4a4c3fc5029b60ea71a091e769a3d9ebee497283f657fa1d2807410cdc47f969",
   "baseline_local_git_sha": "d6be382560d2cfe8e61263c2d6950543e02f8782",
   "files": {
     ".gitignore": "c990027d48399ffc42177bd024df5606f841d90bded51cf2279ebc06dde92e7e",
@@ -41,7 +41,7 @@
     "integration_linear.py": "a5227d27451a2bfab69561e0918ec7ddded7f80f4a489ac39e740ef296125e91",
     "integration_linear_state.py": "8ac5daadd22b26ea8e478c274788ed60405720d42a213761aa09f8dfe58c65a4",
     "integration_notion.py": "5c3c858ff708252e767384cff33705bd558cf1fb3920589a4cc4cb49b8c388cc",
-    "integration_requirement.py": "e90d9dca4342672cedd47a7e4336c4baf74a2db5c5993a1ecacb9ed6eb7d0b93",
+    "integration_requirement.py": "5fb1416c3b7caac5bf57c5473a3e1fff23e04894953772483299b226caf730e1",
     "integration_sync.py": "b2fdad4335045debe81ff8c42491456cf9589f22aa7892d5f5fa625eeaed35ca",
     "lab.py": "0a755ac97f7f441b6576ca73d5870c290d9e67af4bcb74177efe9bcbadd04d64",
     "local_control.py": "d46e2198077650e3150a3a356b043e9a77d46188a59de51e3cc75cdf4494c340",
@@ -86,7 +86,7 @@
     "tests/test_integration_linear.py": "1547b05dd4076f1546da8ca0e4a2aa631c4aae9d732a06346821a3b9a1c6fa31",
     "tests/test_integration_linear_state.py": "707a26a6c056daa6abab3a33dad0edf32d7b48284c2eddf2e043ebe0bd33210a",
     "tests/test_integration_notion.py": "0a9703012360350265869f7425981ed45eba3e9640f831ac19c7ae43224ce0f4",
-    "tests/test_integration_requirement.py": "4f3b0b54d1db738f08cee2bdbf442217bcf17e046f53fb43a3da615086dc0545",
+    "tests/test_integration_requirement.py": "a77957d5aa8e5928a7c5d3126cf27a47dea70bb46ceed08c9037204a826a82e1",
     "tests/test_integration_sync.py": "6e8a88969aaa1f07641af3c451898db58f8d6d0c64029931ef02a839933749ec",
     "tests/test_junctions.py": "7a70265a87f6f31b3e60f12451b69206e3fa8f9664acd38078351b84396dbb53",
     "tests/test_local_agents.py": "7ed8f56d496adf2a01f7605a35fc82718905f82c18ca8b32476f5bb1642a61a8",
@@ -96,7 +96,7 @@
     "uv.lock": "1c177b441f2219c38d0d3588e20b03b16a0d37e0755f5014e6055f7d730ac38f",
     "worker_lock.py": "25da0774cf15ebf73afe037460eb0e2bb1b1bc2a1cb96c0fa1b00b9c0d1cb037"
   },
-  "validation": "371 passed, 1 skipped; Windows Python 3.12; installed locked dependencies",
+  "validation": "373 passed, 1 skipped, 547 warnings in 48.53s; Windows Python 3.12; installed locked dependencies",
   "exclusions": [
     "credentials",
     "runtime databases",
