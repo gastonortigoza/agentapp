@@ -1,0 +1,16 @@
+{
+  "dev": {
+    "database": "agentapp_age34_dev",
+    "host": "127.0.0.1",
+    "port": 55434,
+    "postgresql_protocol_response": "N",
+    "tls_scope": "local_only; not staging transport validation"
+  },
+  "test": {
+    "database": "agentapp_age34_test",
+    "host": "127.0.0.1",
+    "port": 55435,
+    "postgresql_protocol_response": "N",
+    "tls_scope": "local_only; not staging transport validation"
+  }
+}

@@ -1,0 +1,11 @@
+test_08_same_key_and_payload_are_scoped_by_user (__main__.PostgreSQLChecks.test_08_same_key_and_payload_are_scoped_by_user) ... ok
+test_09_retry_exact_body_without_extension (__main__.PostgreSQLChecks.test_09_retry_exact_body_without_extension) ... ok
+test_10_different_payload_and_second_key (__main__.PostgreSQLChecks.test_10_different_payload_and_second_key) ... ok
+test_11_concurrent_first_activation (__main__.PostgreSQLChecks.test_11_concurrent_first_activation) ... ok
+test_12_expired_key_and_expired_period (__main__.PostgreSQLChecks.test_12_expired_key_and_expired_period) ... ok
+test_16_persisted_restart (__main__.PostgreSQLChecks.test_16_persisted_restart) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 244.422s
+
+OK

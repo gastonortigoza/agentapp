@@ -1,0 +1,30 @@
+{
+  "id": "age34-sql-draft-20261001",
+  "state": "draft_received",
+  "started_at": "2026-10-01T04:30:54.783121+00:00",
+  "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+  "prompt_sha256": "03d44a117ef4e9a63a4d62b67b604c35753b2902d00722bf0575c46e8a8396f3",
+  "limits": {
+    "max_calls": 1,
+    "context_tokens": 16384,
+    "output_tokens": 4000,
+    "timeout_seconds": 180
+  },
+  "scope": "isolated_draft_no_code_execution",
+  "result": {
+    "ok": true,
+    "text": "{\n  \"sql\": \"CREATE SCHEMA IF NOT EXISTS agentapp;\\n\\nCREATE TABLE agentapp.users (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  email text NOT NULL,\\n  password_hash text NOT NULL,\\n  birth_date date NOT NULL,\\n  role text NOT NULL DEFAULT 'member',\\n  created_at timestamptz NOT NULL DEFAULT now(),\\n  PRIMARY KEY (id),\\n  UNIQUE (email),\\n  CHECK (role = 'member')\\n);\\n\\nCREATE TABLE agentapp.countries (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  code text NOT NULL,\\n  name text NOT NULL,\\n  PRIMARY KEY (id),\\n  UNIQUE (code),\\n  CHECK (code = 'AR')\\n);\\n\\nCREATE TABLE agentapp.provinces (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  country_id uuid NOT NULL,\\n  name text NOT NULL,\\n  PRIMARY KEY (id),\\n  UNIQUE (id, country_id),\\n  UNIQUE (country_id, name),\\n  FOREIGN KEY (country_id) REFERENCES agentapp.countries(id)\\n);\\n\\nCREATE TABLE agentapp.zones (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  country_id uuid NOT NULL,\\n  province_id uuid NOT NULL,\\n  name text NOT NULL,\\n  PRIMARY KEY (id),\\n  UNIQUE (id, province_id, country_id),\\n  UNIQUE (province_id, name),\\n  FOREIGN KEY (province_id, country_id) REFERENCES agentapp.provinces(id, country_id)\\n);\\n\\nCREATE TABLE agentapp.profiles (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  user_id uuid NOT NULL,\\n  display_name text NOT NULL,\\n  gender text NOT NULL,\\n  country_id uuid NOT NULL,\\n  province_id uuid NOT NULL,\\n  zone_id uuid NOT NULL,\\n  description text NOT NULL,\\n  phone_e164 text NOT NULL,\\n  published boolean NOT NULL DEFAULT false,\\n  created_at timestamptz NOT NULL DEFAULT now(),\\n  updated_at timestamptz NOT NULL DEFAULT now(),\\n  PRIMARY KEY (id),\\n  UNIQUE (user_id),\\n  FOREIGN KEY (user_id) REFERENCES agentapp.users(id),\\n  FOREIGN KEY (zone_id, province_id, country_id) REFERENCES agentapp.zones(id, province_id, country_id),\\n  CHECK (char_length(description) BETWEEN 1 AND 2000)\\n);\\n\\nCREATE TABLE agentapp.photos (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  profile_id uuid NOT NULL,\\n  object_key text NOT NULL,\\n  is_main boolean NOT NULL DEFAULT false,\\n  created_at timestamptz NOT NULL DEFAULT now(),\\n  PRIMARY KEY (id),\\n  UNIQUE (object_key),\\n  FOREIGN KEY (profile_id) REFERENCES agentapp.profiles(id) ON DELETE CASCADE\\n);\\n\\nCREATE UNIQUE INDEX photos_one_main ON agentapp.photos(profile_id) WHERE is_main;\\n\\nCREATE TABLE agentapp.plans (\\n  id text NOT NULL,\\n  amount_minor integer NOT NULL,\\n  currency text NOT NULL,\\n  billing_period text NOT NULL,\\n  enabled boolean NOT NULL,\\n  PRIMARY KEY (id),\\n  CHECK (id IN ('basic', 'promoted')),\\n  CHECK (amount_minor > 0),\\n  CHECK (currency = 'ARS'),\\n  CHECK (billing_period = 'monthly')\\n);\\n\\nCREATE TABLE agentapp.subscriptions (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  user_id uuid NOT NULL,\\n  plan_id text NOT NULL,\\n  origin text NOT NULL,\\n  amount_minor integer NOT NULL,\\n  currency text NOT NULL,\\n  starts_at timestamptz NOT NULL,\\n  ends_at timestamptz NOT NULL,\\n  created_at timestamptz NOT NULL DEFAULT now(),\\n  PRIMARY KEY (id),\\n  FOREIGN KEY (user_id) REFERENCES agentapp.users(id),\\n  FOREIGN KEY (plan_id) REFERENCES agentapp.plans(id),\\n  CHECK (origin IN ('simulated', 'rebill')),\\n  CHECK (amount_minor > 0),\\n  CHECK (currency = 'ARS'),\\n  CHECK (ends_at > starts_at)\\n);\\n\\nCREATE TABLE agentapp.idempotency (\\n  user_id uuid NOT NULL,\\n  key text NOT NULL,\\n  payload_hash text NOT NULL,\\n  response_status integer NOT NULL,\\n  response_body jsonb NOT NULL,\\n  expires_at timestamptz NOT NULL,\\n  created_at timestamptz NOT NULL DEFAULT now(),\\n  PRIMARY KEY (user_id, key),\\n  FOREIGN KEY (user_id) REFERENCES agentapp.users(id) ON DELETE CASCADE,\\n  CHECK (expires_at > created_at)\\n);\\n\\nCREATE TABLE agentapp.sessions (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  user_id uuid NOT NULL,\\n  family_id uuid NOT NULL,\\n  refresh_hash text NOT NULL,\\n  expires_at timestamptz NOT NULL,\\n  revoked_at timestamptz,\\n  created_at timestamptz NOT NULL DEFAULT now(),\\n  PRIMARY KEY (id),\\n  UNIQUE (refresh_hash),\\n  FOREIGN KEY (user_id) REFERENCES agentapp.users(id) ON DELETE CASCADE,\\n  CHECK (expires_at > created_at)\\n);\\n\\nCREATE TABLE agentapp.password_resets (\\n  id uuid NOT NULL DEFAULT gen_random_uuid(),\\n  user_id uuid NOT NULL,\\n  token_hash text NOT NULL,\\n  expires_at timestamptz NOT NULL,\\n  used_at timestamptz,\\n  created_at timestamptz NOT NULL DEFAULT now(),\\n  PRIMARY KEY (id),\\n  UNIQUE (token_hash),\\n  FOREIGN KEY (user_id) REFERENCES agentapp.users(id) ON DELETE CASCADE,\\n  CHECK (expires_at > created_at)\\n);\",\n  \"notes\": \"Esquema agentapp completo. UUIDs por defecto gen_random_uuid(). FKs compuestas geográficas alineadas con UNIQUEs referenciados. photos_one_main parcial. Idempotency PK(user_id,key), payload_hash sin UNIQUE. Subscriptions sin UNIQUE temporal, CHECK ends_at>starts_at. Sin roles, seeds, funciones ni cobros.\"\n}",
+    "thinking_enabled": false,
+    "thinking_chars": 0,
+    "tool_calls": false,
+    "done": true,
+    "done_reason": "stop",
+    "input_tokens": 1779,
+    "output_tokens": 1410,
+    "model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "load_duration_ns": 49667058100,
+    "total_duration_ns": 92629192900,
+    "elapsed_ms": 92735
+  },
+  "finished_at": "2026-10-01T04:32:27.782868+00:00"
+}

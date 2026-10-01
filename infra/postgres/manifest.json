@@ -1,0 +1,50 @@
+{
+  "schema": "age34.local-db/1",
+  "image": "postgres@sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722",
+  "server_version": "18.6",
+  "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+  "sql_sha256": "6fb342b29549c666e3c7cf2bbd0c5fe687e01e8138f75cf9e51356758e0fd72f",
+  "ports": {
+    "dev": "127.0.0.1:55434",
+    "test": "127.0.0.1:55435"
+  },
+  "reset": "test only with matching label+database+instance marker",
+  "mcp_sql": "not used",
+  "secrets": "%LOCALAPPDATA%/AgentApp/age34 outside deliverable/repository",
+  "author": "local agent draft; Codex audit/provisioning/tests",
+  "networks": {
+    "agentapp-age34-local": "internal",
+    "agentapp-age34-host": "dedicated bridge for trusted PostgreSQL service; published ports loopback only; generated code never attached"
+  },
+  "latest_migration_version": 2,
+  "observed_migration_versions": {
+    "dev": 1,
+    "test": 2
+  },
+  "scope": "local_synthetic_only",
+  "checks": {
+    "postgresql": "16 of17 first substantive pass; six affected regression cases passed after correction",
+    "recovery": "six applicable real PostgreSQL checks passed",
+    "http_fe_e2e": "not implemented or run"
+  },
+  "files": {
+    ".gitattributes": "027433d70100aed0ad1e092eafa4ff93dd9e83d89b4bf5db796fc390632c4ce4",
+    "001_initial.sql": "6fb342b29549c666e3c7cf2bbd0c5fe687e01e8138f75cf9e51356758e0fd72f",
+    "002_directory_index.sql": "4f84f24dbcb2efffad0b93900f9485547a8c2473f9a28b81381ace1845c527fa",
+    "age34_driver.py": "ce64501b98356ab0a9d9e22d61db500de005ef386b6c797cee663bb21b9ce352",
+    "age36_recovery.py": "ed616489131e85e5ee5e3b9b150a7ba4af4eabbceb7ec9aff3d6c6c96a5793db",
+    "evidence/AGE-34-agente-evidencia.json": "21cfc5e08090248e7395600853b9eff3c994a28b38992d9e44b9160b6dd7d733",
+    "evidence/AGE-34-agente-original.sql": "636170927f025b223ff62b6dee62b9220118ac84d8e98119e02eee593e89c267",
+    "evidence/AGE-34-arranque-final.json": "1eb396a4443024171a300c7885233aa5939318db28afbe395a9761696fca17c4",
+    "evidence/AGE-34-pruebas-postgresql-intento1.txt": "a8e45d185192ccddd31b6728de18ff6683d7db226e24cac296126a8b2e81b86b",
+    "evidence/AGE-34-pruebas-postgresql-intento2.txt": "423c7fe23b61f4d014a5db2b5853aa867cabf06c224821835c005a050efc21e3",
+    "evidence/AGE-34-pruebas-postgresql-regresion.txt": "73d97c090a88731a248bf82a224f8bebd85f93cb5315e36cdcdb1dc991395259",
+    "evidence/AGE-34-puertos-verificados.json": "559e2e5c35a02bddad2bcc4dee085e52d9764d4a513977b7f81e5f7249d56d46",
+    "evidence/AGE-36-pruebas-recuperacion.json": "ec9a4902bc13db5824b4840cbb3086a6ef301f53c5aa85005d4801acc13dbee2",
+    "evidence/AGE-36-pruebas-recuperacion.txt": "488ff6985d5a9e37f965f3c5b2783ca098a56e41129c3bbd1871f9505d4e51f1",
+    "README.md": "b495a58048801d61538e65315dd37ef88d0395750140ef604db308a551c0b191",
+    "RECOVERY.md": "155585037d57b26510b820c43704d9fa3bbb538339b1ae48829c5a8e74ebee37",
+    "synthetic_seed.sql": "eed66965612792a8cbce12c4cbb1cddf82b36b876b64a2fb9998cff6a2587659",
+    "test_age34.py": "43063aaee80305b5ccbe680edd5c967484142afdd1c85d42efc022caf4139d63"
+  }
+}
