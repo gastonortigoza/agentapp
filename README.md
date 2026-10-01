@@ -13,3 +13,6 @@ python -m unittest discover -s tests -v
 La CI propuesta ejecuta las doce pruebas del piloto en cada push a main o
 crewai/** y en cada pull request. No publica paquetes ni despliega aplicaciones.
 Este paquete no contiene el controlador local, sus credenciales o historiales.
+
+El [contrato del piloto](docs/pilot-contract.md) describe las entradas, la salida,
+los errores y el alcance de los estados resumidos, con un ejemplo de uso.
