@@ -5,7 +5,7 @@
   "pages": [
     {
       "path": "/",
-      "behavior": "Public directory without session; registration button. Country/province/zone filters reset descendants and cursor. Labelled Promocionados section above Listado b�sico; group current API page by plan, no duplicate cards. Clear empty/loading/error states; continuation uses same filter-bound cursor."
+      "behavior": "Public directory without session; registration button. Country/province/zone filters reset descendants and cursor. Labelled Promocionados section above Listado básico; group current API page by plan, no duplicate cards. Clear empty/loading/error states; continuation uses same filter-bound cursor."
     },
     {
       "path": "/personas/:profile_id",
@@ -33,7 +33,7 @@
     },
     {
       "path": "/mi-plan",
-      "behavior": "Basic ARS15000/month and promoted ARS30000/month. In dev/staging prominent Sin cobro � activaci�n de prueba, no card fields; POST activation gets server catalog, generate key per logical attempt and reuse on network retry. Display persisted origin/start/end; no fabricated payment status. Real Rebill flow/cancellation/change added in AGE-40, no such endpoint in this version."
+      "behavior": "Basic ARS15000/month and promoted ARS30000/month. In dev/staging prominent Sin cobro — activación de prueba, no card fields; POST activation gets server catalog, generate key per logical attempt and reuse on network retry. Display persisted origin/start/end; no fabricated payment status. Real Rebill flow/cancellation/change added in AGE-40, no such endpoint in this version."
     }
   ],
   "checks_specified": [

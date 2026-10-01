@@ -11,8 +11,8 @@ def check_contract(doc,cfg,cases=None):
             for k,v in fields.items():
                 if isinstance(v,str) and v.startswith('$') and v.endswith('|null'):fields[k]=v[:-5]
     findings=check_document(normalized,cfg)
-    def fail(k,issue):findings.append(dict(criterion=k,issue=issue,fix='Corregir contrato; no habilitar ejecuci�n.'))
-    if any(f['issue'].startswith('Estructura inv�lida:') for f in findings):return findings
+    def fail(k,issue):findings.append(dict(criterion=k,issue=issue,fix='Corregir contrato; no habilitar ejecución.'))
+    if any(f['issue'].startswith('Estructura inválida:') for f in findings):return findings
     routes=doc['api']['routes'];keys=[(r['method'],r['path']) for r in routes]
     if len(set(keys))!=len(keys):fail('api','Duplicated method/path')
     if any(not r['path'].startswith('/api/') or '?' in r['path'] for r in routes):fail('api','Invalid route path')

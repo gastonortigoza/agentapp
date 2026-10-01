@@ -4,10 +4,10 @@
   "source": {
     "type": "user_chat",
     "date": "2026-09-30",
-    "user_response": "pais argentina, 15mil b�sico y 30 mil promocionado. Es para conocer de cualquier g�nero mayor de 18 a�os la tercera tal cual dec�s vos",
+    "user_response": "pais argentina, 15mil básico y 30 mil promocionado. Es para conocer de cualquier género mayor de 18 años la tercera tal cual decís vos",
     "requirement_url": "https://app.notion.com/p/3e967de36dff8148b261c26d95413c75",
     "issue": "AGE-48",
-    "renewal_interpretation": "La tercera respuesta adopta la opci�n autom�tica con Rebill y las reglas propuestas en la pregunta previa; esta lectura fue explicitada al usuario en el chat."
+    "renewal_interpretation": "La tercera respuesta adopta la opción automática con Rebill y las reglas propuestas en la pregunta previa; esta lectura fue explicitada al usuario en el chat."
   },
   "decisions": {
     "market": {
@@ -26,9 +26,9 @@
     },
     "audience": {
       "purpose": "conocer personas",
-      "genders": "cualquier g�nero",
+      "genders": "cualquier género",
       "adult_only": true,
-      "age_rule_user_wording": "mayor de 18 a�os",
+      "age_rule_user_wording": "mayor de 18 años",
       "registration_age_verification_method": "technical_contract_pending"
     },
     "billing_rules": {
@@ -51,5 +51,5 @@
       "status": "technical_proposal_not_user_business_decision"
     }
   },
-  "historical_evidence": "Las ejecuciones previas conservan sus decisiones pendientes originales; esta revisi�n se usa como entrada nueva y no modifica journals o recibos congelados."
+  "historical_evidence": "Las ejecuciones previas conservan sus decisiones pendientes originales; esta revisión se usa como entrada nueva y no modifica journals o recibos congelados."
 }

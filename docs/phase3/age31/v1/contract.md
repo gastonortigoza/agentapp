@@ -1,12 +1,12 @@
-# AGE-31 � contrato t�cnico v1
+# AGE-31 — contrato técnico v1
 
-Consolidado por Codex; negocio confirmado por el usuario. Estado: especificaci�n t�cnica auditada para implementaci�n; producto NO implementado. Aprobaci�n documental de Codex, sin aprobaci�n humana de infraestructura ni ejecuci�n habilitada.
+Consolidado por Codex; negocio confirmado por el usuario. Estado: especificación técnica auditada para implementación; producto NO implementado. Aprobación documental de Codex, sin aprobación humana de infraestructura ni ejecución habilitada.
 
-Requisito: agentapp-phase3-person-directory-v02; revisi�n technical-contract-v1. Identidades en manifest.json y release.json.
+Requisito: agentapp-phase3-person-directory-v02; revisión technical-contract-v1. Identidades en manifest.json y release.json.
 
 ## architecture
 
-Contrato t�cnico documental v1 consolidado por Codex con decisiones de negocio del usuario v02. �nico stack propuesto: React/Vite TypeScript FE, Fastify TypeScript API, PostgreSQL persistencia. Justificaci�n: base inventariada contiene controlador/piloto Python, sin FE/API SaaS; Node22.18.0/npm10.9.3 disponibles; API/FE separados del controlador Python3.12.14 que permanece. Pins de dependencias y BD ausentes bloquean ejecuci�n. Recorrido: visitante filtra directorio y abre WhatsApp del perfil; persona adulta se registra, completa perfil, sube fotos y activa plan de prueba para publicar. Un perfil por cuenta. Roles de autorizaci�n: member propietario, sin admin de producto en esta vertical. Basic/promoted son planes comerciales, nunca permisos. Directorio global p�blico, no tenants organizacionales; escrituras y datos privados aislados por user_id autenticado. No chat/matching/likes. Dev/staging simulado, Rebill al final AGE-40. AGE-30/32 integraci�n pendiente; contrato puede prepararse en paralelo. Todos los defaults t�cnicos aqu� son propuestas para implementaci�n; negocio confirmado Argentina ARS15000/30000 por mes calendario, cualquier g�nero y18+. Fecha declarada se valida, no demuestra identidad ni verificaci�n documental de edad. UI rutas /, /personas/:profile_id, /registro, /ingresar, /recuperar, /restablecer, /mi-perfil, /mi-plan en ui-contract.json. Ra�z p�blica agrupa la p�gina por plan: secci�n identificada Promocionados arriba y Listado b�sico debajo, sin repetir tarjetas, ambos con mismos filtros. Estados vac�o/error/carga y verificaci�n m�vil360px/1280px especificados, no ejecutados.
+Contrato técnico documental v1 consolidado por Codex con decisiones de negocio del usuario v02. Único stack propuesto: React/Vite TypeScript FE, Fastify TypeScript API, PostgreSQL persistencia. Justificación: base inventariada contiene controlador/piloto Python, sin FE/API SaaS; Node22.18.0/npm10.9.3 disponibles; API/FE separados del controlador Python3.12.14 que permanece. Pins de dependencias y BD ausentes bloquean ejecución. Recorrido: visitante filtra directorio y abre WhatsApp del perfil; persona adulta se registra, completa perfil, sube fotos y activa plan de prueba para publicar. Un perfil por cuenta. Roles de autorización: member propietario, sin admin de producto en esta vertical. Basic/promoted son planes comerciales, nunca permisos. Directorio global público, no tenants organizacionales; escrituras y datos privados aislados por user_id autenticado. No chat/matching/likes. Dev/staging simulado, Rebill al final AGE-40. AGE-30/32 integración pendiente; contrato puede prepararse en paralelo. Todos los defaults técnicos aquí son propuestas para implementación; negocio confirmado Argentina ARS15000/30000 por mes calendario, cualquier género y18+. Fecha declarada se valida, no demuestra identidad ni verificación documental de edad. UI rutas /, /personas/:profile_id, /registro, /ingresar, /recuperar, /restablecer, /mi-perfil, /mi-plan en ui-contract.json. Raíz pública agrupa la página por plan: sección identificada Promocionados arriba y Listado básico debajo, sin repetir tarjetas, ambos con mismos filtros. Estados vacío/error/carga y verificación móvil360px/1280px especificados, no ejecutados.
 
 ## api
 
@@ -71,7 +71,7 @@ Contrato t�cnico documental v1 consolidado por Codex con decisiones de negocio
       "ends_at": "UTC ISO8601",
       "amount_minor": "integer: ARS centavos snapshot",
       "currency": "ARS",
-      "notice": "string: Sin cobro � activaci�n de prueba"
+      "notice": "string: Sin cobro — activación de prueba"
     },
     "Session": {
       "access_token": "JWT string",
@@ -234,7 +234,7 @@ Contrato t�cnico documental v1 consolidado por Codex con decisiones de negocio
         "email": "string"
       },
       "response": {
-        "message": "string: Si la cuenta existe, recibir�s instrucciones"
+        "message": "string: Si la cuenta existe, recibirás instrucciones"
       },
       "status": 202,
       "errors": [
@@ -253,7 +253,7 @@ Contrato t�cnico documental v1 consolidado por Codex con decisiones de negocio
         "password": "string 12..128 chars"
       },
       "response": {
-        "message": "string: Contrase�a actualizada"
+        "message": "string: Contraseña actualizada"
       },
       "status": 200,
       "errors": [
@@ -746,7 +746,7 @@ Proposal: max5 photos/profile, max5242880bytes/file, JPEG/PNG/WebP only, max4096
     "starts_at",
     "ends_at"
   ],
-  "notice": "Sin cobro � activaci�n de prueba. No ingreses tarjetas.",
+  "notice": "Sin cobro — activación de prueba. No ingreses tarjetas.",
   "rebill_calls": 0,
   "cards": false,
   "restart": "Read persisted starts_at/ends_at and idempotency response; restart never recreates/renews. Derived active iff starts_at<=server now<ends_at.",
@@ -974,5 +974,5 @@ A22 GET /api/me/subscription: Persist activation+reply; restart API/DB before TT
 A23 GET /api/profiles: Invalid UUID, province inconsistent with country, malformed/stale filter cursor -> 400 invalid_request for syntax/cursor,422 geography_invalid for hierarchy; DB fault503 service_unavailable; common error DTO.
 A24 POST /api/auth/logout: Valid owner then reuse access/refresh -> 204 and cleared cookie; access/refresh401 after revocation DB check; no owner data in error.
 A25 GET /api/catalog/geography: AR catalog not yet loaded; then controlled loaded synthetic fixture only for test -> Unloaded503 catalog_unavailable; fixture response200 consistent UUID hierarchy, explicitly synthetic and not official production catalog.
-Decisiones Argentina/ARS/precios/mayores18/cualquier g�nero/renovaci�n autom�tica resueltas en fuente v02; no preguntas comerciales pendientes. AGE-30 base integrada pendiente, AGE-32 adaptaci�n pendiente. Esta revisi�n documental no demuestra producto, cobros ni despliegue. UI01..UI11 de ui-contract.json cubren ra�z p�blica, secciones, galer�a/WhatsApp, formularios, archivos, XSS como texto y recorrido m�vil360px/1280px. E2E pendiente de producto.
+Decisiones Argentina/ARS/precios/mayores18/cualquier género/renovación automática resueltas en fuente v02; no preguntas comerciales pendientes. AGE-30 base integrada pendiente, AGE-32 adaptación pendiente. Esta revisión documental no demuestra producto, cobros ni despliegue. UI01..UI11 de ui-contract.json cubren raíz pública, secciones, galería/WhatsApp, formularios, archivos, XSS como texto y recorrido móvil360px/1280px. E2E pendiente de producto.
 
