@@ -1,0 +1,132 @@
+{
+  "scope": "documentary section fixtures; not code/product acceptance",
+  "fixtures_sha256": "9f9607f62f87fd035ec923203e3d33b700480cfcbe27ac13c2db8683745949a7",
+  "source_identity": "2ba065a2f21cd3eab79d30b349ff51f0887f389f53b59120b81cbbf18d1fa457",
+  "results": [
+    {
+      "id": "positive-finite-ttl-deferred-commercial",
+      "run_id": "age50-section-eval-positive-finite-ttl-deferred-commercial-20261001",
+      "section": "subscriptions",
+      "expected": {
+        "SUB01": true,
+        "SUB02": true,
+        "SUB03": true
+      },
+      "actual": {
+        "SUB01": true,
+        "SUB02": true,
+        "SUB03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "reviewed_contract_section",
+      "input_tokens": 6586,
+      "output_tokens": 229,
+      "elapsed_ms": 18312
+    },
+    {
+      "id": "positive-integrated-e2e-only",
+      "run_id": "age50-section-eval-positive-integrated-e2e-only-20261001",
+      "section": "manifest",
+      "expected": {
+        "MAN01": true,
+        "MAN02": true,
+        "MAN03": true
+      },
+      "actual": {
+        "MAN01": true,
+        "MAN02": true,
+        "MAN03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "reviewed_contract_section",
+      "input_tokens": 7136,
+      "output_tokens": 231,
+      "elapsed_ms": 15094
+    },
+    {
+      "id": "positive-nullable-array-empty-request",
+      "run_id": "age50-section-eval-positive-nullable-array-empty-request-20261001",
+      "section": "api",
+      "expected": {
+        "API01": true,
+        "API02": true,
+        "API03": true
+      },
+      "actual": null,
+      "citation_valid": false,
+      "completion_verified": false,
+      "passed": false,
+      "state": "blocked_evidence",
+      "input_tokens": null,
+      "output_tokens": null,
+      "elapsed_ms": 391
+    },
+    {
+      "id": "novel-fk-column-type",
+      "run_id": "age50-section-eval-novel-fk-column-type-20261001",
+      "section": "data",
+      "expected": {
+        "DATA01": false,
+        "DATA02": true,
+        "DATA03": true
+      },
+      "actual": {
+        "DATA01": false,
+        "DATA02": true,
+        "DATA03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "evaluated_fixture",
+      "input_tokens": 6972,
+      "output_tokens": 356,
+      "elapsed_ms": 19172
+    },
+    {
+      "id": "novel-duplicate-empty-refresh",
+      "run_id": "age50-section-eval-novel-duplicate-empty-refresh-20261001",
+      "section": "api",
+      "expected": {
+        "API01": true,
+        "API02": false,
+        "API03": true
+      },
+      "actual": null,
+      "citation_valid": false,
+      "completion_verified": false,
+      "passed": false,
+      "state": "blocked_evidence",
+      "input_tokens": null,
+      "output_tokens": null,
+      "elapsed_ms": 188
+    },
+    {
+      "id": "novel-default-network-allow",
+      "run_id": "age50-section-eval-novel-default-network-allow-20261001",
+      "section": "manifest",
+      "expected": {
+        "MAN01": true,
+        "MAN02": false,
+        "MAN03": true
+      },
+      "actual": {
+        "MAN01": true,
+        "MAN02": false,
+        "MAN03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "evaluated_fixture",
+      "input_tokens": 7141,
+      "output_tokens": 288,
+      "elapsed_ms": 17187
+    }
+  ],
+  "finished": true
+}

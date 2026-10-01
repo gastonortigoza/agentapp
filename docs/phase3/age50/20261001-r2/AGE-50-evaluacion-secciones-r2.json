@@ -1,0 +1,146 @@
+{
+  "scope": "4 new independent documentary fixtures + 2 explicit regressions; not product acceptance",
+  "fixtures_sha256": "a4ace965fdfb3f5ccd63ad66d84b61f6256c4c6ae3c73bdae0ae85aa8380c35b",
+  "source_identity": "be5c101333933f5ed32a0da7aa1d2b56aa3a4504f7c3bf695ff2b34c0fab62cd",
+  "results": [
+    {
+      "id": "positive-time-type-alias",
+      "run_id": "age50-section-eval-r2-positive-time-type-alias-20261001",
+      "section": "api",
+      "independent": true,
+      "expected": {
+        "API01": true,
+        "API02": true,
+        "API03": true
+      },
+      "actual": {
+        "API01": true,
+        "API02": true,
+        "API03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "evaluated_fixture",
+      "input_tokens": 6587,
+      "output_tokens": 230,
+      "elapsed_ms": 17359
+    },
+    {
+      "id": "positive-fk-declaration-order",
+      "run_id": "age50-section-eval-r2-positive-fk-declaration-order-20261001",
+      "section": "data",
+      "independent": true,
+      "expected": {
+        "DATA01": true,
+        "DATA02": true,
+        "DATA03": true
+      },
+      "actual": {
+        "DATA01": true,
+        "DATA02": true,
+        "DATA03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "evaluated_fixture",
+      "input_tokens": 5957,
+      "output_tokens": 232,
+      "elapsed_ms": 13594
+    },
+    {
+      "id": "novel-nullable-public-dto",
+      "run_id": "age50-section-eval-r2-novel-nullable-public-dto-20261001",
+      "section": "api",
+      "independent": true,
+      "expected": {
+        "API01": false,
+        "API02": true,
+        "API03": true
+      },
+      "actual": {
+        "API01": true,
+        "API02": true,
+        "API03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": false,
+      "state": "evaluated_fixture",
+      "input_tokens": 6579,
+      "output_tokens": 225,
+      "elapsed_ms": 14125
+    },
+    {
+      "id": "novel-fk-unique-wrong-domain",
+      "run_id": "age50-section-eval-r2-novel-fk-unique-wrong-domain-20261001",
+      "section": "data",
+      "independent": true,
+      "expected": {
+        "DATA01": false,
+        "DATA02": true,
+        "DATA03": true
+      },
+      "actual": {
+        "DATA01": false,
+        "DATA02": true,
+        "DATA03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "evaluated_fixture",
+      "input_tokens": 5917,
+      "output_tokens": 305,
+      "elapsed_ms": 15796
+    },
+    {
+      "id": "regression-finite-ttl-deferred-commercial",
+      "run_id": "age50-section-eval-r2-regression-finite-ttl-deferred-commercial-20261001",
+      "section": "subscriptions",
+      "independent": false,
+      "expected": {
+        "SUB01": true,
+        "SUB02": true,
+        "SUB03": true
+      },
+      "actual": {
+        "SUB01": true,
+        "SUB02": true,
+        "SUB03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "evaluated_fixture",
+      "input_tokens": 5998,
+      "output_tokens": 227,
+      "elapsed_ms": 13672
+    },
+    {
+      "id": "regression-integrated-e2e-only",
+      "run_id": "age50-section-eval-r2-regression-integrated-e2e-only-20261001",
+      "section": "manifest",
+      "independent": false,
+      "expected": {
+        "MAN01": true,
+        "MAN02": true,
+        "MAN03": true
+      },
+      "actual": {
+        "MAN01": true,
+        "MAN02": true,
+        "MAN03": true
+      },
+      "citation_valid": true,
+      "completion_verified": true,
+      "passed": true,
+      "state": "evaluated_fixture",
+      "input_tokens": 5994,
+      "output_tokens": 230,
+      "elapsed_ms": 13656
+    }
+  ],
+  "finished": true
+}

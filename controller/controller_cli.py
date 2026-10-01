@@ -32,6 +32,7 @@ def main(argv):
     review.add_argument('--run-id',required=True)
     review.add_argument('--seed',type=Path,help='New run only: original typed candidate, possibly defective')
     review.add_argument('--export',type=Path)
+    review.add_argument('--section',choices=['api','data','subscriptions','manifest'],help='New run only: review a typed documentary section against the frozen contract')
     check = sub.add_parser('manifest-check')
     check.add_argument('manifest',nargs='?',default=str(ROOT/'config/pilot-manifest.json'))
     run = sub.add_parser('run-stub')
@@ -74,11 +75,12 @@ def main(argv):
             controller_gate.require_green()
             import phase3_review
             journal=phase3_review.Journal()
-            if args.seed:journal.create(args.run_id,phase3_review.preparation.read_json(args.seed))
+            if args.section and not args.seed:raise ValueError('Section is bound by a new seed; omit --section when resuming')
+            if args.seed:journal.create(args.run_id,phase3_review.preparation.read_json(args.seed),section=args.section)
             result=phase3_review.run(journal,args.run_id)
             if args.export:phase3_review.export(journal,args.run_id,args.export)
             print(json.dumps(result,ensure_ascii=False,indent=2))
-            return 0 if result['state']=='reviewed_plan' else 2
+            return 0 if result['state'] in {'reviewed_plan','reviewed_contract_section'} else 2
         elif args.command=='phase3-prepare':
             controller_gate.require_green()
             import phase3_prepare

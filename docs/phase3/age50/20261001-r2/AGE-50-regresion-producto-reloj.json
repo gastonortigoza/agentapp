@@ -1,0 +1,21 @@
+{
+  "id": "AGE34-AGE37-clock-after-owner-lock",
+  "scope": "future product regression, not model fixture qualification",
+  "source": "AGE-50 continuity notes: AGE-34 PostgreSQL regression, PR9 e67380af8606409b6d427599ee59336f87503c16",
+  "run_in_this_continuation": false,
+  "setup": "One existing synthetic user, no current subscription. Two first activations with different keys, same accepted plan.",
+  "schedule": [
+    "Transaction B begins earlier, pauses before acquiring the existing users row lock.",
+    "Transaction A locks that users row, captures a database clock after lock, creates the subscription and commits.",
+    "Transaction B acquires the same lock and captures a fresh database clock after it; it then checks active subscription."
+  ],
+  "expected": {
+    "statuses_unordered": [201, 409],
+    "active_subscriptions": 1,
+    "second_error": "active_subscription",
+    "second_extends_dates": false,
+    "idempotency_ttl_hours": 24,
+    "clock_rule": "Capture now after owner lock; do not reuse BEGIN timestamp to evaluate the just-committed interval."
+  },
+  "notes": "Preserve the known product race as a separate AGE-37/executor regression. The accepted documentary inputs remain unchanged. No claim of autonomous agent correction, new PG test or product acceptance in this AGE-50 run."
+}

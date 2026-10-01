@@ -1,0 +1,24 @@
+{
+  "groups": {
+    "v1": {
+      "calls": 7,
+      "input_tokens": 45044,
+      "output_tokens": 3889,
+      "elapsed_ms": 227904,
+      "not_sent": 2
+    },
+    "-r2": {
+      "calls": 9,
+      "input_tokens": 50834,
+      "output_tokens": 3907,
+      "elapsed_ms": 222905,
+      "not_sent": 0
+    }
+  },
+  "total_verified": {
+    "calls": 16,
+    "input_tokens": 95878,
+    "output_tokens": 7796,
+    "elapsed_ms": 450809
+  }
+}

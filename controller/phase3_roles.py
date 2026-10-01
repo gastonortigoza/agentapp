@@ -1,10 +1,13 @@
 """Existing CrewAI roles, one journaled Ollama request per role, no tools."""
 import manifest
 import phase3_prepare as preparation
-from phase3_review import RULES, plan_schema, review_schema
+from phase3_review import RULES, output_schema as schema_for, contract_mode
 
 
 def prompt(row,op,lock,documents):
+    if contract_mode(row):
+        from phase3_contract import prompt as contract_prompt
+        return contract_prompt(row,op,lock,documents)
     common=('Review only this FILE PLAN, never the implementation or commercial choices. '
             'The accepted API/data/manifest contract is frozen and cannot be rewritten. '
             'This run cannot execute commands, write application files, deploy, charge or change permissions. '
@@ -38,7 +41,7 @@ def call_role(row,op,lock,documents):
     from agent_runtime import transport
     results=[]
     limits=row['binding']['limits']
-    output_schema=plan_schema(lock,documents) if op['role']=='developer' else review_schema()
+    output_schema=schema_for(row,op,lock,documents)
     instruction=prompt(row,op,lock,documents)
     class JournaledOllama(lab.LocalOllama):
         used: bool=False
@@ -63,7 +66,8 @@ def call_role(row,op,lock,documents):
             return result.get('text') or 'Blocked; no retry permitted.'
     llm=JournaledOllama(model=row['binding']['model'],context=limits['context_tokens'],think=False)
     cfg=lab.CONFIG['agents'][op['role']]
-    agent=lab.Agent(role=cfg['role']+' · structural file plan',goal='Correct or review only the frozen planning rules.',
+    scope='documentary contract section' if contract_mode(row) else 'structural file plan'
+    agent=lab.Agent(role=cfg['role']+' · '+scope,goal='Correct or review only the supplied frozen rules and their related evidence.',
         backstory='You separate structural planning from product execution and business decisions.',
         llm=llm,tools=[],allow_delegation=False,reasoning=False,verbose=False,max_iter=1,
         max_retry_limit=0,max_execution_time=limits['timeout_seconds']+15)

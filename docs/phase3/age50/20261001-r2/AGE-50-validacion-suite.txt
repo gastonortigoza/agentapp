@@ -1,0 +1,11 @@
+AGE-50 — controlador local, 01/10/2026
+
+Suite completa: 478 passed, 1 skipped, 547 warnings in 96.49s.
+El caso omitido requiere creación de symlinks en Windows.
+Pruebas focalizadas previas: 105 passed in 34.22s.
+31 pruebas nuevas para contrato; 74 pruebas anteriores de plan/preparación.
+Python 3.12.14; CrewAI 1.15.22; pytest 9.1.1; jsonschema 4.26.0; PyYAML 6.0.3.
+Entorno local existente, dependencias sin modificaciones.
+Recibo: AGE-50-recibo-suite.json; source_identity 2ba065a2f21cd3eab79d30b349ff51f0887f389f53b59120b81cbbf18d1fa457.
+
+Validación del controlador. No son pruebas FE/API/PostgreSQL/E2E/build del SaaS.

@@ -102,6 +102,32 @@ def defects(candidate, lock, documents):
     return []
 
 
+def contract_mode(row):return row['binding'].get('section') is not None
+
+
+def output_schema(row,op,lock,documents):
+    if contract_mode(row):
+        import phase3_contract as contract
+        section=row['binding']['section']
+        return (contract.schema(section,documents) if op['role']=='developer' else
+                contract.review_schema(row['candidate'],section,documents))
+    return plan_schema(lock,documents) if op['role']=='developer' else review_schema()
+
+
+def candidate_defects(row,lock,documents):
+    if contract_mode(row):
+        import phase3_contract as contract
+        return contract.defects(row['candidate'],row['binding']['section'],documents)
+    return defects(row['candidate'],lock,documents)
+
+
+def checked_review(row,value,documents):
+    if contract_mode(row):
+        import phase3_contract as contract
+        return contract.validate_review(value,row['candidate'],row['binding']['section'],documents)
+    return validate_review(value,row['candidate'])
+
+
 def now():return datetime.now(timezone.utc).isoformat()
 
 
@@ -152,7 +178,7 @@ class Journal:
             self.save(db,row,{'kind':'state.changed','reason':reason})
         return row
 
-    def create(self,run_id,candidate,bundle=preparation.FIXTURE):
+    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None):
         if not re.fullmatch('[a-z0-9-]{1,100}',run_id):raise ValueError('Bad run ID')
         if len(manifest.canonical(candidate).encode())>24000:raise ValueError('Candidate too large')
         suite=controller_gate.require_green()
@@ -162,16 +188,27 @@ class Journal:
         folder=ROOT/'.state/p3r'/manifest.identity({'run_id':run_id})[:16]
         # Candidate may be defective; snapshot the trusted bundle using its valid default plan.
         snapshot=preparation.snapshot(bundle,folder)
+        limits,rules=LIMITS,RULES
+        if section is not None:
+            import phase3_contract as contract
+            if section not in contract.SECTIONS:raise ValueError('Unsupported contract section')
+            limits,rules=contract.LIMITS,contract.rules(section)
         cfg={'suite_identity':suite,'input_identity':snapshot['input_identity'],
              'model':documents['policy.json']['local_model'],
-             'digest':documents['policy.json']['local_model_digest'],'limits':LIMITS,
-             'rules':RULES,'seed_sha256':manifest.identity(candidate)}
+             'digest':documents['policy.json']['local_model_digest'],'limits':limits,
+             'rules':rules,'seed_sha256':manifest.identity(candidate)}
+        if section is not None:cfg['section']=section
+        if expected_checks is not None:
+            if section is None or not isinstance(expected_checks,dict) or set(expected_checks)!=set(rules) or any(type(v) is not bool for v in expected_checks.values()):
+                raise ValueError('Fixture expectations must match every section rule')
+            cfg['expected_checks']=expected_checks
         row={'id':run_id,'state':'active','reason':'','role':'reviewer','candidate':candidate,
              'candidate_sha256':manifest.identity(candidate),'findings':[], 'calls':0,'corrections':0,
              'input_tokens':0,'output_tokens':0,'active_ms':0,'created_at':now(),'updated_at':now(),
              'binding':cfg,'binding_sha256':manifest.identity(cfg),
              'snapshot_directory':snapshot['snapshot_directory'], 'execution_authorized':False,
-             'product_tests_executed':False,'scope':'file_plan_structural_review'}
+             'product_tests_executed':False,'scope':'contract_fixture_evaluation' if expected_checks is not None else
+             'contract_section_document_review' if section else 'file_plan_structural_review'}
         with self.transaction() as db:
             db.execute('INSERT INTO plan_runs VALUES(?,?)',(run_id,manifest.canonical(row)))
             self.save(db,row,{'kind':'run.created','seed_sha256':cfg['seed_sha256']})
@@ -236,15 +273,21 @@ class Journal:
                     try:
                         parsed=manifest.parse(result['text'])
                         if op['role']=='reviewer':
-                            validate_review(parsed,row['candidate'])
-                            deterministic=defects(row['candidate'],lock,documents)
-                            row['findings']=deterministic+parsed['findings']
-                            if row['findings']:row['role']='developer'
-                            else:row.update(state='reviewed_plan',reason='Structural plan accepted; no product execution')
+                            checked=checked_review(row,parsed,documents)
+                            op['validated_review']=checked
+                            deterministic=candidate_defects(row,lock,documents)
+                            row['findings']=deterministic+checked['findings']
+                            if 'expected_checks' in row['binding']:
+                                actual={k:c['passed'] for k,c in checked['checks'].items()}
+                                row.update(state='evaluated_fixture',fixture_passed=actual==row['binding']['expected_checks'],
+                                           reason='Fixture evaluation only; not contract or product acceptance')
+                            elif row['findings']:row['role']='developer'
+                            else:row.update(state='reviewed_contract_section' if contract_mode(row) else 'reviewed_plan',
+                                            reason='Documentary section accepted; no product execution' if contract_mode(row) else 'Structural plan accepted; no product execution')
                         else:
-                            Draft202012Validator(plan_schema(lock,documents)).validate(parsed)
+                            Draft202012Validator(output_schema(row,op,lock,documents)).validate(parsed)
                             row.update(candidate=parsed,candidate_sha256=manifest.identity(parsed),role='reviewer')
-                            row['findings']=defects(parsed,lock,documents)
+                            row['findings']=candidate_defects(row,lock,documents)
                     except (ValueError,KeyError,IndexError,TypeError) as exc:
                         row.update(state='blocked_evidence',reason='Invalid structured result or evidence citation: '+type(exc).__name__)
                     except Exception as exc:
@@ -259,7 +302,11 @@ class Journal:
 
 def verify_binding(row):
     if manifest.identity(row['binding'])!=row['binding_sha256']:raise ValueError('Binding changed')
-    if row['binding']['limits']!=LIMITS or row['binding']['rules']!=RULES:raise ValueError('Policy drift')
+    limits,rules=LIMITS,RULES
+    if contract_mode(row):
+        import phase3_contract as contract
+        limits,rules=contract.LIMITS,contract.rules(row['binding']['section'])
+    if row['binding']['limits']!=limits or row['binding']['rules']!=rules:raise ValueError('Policy drift')
     if controller_gate.require_green()!=row['binding']['suite_identity']:raise ValueError('Controller drift')
     lock,documents,_=preparation.load_bundle(Path(row['snapshot_directory']))
     if manifest.identity(lock)!=row['binding']['input_identity']:raise ValueError('Input identity drift')
@@ -267,6 +314,17 @@ def verify_binding(row):
         or row['binding']['digest']!=documents['policy.json']['local_model_digest']):raise ValueError('Model binding drift')
     if manifest.identity(row['candidate'])!=row['candidate_sha256']:raise ValueError('Candidate drift')
     return lock,documents
+
+
+def observe(journal,row,observer):
+    if observer:
+        try:observer(journal,row)
+        except Exception as exc:
+            # Projection failure cannot change acceptance or interrupt dispatch.
+            # Preserve it locally so Studio can be reconciled from the journal.
+            with journal.transaction() as db:
+                current=manifest.parse(db.execute('SELECT body FROM plan_runs WHERE id=?',(row['id'],)).fetchone()[0])
+                journal.save(db,current,{'kind':'observer.failed','error_type':type(exc).__name__})
 
 
 def run(journal,run_id,caller=None,observer=None):
@@ -277,19 +335,19 @@ def run(journal,run_id,caller=None,observer=None):
             if row['state']!='active':return row
             if any(op['state']=='in_flight' for op in journal.records(run_id,'plan_ops')):
                 row=journal.change(run_id,'uncertain_operation','Interrupted in-flight inference; never resend automatically')
-                if observer:observer(journal,row)
+                observe(journal,row,observer)
                 return row
             try:lock,documents=verify_binding(row)
             except (ValueError,OSError):
                 row=journal.change(run_id,'blocked_evidence','Source, input, policy, runtime or candidate drift')
-                if observer:observer(journal,row)
+                observe(journal,row,observer)
                 return row
             op=journal.reserve(run_id)
             if not op:
                 row=journal.get(run_id)
-                if observer:observer(journal,row)
+                observe(journal,row,observer)
                 return row
-            if observer:observer(journal,journal.get(run_id))
+            observe(journal,journal.get(run_id),observer)
             started=time.monotonic()
             try:
                 op['_record_request']=lambda payload:journal.record_request(run_id,op['seq'],payload)
@@ -303,7 +361,7 @@ def run(journal,run_id,caller=None,observer=None):
             try:verify_binding(journal.get(run_id))
             except (ValueError,OSError):result={**result,'ok':False,'sent':True,'error_type':'drift_after_dispatch'}
             row=journal.finish(run_id,op['seq'],result,round((time.monotonic()-started)*1000),lock,documents)
-            if observer:observer(journal,row)
+            observe(journal,row,observer)
 
 
 def export(journal,run_id,destination):
