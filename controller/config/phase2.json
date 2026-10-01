@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "notion": {"enabled": false, "endpoint": "https://mcp.notion.com/mcp", "token_env": "AGENT_NOTION_MCP_TOKEN", "resources": ["3e567de3-6dff-815a-bcd1-eb8981d08799", "3e567de3-6dff-81c6-a414-c87fa86f8a1e", "3e567de3-6dff-81b1-9b7c-d0a014cc3158", "3e567de3-6dff-813f-a833-e9ee9578f619"]},
+  "linear": {"enabled": false, "endpoint": "https://mcp.linear.app/mcp/readonly", "token_env": "AGENT_LINEAR_MCP_TOKEN", "resources": ["478a5228-5e0e-4351-a90c-324422050c50"]},
+  "coolify": {"enabled": false, "endpoint": null, "token_env": "AGENT_COOLIFY_MCP_TOKEN", "resources": ["ecoy01g724tjbobuz2dzikaw", "uwlwcitmahaeqcjzncgpr7bq"]}
+}

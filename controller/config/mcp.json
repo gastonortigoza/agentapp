@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "local-ai-readonly": {
+      "command": "E:/IA/projects/local-ai-lab/.venv/Scripts/python.exe",
+      "args": ["E:/IA/projects/local-ai-lab/mcp_local.py"]
+    }
+  }
+}
