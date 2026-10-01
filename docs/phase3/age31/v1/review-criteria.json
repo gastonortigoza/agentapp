@@ -1,0 +1,72 @@
+{
+  "task_id": "AGE-31",
+  "revision": "contract-v1-advisory-review-r2-empty-decisions-schema",
+  "scope": "documentary_only",
+  "model": "qwen3.8:27b-q4_K_M",
+  "model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+  "sections": [
+    "architecture",
+    "api",
+    "data",
+    "auth",
+    "photos",
+    "subscriptions",
+    "manifest",
+    "acceptance"
+  ],
+  "decisions": {},
+  "criteria": {
+    "architecture": "Elegir un stack único y justificar coexistencia con piloto Python; directorio público global y escrituras privadas por propietario. No exigir tenant_id para todo. Básico/promocionado son planes, no roles de autorización. Roles de acceso separados.",
+    "api": "Métodos/rutas, payloads y respuestas concretos para listado/detalle público, perfil propio/fotos, autenticación y activación simulada. Filtros aplican a promocionados, orden/paginación y no duplicación explícitos. Contrato coherente de errores. Datos del dueño se toman de sesión, no del cliente. Los filtros geográficos aplican a TODOS los perfiles publicados, incluyendo basic y promoted; decir todos incluye promocionados y no es defecto. No exigir listado exclusivamente promocionado.",
+    "data": "Entidades y restricciones: cuenta/perfil/foto/plan/suscripción, un perfil por cuenta propuesto, foto principal única, fechas de vigencia, idempotencia transaccional y geografía jerárquica. Datos persistentes sin renovar al reinicio. Catálogo real pendiente del país, sin inventarlo.",
+    "auth": "Registro/login/logout/recuperación con sesiones seguras y aislamiento por dueño. Teléfono móvil validado por mecanismo definido en servidor/formulario; rechazar fijos. Es válido proponer rechazar tipos ambiguos con 422 mientras país/metadatos quedan pendientes. Una nota global de propuesta basta; no exigir confirmación comercial ni repetirla en cada frase. No inventar OTP WhatsApp. Datos privados excluidos de DTO público.",
+    "photos": "Cantidad/tamaño/formatos numéricos propuestos y verificación efectiva de bytes/tipo/tamaño antes de publicar; cambio/eliminación de principal consistente, rechazo de datos maliciosos y escape de descripción. Un URL firmado solo no prueba validación.",
+    "subscriptions": "Simulación dev/staging persistida con origen simulated fijado en servidor, aviso sin cobro, cero Rebill/tarjetas; endpoint rechazado incondicionalmente en producción. Catálogo/propietario/precio en servidor. Idempotency-Key por cuenta y payload con concurrencia, retención y conflictos definidos. Dentro del TTL: mismo payload devuelve respuesta original, distinto payload409. Después del TTL: puede purgar clave y responder409 por suscripción aún activa, sin crear/extender. No se exige idempotencia eterna ni TTL igual a vigencia. Vigencia de prueba propuesta explícita; no afirmar garantía Rebill ni convertir simulaciones a pagos.",
+    "manifest": "Contrato propuesto estructurado: schema/revision, runtimes/pins pendientes de verificar explícitos, commands argv/cwd/timeout/retries/network para FE/BE/E2E/build/migraciones, servicios/healthchecks, rutas permitidas/denegadas, recursos/budgets/checks numéricos, secretos solo referencia, deployment disabled. Lo no verificado bloquea habilitación. Es una propuesta documental, no manifiesto ejecutado.",
+    "acceptance": "Casos concretos positivos/negativos/errores/cuentas/concurrencia/reinicio/rollback y rutas existentes. Mercado/edad/reglas comerciales resueltas por usuario en v02. Límites AGE-30/32 y sin producto ejecutado explícitos."
+  },
+  "limits": {
+    "max_rounds": 1,
+    "max_calls": 8,
+    "context_tokens": 32768,
+    "output_tokens": {
+      "developer": 9000,
+      "reviewer": 1400
+    },
+    "timeout_seconds": 300,
+    "total_input_tokens": 589824,
+    "total_output_tokens": 40400,
+    "total_active_ms": 2400000,
+    "external_cost_max": 0
+  },
+  "effective_policy": {
+    "tools": [],
+    "generated_code_execution": false,
+    "remote_writes": false,
+    "deployment": "disabled",
+    "uncertain_operation_retry": false,
+    "human_approval_between_correction_rounds": false,
+    "memory_policy": "existing_ollama_service_no_hard_RAM_VRAM_quota",
+    "mode": "supervised_advisory_only",
+    "automatic_acceptance": false,
+    "new_qualification_receipt": false
+  },
+  "review_evidence": true,
+  "review_probes": {
+    "architecture": "¿Hay UN frontend elegido además de backend/BD? ¿Coexiste con Python y distingue planes de permisos?",
+    "api": "¿Están definidos campos de PublicCard/PublicProfile/Photo/Subscription o se usan nombres vacíos? ¿Listado y detalle excluyen suscripción vencida/no publicada? ¿IDs geográficos son coherentes con datos? No inventar contradicción por aplicar filtros a todos los perfiles: todos incluye promocionados. No exigir filtrar exclusivamente por promoción.",
+    "data": "¿La jerarquía impide combinar provincia/país incorrectos? ¿Hay unicidad de principal concreta? ¿Idempotency es por cuenta y conserva hash de payload y respuesta? ¿Fechas inicio/fin explícitas? Un UNIQUE GLOBAL sobre payload_hash es DEFECTO: dos cuentas que eligen el mismo plan pueden tener igual hash. Una frase correcta de scope no subsana un índice global contradictorio. Rechazar también UNIQUE global sobre key; PK compuesta(user_id,key).",
+    "auth": "Requerir ciclo de recuperación por email con token aleatorio/hash/caducidad/un uso y revocación; rutas solas no bastan. Requerir almacenamiento/rotación/revocación de sesiones. Requerir clasificador móvil (regex sola no basta), fijo rechazado y ambiguo tratado; rechazar ambiguos422 es una propuesta válida con país pendiente. No rechazar por falta de frase repetida de propuesta ni por no confirmar país.",
+    "photos": "¿Se comprueban FIRMA y DECODIFICACIÓN real antes de publicar, con límites de bytes/píxeles? Content-Type del cliente no basta. ¿Cambio/eliminación principal serializado? Firma significa encabezado/magic bytes de formato de imagen, NO firma criptográfica ni hash; no exigir hash criptográfico como condición de fotos. Decodificar y reencodificar con límites sí es mecanismo técnico.",
+    "subscriptions": "Producción debe rechazar endpoint sin depender de simulated del cliente; origen fijado en servidor. Durante TTL de clave: scope user/key, comparación hash, mismo payload respuesta guardada, distinto409. Serializar primera activación bloqueando users existente; mismo valor de clave en cuentas diferentes independiente. Retención finita válida: después TTL, eliminar clave y devolver409 mientras plan activo; no exigir recuperar respuesta expirada. Persistir inicio/fin y no extender al reintentar/reiniciar.",
+    "manifest": "¿Manifiesto parseable JSON con argv arrays, cwd relativos, timeout/retries/network en cada comando? ¿FE/BE/E2E/build/migración, servicios y readiness, filesystem allow/deny y red, presupuestos numéricos, secrets references y deployment disabled? Pins pendientes explícitos no son un defecto documental.",
+    "acceptance": "¿Hay casos concretos con resultado esperado para concurrencia, reinicio, autorización, simulación producción y suscripción vencida? ¿Decisiones humanas y límites AGE-30/32 explícitos?"
+  },
+  "thinking": {
+    "developer": false,
+    "reviewer": false
+  },
+  "review_partitions": true,
+  "parent_run": "age31-evidence-v9-20260930",
+  "structured_developer": true
+}

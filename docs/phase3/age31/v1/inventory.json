@@ -1,0 +1,25 @@
+{
+  "schema": "age31.inventory-public/1",
+  "main_sha": "9c02be1d1ce9465eb2338ac3981d21f2a2c1009c",
+  "local_controller_sha": "d6be382560d2cfe8e61263c2d6950543e02f8782",
+  "node_observed": "22.18.0",
+  "npm_observed": "10.9.3",
+  "python_observed": "3.12.14",
+  "docker_server_observed": "29.0.1",
+  "proposed_paths": {
+    "frontend/package.json": false,
+    "backend/package.json": false,
+    "package.json": false,
+    "package-lock.json": false
+  },
+  "npm_package_manifests": [],
+  "postgres_client_available": false,
+  "unverified": [
+    "PostgreSQL image/version/provisioning",
+    "React/Vite/Fastify dependency pins",
+    "object store and Mailpit configuration/version",
+    "official AR geography catalog",
+    "integrated AGE-30 base"
+  ],
+  "note": "Readonly inventory; binary presence does not prove provisioned services. Working controller preserved. No SaaS command or dependency installation executed."
+}
