@@ -1,0 +1,5 @@
+447 passed, 1 skipped, 547 warnings in 88.84s.
+Windows/Python 3.12; isolated locked AGE-30 environment reused; dependencies unchanged.
+Skipped: Windows symlink permission. Receipt source identity 8959311639221b8f02a2399c3d8a198222e28aa204d6f71f15e4d6d90016cbf1.
+31 added tests cover typed validation, false approval veto, full replacement/review, original evidence, drift, budget, uncertainty, resume, long Windows paths and remaining timeout.
+This is controller evidence, not FE/API/PostgreSQL/E2E/build evidence. CI remains root pilot tests.

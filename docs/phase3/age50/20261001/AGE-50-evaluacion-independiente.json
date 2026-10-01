@@ -1,0 +1,102 @@
+{
+  "scope": "file-plan structural review only",
+  "fixtures_sha256": "4aeabde008aa46a82856f5cc94e57b9f879809283c6abcef48b6938bfe7ef46d",
+  "results": [
+    {
+      "id": "positive-finite-ttl",
+      "run_id": "age50-eval-positive-finite-ttl-20261001",
+      "expected": {
+        "P01": true,
+        "P02": true,
+        "P03": true,
+        "P04": true,
+        "P05": true
+      },
+      "actual": {
+        "P01": true,
+        "P02": true,
+        "P03": true,
+        "P04": true,
+        "P05": true
+      },
+      "citation_valid": true,
+      "passed": true,
+      "model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "input_tokens": 1822,
+      "output_tokens": 673,
+      "done_reason": "stop"
+    },
+    {
+      "id": "novel-traversal",
+      "run_id": "age50-eval-novel-traversal-20261001",
+      "expected": {
+        "P01": true,
+        "P02": false,
+        "P03": true,
+        "P04": true,
+        "P05": true
+      },
+      "actual": {
+        "P01": true,
+        "P02": false,
+        "P03": true,
+        "P04": true,
+        "P05": true
+      },
+      "citation_valid": false,
+      "passed": false,
+      "model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "input_tokens": 1816,
+      "output_tokens": 728,
+      "done_reason": "stop"
+    },
+    {
+      "id": "novel-unknown-criterion",
+      "run_id": "age50-eval-novel-unknown-criterion-20261001",
+      "expected": {
+        "P01": true,
+        "P02": true,
+        "P03": false,
+        "P04": true,
+        "P05": true
+      },
+      "actual": {
+        "P01": true,
+        "P02": true,
+        "P03": false,
+        "P04": true,
+        "P05": true
+      },
+      "citation_valid": true,
+      "passed": true,
+      "model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "input_tokens": 1797,
+      "output_tokens": 836,
+      "done_reason": "stop"
+    },
+    {
+      "id": "novel-extra-stage",
+      "run_id": "age50-eval-novel-extra-stage-20261001",
+      "expected": {
+        "P01": false,
+        "P02": true,
+        "P03": true,
+        "P04": true,
+        "P05": true
+      },
+      "actual": {
+        "P01": false,
+        "P02": true,
+        "P03": true,
+        "P04": true,
+        "P05": true
+      },
+      "citation_valid": true,
+      "passed": true,
+      "model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "input_tokens": 1796,
+      "output_tokens": 735,
+      "done_reason": "stop"
+    }
+  ]
+}
