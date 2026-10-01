@@ -1,0 +1,72 @@
+{
+  "task_id": "AGE-31",
+  "revision": "contract-v1-advisory-review-r2-empty-decisions-schema",
+  "scope": "documentary_only",
+  "model": "qwen3.8:27b-q4_K_M",
+  "model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+  "sections": [
+    "architecture",
+    "api",
+    "data",
+    "auth",
+    "photos",
+    "subscriptions",
+    "manifest",
+    "acceptance"
+  ],
+  "decisions": {},
+  "criteria": {
+    "architecture": "Elegir un stack �nico y justificar coexistencia con piloto Python; directorio p�blico global y escrituras privadas por propietario. No exigir tenant_id para todo. B�sico/promocionado son planes, no roles de autorizaci�n. Roles de acceso separados.",
+    "api": "M�todos/rutas, payloads y respuestas concretos para listado/detalle p�blico, perfil propio/fotos, autenticaci�n y activaci�n simulada. Filtros aplican a promocionados, orden/paginaci�n y no duplicaci�n expl�citos. Contrato coherente de errores. Datos del due�o se toman de sesi�n, no del cliente. Los filtros geogr�ficos aplican a TODOS los perfiles publicados, incluyendo basic y promoted; decir todos incluye promocionados y no es defecto. No exigir listado exclusivamente promocionado.",
+    "data": "Entidades y restricciones: cuenta/perfil/foto/plan/suscripci�n, un perfil por cuenta propuesto, foto principal �nica, fechas de vigencia, idempotencia transaccional y geograf�a jer�rquica. Datos persistentes sin renovar al reinicio. Cat�logo real pendiente del pa�s, sin inventarlo.",
+    "auth": "Registro/login/logout/recuperaci�n con sesiones seguras y aislamiento por due�o. Tel�fono m�vil validado por mecanismo definido en servidor/formulario; rechazar fijos. Es v�lido proponer rechazar tipos ambiguos con 422 mientras pa�s/metadatos quedan pendientes. Una nota global de propuesta basta; no exigir confirmaci�n comercial ni repetirla en cada frase. No inventar OTP WhatsApp. Datos privados excluidos de DTO p�blico.",
+    "photos": "Cantidad/tama�o/formatos num�ricos propuestos y verificaci�n efectiva de bytes/tipo/tama�o antes de publicar; cambio/eliminaci�n de principal consistente, rechazo de datos maliciosos y escape de descripci�n. Un URL firmado solo no prueba validaci�n.",
+    "subscriptions": "Simulaci�n dev/staging persistida con origen simulated fijado en servidor, aviso sin cobro, cero Rebill/tarjetas; endpoint rechazado incondicionalmente en producci�n. Cat�logo/propietario/precio en servidor. Idempotency-Key por cuenta y payload con concurrencia, retenci�n y conflictos definidos. Dentro del TTL: mismo payload devuelve respuesta original, distinto payload409. Despu�s del TTL: puede purgar clave y responder409 por suscripci�n a�n activa, sin crear/extender. No se exige idempotencia eterna ni TTL igual a vigencia. Vigencia de prueba propuesta expl�cita; no afirmar garant�a Rebill ni convertir simulaciones a pagos.",
+    "manifest": "Contrato propuesto estructurado: schema/revision, runtimes/pins pendientes de verificar expl�citos, commands argv/cwd/timeout/retries/network para FE/BE/E2E/build/migraciones, servicios/healthchecks, rutas permitidas/denegadas, recursos/budgets/checks num�ricos, secretos solo referencia, deployment disabled. Lo no verificado bloquea habilitaci�n. Es una propuesta documental, no manifiesto ejecutado.",
+    "acceptance": "Casos concretos positivos/negativos/errores/cuentas/concurrencia/reinicio/rollback y rutas existentes. Mercado/edad/reglas comerciales resueltas por usuario en v02. L�mites AGE-30/32 y sin producto ejecutado expl�citos."
+  },
+  "limits": {
+    "max_rounds": 1,
+    "max_calls": 8,
+    "context_tokens": 32768,
+    "output_tokens": {
+      "developer": 9000,
+      "reviewer": 1400
+    },
+    "timeout_seconds": 300,
+    "total_input_tokens": 589824,
+    "total_output_tokens": 40400,
+    "total_active_ms": 2400000,
+    "external_cost_max": 0
+  },
+  "effective_policy": {
+    "tools": [],
+    "generated_code_execution": false,
+    "remote_writes": false,
+    "deployment": "disabled",
+    "uncertain_operation_retry": false,
+    "human_approval_between_correction_rounds": false,
+    "memory_policy": "existing_ollama_service_no_hard_RAM_VRAM_quota",
+    "mode": "supervised_advisory_only",
+    "automatic_acceptance": false,
+    "new_qualification_receipt": false
+  },
+  "review_evidence": true,
+  "review_probes": {
+    "architecture": "�Hay UN frontend elegido adem�s de backend/BD? �Coexiste con Python y distingue planes de permisos?",
+    "api": "�Est�n definidos campos de PublicCard/PublicProfile/Photo/Subscription o se usan nombres vac�os? �Listado y detalle excluyen suscripci�n vencida/no publicada? �IDs geogr�ficos son coherentes con datos? No inventar contradicci�n por aplicar filtros a todos los perfiles: todos incluye promocionados. No exigir filtrar exclusivamente por promoci�n.",
+    "data": "�La jerarqu�a impide combinar provincia/pa�s incorrectos? �Hay unicidad de principal concreta? �Idempotency es por cuenta y conserva hash de payload y respuesta? �Fechas inicio/fin expl�citas? Un UNIQUE GLOBAL sobre payload_hash es DEFECTO: dos cuentas que eligen el mismo plan pueden tener igual hash. Una frase correcta de scope no subsana un �ndice global contradictorio. Rechazar tambi�n UNIQUE global sobre key; PK compuesta(user_id,key).",
+    "auth": "Requerir ciclo de recuperaci�n por email con token aleatorio/hash/caducidad/un uso y revocaci�n; rutas solas no bastan. Requerir almacenamiento/rotaci�n/revocaci�n de sesiones. Requerir clasificador m�vil (regex sola no basta), fijo rechazado y ambiguo tratado; rechazar ambiguos422 es una propuesta v�lida con pa�s pendiente. No rechazar por falta de frase repetida de propuesta ni por no confirmar pa�s.",
+    "photos": "�Se comprueban FIRMA y DECODIFICACI�N real antes de publicar, con l�mites de bytes/p�xeles? Content-Type del cliente no basta. �Cambio/eliminaci�n principal serializado? Firma significa encabezado/magic bytes de formato de imagen, NO firma criptogr�fica ni hash; no exigir hash criptogr�fico como condici�n de fotos. Decodificar y reencodificar con l�mites s� es mecanismo t�cnico.",
+    "subscriptions": "Producci�n debe rechazar endpoint sin depender de simulated del cliente; origen fijado en servidor. Durante TTL de clave: scope user/key, comparaci�n hash, mismo payload respuesta guardada, distinto409. Serializar primera activaci�n bloqueando users existente; mismo valor de clave en cuentas diferentes independiente. Retenci�n finita v�lida: despu�s TTL, eliminar clave y devolver409 mientras plan activo; no exigir recuperar respuesta expirada. Persistir inicio/fin y no extender al reintentar/reiniciar.",
+    "manifest": "�Manifiesto parseable JSON con argv arrays, cwd relativos, timeout/retries/network en cada comando? �FE/BE/E2E/build/migraci�n, servicios y readiness, filesystem allow/deny y red, presupuestos num�ricos, secrets references y deployment disabled? Pins pendientes expl�citos no son un defecto documental.",
+    "acceptance": "�Hay casos concretos con resultado esperado para concurrencia, reinicio, autorizaci�n, simulaci�n producci�n y suscripci�n vencida? �Decisiones humanas y l�mites AGE-30/32 expl�citos?"
+  },
+  "thinking": {
+    "developer": false,
+    "reviewer": false
+  },
+  "review_partitions": true,
+  "parent_run": "age31-evidence-v9-20260930",
+  "structured_developer": true
+}

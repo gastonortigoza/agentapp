@@ -1,0 +1,17 @@
+{
+  "tests": 26,
+  "exit_code": 0,
+  "prompt_bytes": {
+    "architecture": 3500,
+    "api": 21792,
+    "data": 11095,
+    "auth": 14889,
+    "photos": 9003,
+    "subscriptions": 22105,
+    "manifest": 8932,
+    "acceptance": 21931
+  },
+  "context_tokens": 32768,
+  "reserved_framework_bytes": 5000,
+  "scope": "document_mutations_not_product_tests"
+}

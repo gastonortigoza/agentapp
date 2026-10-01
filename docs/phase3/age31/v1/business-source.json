@@ -1,0 +1,48 @@
+{
+  "requirement_id": "agentapp-phase3-person-directory-v02",
+  "revision": "business-decisions-20260930",
+  "source": {
+    "type": "user_chat",
+    "date": "2026-09-30",
+    "user_response": "pais argentina, 15mil b�sico y 30 mil promocionado. Es para conocer de cualquier g�nero mayor de 18 a�os la tercera tal cual dec�s vos",
+    "requirement_url": "https://app.notion.com/p/3e967de36dff8148b261c26d95413c75",
+    "issue": "AGE-48",
+    "renewal_interpretation": "La tercera respuesta adopta la opci�n autom�tica con Rebill y las reglas propuestas en la pregunta previa; esta lectura fue explicitada al usuario en el chat."
+  },
+  "decisions": {
+    "market": {
+      "country": "Argentina",
+      "country_code": "AR",
+      "currency": "ARS",
+      "billing_period": "monthly",
+      "plans": {
+        "basic": { "price_ars": 15000 },
+        "promoted": { "price_ars": 30000 }
+      }
+    },
+    "audience": {
+      "purpose": "conocer personas",
+      "genders": "cualquier g�nero",
+      "adult_only": true,
+      "age_rule_user_wording": "mayor de 18 a�os",
+      "registration_age_verification_method": "technical_contract_pending"
+    },
+    "billing_rules": {
+      "provider": "Rebill",
+      "renewal": "automatic_monthly",
+      "unpaid_expiry": "hide_public_profile_keep_owner_management",
+      "cancellation": "stop_next_renewal_keep_benefits_until_paid_period_end",
+      "plan_change": "next_billing_period",
+      "initial_proration": false,
+      "provider_integration": "deferred"
+    }
+  },
+  "pending_human_decision_ids_for_previous_three_questions": [],
+  "technical_contract_status": "not_accepted",
+  "execution_scope": {
+    "current_activation": "simulated_dev_staging",
+    "real_payment_execution_authorized_by_this_record": false,
+    "simulation_test_duration_days": { "value": 30, "status": "technical_proposal_not_user_business_decision" }
+  },
+  "historical_evidence": "Las ejecuciones previas conservan sus decisiones pendientes originales; esta revisi�n se usa como entrada nueva y no modifica journals o recibos congelados."
+}

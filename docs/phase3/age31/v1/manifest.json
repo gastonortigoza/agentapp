@@ -1,0 +1,203 @@
+{
+  "schema": "agentapp.bound-execution-manifest/1",
+  "revision": 1,
+  "requirement": {
+    "id": "agentapp-phase3-person-directory-v02",
+    "revision": "technical-contract-v1",
+    "business_source_sha256": "5dc5b0fdb7c5bae157b18d43691e5d3d2d1108fe32070d5f333de5d3f50a94e9",
+    "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc"
+  },
+  "effective_policy": {
+    "id": "age31-document-contract-policy",
+    "revision": 1,
+    "sha256": "841d193f86e7fa60831746a45c9fc98c9f246f742bbb98cae31dbbb342a7bd72"
+  },
+  "manifest": {
+    "schema": "agentapp.execution-manifest/1",
+    "revision": 1,
+    "deployment": "disabled",
+    "enabled": false,
+    "unverified_blocks_enablement": [
+      "AGE-30 approved integrated base",
+      "frontend/backend/root package.json and all named scripts absent",
+      "npm lockfile, exact React/Vite/Fastify/pg/sharp/argon2/libphonenumber/Vitest/Playwright pins and engines verified in integrated base",
+      "PostgreSQL version/image digest and migrations verified; DB provisioned AGE-34",
+      "object store and Mailpit version/digest/configuration verified",
+      "service readiness, resource enforcement, secret refs and workspace root configured in AGE-32/33",
+      "official AR geography catalog loaded and audited AGE-34/37"
+    ],
+    "runtimes": {
+      "node": "observed22.18.0; proposed pin22.18.0 subject to integrated engines check",
+      "npm": "observed10.9.3; proposed pin10.9.3",
+      "python": "observed3.12.14: controller only",
+      "postgresql": "version and image digest UNAVAILABLE: blocks enablement",
+      "frontend": "React/Vite exact dependency pins UNAVAILABLE: blocks enablement",
+      "backend": "Fastify/pg/sharp/argon2/libphonenumber-js exact dependency pins UNAVAILABLE",
+      "tests": "Vitest/Playwright exact dependency pins UNAVAILABLE"
+    },
+    "commands": {
+      "fe": {
+        "argv": [
+          "npm",
+          "run",
+          "dev",
+          "--",
+          "--host",
+          "127.0.0.1"
+        ],
+        "cwd": "frontend",
+        "timeout_seconds": 120,
+        "retries": 0,
+        "network": "Only declared loopback service ports; no Internet or package installation. Proposed script currently unavailable."
+      },
+      "be": {
+        "argv": [
+          "npm",
+          "run",
+          "dev"
+        ],
+        "cwd": "backend",
+        "timeout_seconds": 120,
+        "retries": 0,
+        "network": "Only declared loopback service ports; no Internet or package installation. Proposed script currently unavailable."
+      },
+      "fe_build": {
+        "argv": [
+          "npm",
+          "run",
+          "build"
+        ],
+        "cwd": "frontend",
+        "timeout_seconds": 180,
+        "retries": 0,
+        "network": "Only declared loopback service ports; no Internet or package installation. Proposed script currently unavailable."
+      },
+      "be_build": {
+        "argv": [
+          "npm",
+          "run",
+          "build"
+        ],
+        "cwd": "backend",
+        "timeout_seconds": 180,
+        "retries": 0,
+        "network": "Only declared loopback service ports; no Internet or package installation. Proposed script currently unavailable."
+      },
+      "unit": {
+        "argv": [
+          "npm",
+          "run",
+          "test:unit"
+        ],
+        "cwd": ".",
+        "timeout_seconds": 180,
+        "retries": 0,
+        "network": "Only declared loopback service ports; no Internet or package installation. Proposed script currently unavailable."
+      },
+      "e2e": {
+        "argv": [
+          "npm",
+          "run",
+          "test:e2e"
+        ],
+        "cwd": "frontend",
+        "timeout_seconds": 300,
+        "retries": 0,
+        "network": "Only declared loopback service ports; no Internet or package installation. Proposed script currently unavailable."
+      },
+      "migrate": {
+        "argv": [
+          "npm",
+          "run",
+          "db:migrate"
+        ],
+        "cwd": "backend",
+        "timeout_seconds": 120,
+        "retries": 0,
+        "network": "Only declared loopback service ports; no Internet or package installation. Proposed script currently unavailable."
+      }
+    },
+    "services": {
+      "fe": {
+        "bind": "127.0.0.1:5173",
+        "readiness": "GET / returns200 within30s"
+      },
+      "be": {
+        "bind": "127.0.0.1:3000",
+        "readiness": "GET /api/health returns200 JSON {status:ok} within30s"
+      },
+      "db": {
+        "bind": "127.0.0.1:5432",
+        "readiness": "pg_isready then authenticated SELECT1 within30s"
+      },
+      "objects": {
+        "bind": "127.0.0.1:9000",
+        "readiness": "Proposed S3-compatible service GET /minio/health/ready 200 within30s; image/config pending"
+      },
+      "mail": {
+        "bind": "127.0.0.1:8025 and127.0.0.1:1025",
+        "readiness": "Proposed Mailpit GET /livez 200 and SMTP port accepts within30s; version/config pending"
+      }
+    },
+    "healthcheck": {
+      "timeout_seconds": 30,
+      "retries": 3
+    },
+    "filesystem": {
+      "root": "approved_workspace_root: reference resolved by controller, not by model",
+      "allow": [
+        "frontend/**",
+        "backend/**",
+        "package.json",
+        "package-lock.json",
+        "artifacts/**",
+        "fixtures/synthetic/**"
+      ],
+      "deny": [
+        ".env",
+        "**/.env*",
+        "**/secrets/**",
+        "**/.git/**",
+        "../**",
+        "external paths",
+        "symlink escapes"
+      ]
+    },
+    "network": {
+      "allow": [
+        "127.0.0.1:5173",
+        "127.0.0.1:3000",
+        "127.0.0.1:5432",
+        "127.0.0.1:9000",
+        "127.0.0.1:8025",
+        "127.0.0.1:1025"
+      ],
+      "default": "deny",
+      "package_install": "Separate approved provisioning step only; no automatic npm install or Internet during runs. Actual network enforcement pending AGE-32."
+    },
+    "budgets_proposed": {
+      "cpu": 2,
+      "ram_mib": 4096,
+      "disk_gib": 10,
+      "db_connections": 10,
+      "max_run_seconds": 900,
+      "external_cost": 0
+    },
+    "checks_proposed": {
+      "unit_failures": 0,
+      "e2e_failures": 0,
+      "build_exit": 0,
+      "migration_exit": 0,
+      "response_p95_ms": 500,
+      "error_rate_max": 0.01
+    },
+    "secrets_ref": [
+      "DB_URL",
+      "JWT_SIGNING_KEY",
+      "OBJECT_ACCESS_KEY",
+      "OBJECT_SECRET_KEY",
+      "SMTP_URL"
+    ],
+    "note": "Documentary proposal only; no command executed. unit root aggregate must run both frontend/backend tests; one integrated FE/API/DB E2E suite. p95<500ms/error<=1% on proposed 100 synthetic listing reads, concurrency5 after warmup; measure separately, not proof now. Long-running dev services need controller lifecycle separate from readiness timeout. proposed resource budgets are NOT enforced by this file."
+  }
+}

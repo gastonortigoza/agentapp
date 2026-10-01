@@ -1,0 +1,31 @@
+test_absent_command (test_contract.ContractTests.test_absent_command) ... ok
+test_bad_first_lock (test_contract.ContractTests.test_bad_first_lock) ... ok
+test_bad_scope (test_contract.ContractTests.test_bad_scope) ... ok
+test_binding_and_changed_content (test_contract.ContractTests.test_binding_and_changed_content) ... ok
+test_broken_geographic_FK (test_contract.ContractTests.test_broken_geographic_FK) ... ok
+test_client_origin (test_contract.ContractTests.test_client_origin) ... ok
+test_correct_document (test_contract.ContractTests.test_correct_document) ... ok
+test_empty_request_204_response (test_contract.ContractTests.test_empty_request_204_response) ... ok
+test_enabled_deployment (test_contract.ContractTests.test_enabled_deployment) ... ok
+test_global_key_unique (test_contract.ContractTests.test_global_key_unique) ... ok
+test_global_payload_hash_unique (test_contract.ContractTests.test_global_payload_hash_unique) ... ok
+test_invalid_string_argv (test_contract.ContractTests.test_invalid_string_argv) ... ok
+test_mismatching_date (test_contract.ContractTests.test_mismatching_date) ... ok
+test_missing_endpoint (test_contract.ContractTests.test_missing_endpoint) ... ok
+test_missing_saved_response (test_contract.ContractTests.test_missing_saved_response) ... ok
+test_network_escape (test_contract.ContractTests.test_network_escape) ... ok
+test_nonexistent_acceptance_route (test_contract.ContractTests.test_nonexistent_acceptance_route) ... ok
+test_nonunique_FK_target (test_contract.ContractTests.test_nonunique_FK_target) ... ok
+test_nullable_known_DTO (test_contract.ContractTests.test_nullable_known_DTO) ... ok
+test_path_escape (test_contract.ContractTests.test_path_escape) ... ok
+test_private_DTO_leak (test_contract.ContractTests.test_private_DTO_leak) ... ok
+test_production_flag_guard (test_contract.ContractTests.test_production_flag_guard) ... ok
+test_secret_literal (test_contract.ContractTests.test_secret_literal) ... ok
+test_shell_argv (test_contract.ContractTests.test_shell_argv) ... ok
+test_undefined_nullable_DTO (test_contract.ContractTests.test_undefined_nullable_DTO) ... ok
+test_unproven_test_claim (test_contract.ContractTests.test_unproven_test_claim) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.205s
+
+OK
