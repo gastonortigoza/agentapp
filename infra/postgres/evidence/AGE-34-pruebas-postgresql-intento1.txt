@@ -1,0 +1,277 @@
+test_01_connections_and_version (__main__.PostgreSQLChecks.test_01_connections_and_version) ... ERROR
+test_02_role_boundaries (__main__.PostgreSQLChecks.test_02_role_boundaries) ... ERROR
+test_03_eleven_contract_tables (__main__.PostgreSQLChecks.test_03_eleven_contract_tables) ... ERROR
+test_04_plan_prices_and_synthetic_seed_repeat (__main__.PostgreSQLChecks.test_04_plan_prices_and_synthetic_seed_repeat) ... ERROR
+test_05_geographical_hierarchy (__main__.PostgreSQLChecks.test_05_geographical_hierarchy) ... ERROR
+test_06_one_main_photo (__main__.PostgreSQLChecks.test_06_one_main_photo) ... ERROR
+test_07_interval_and_hash_constraints (__main__.PostgreSQLChecks.test_07_interval_and_hash_constraints) ... ERROR
+test_08_same_key_and_payload_are_scoped_by_user (__main__.PostgreSQLChecks.test_08_same_key_and_payload_are_scoped_by_user) ... ERROR
+test_09_retry_exact_body_without_extension (__main__.PostgreSQLChecks.test_09_retry_exact_body_without_extension) ... ERROR
+test_10_different_payload_and_second_key (__main__.PostgreSQLChecks.test_10_different_payload_and_second_key) ... ERROR
+test_11_concurrent_first_activation (__main__.PostgreSQLChecks.test_11_concurrent_first_activation) ... ERROR
+test_12_expired_key_and_expired_period (__main__.PostgreSQLChecks.test_12_expired_key_and_expired_period) ... ERROR
+test_13_failed_transaction_leaves_no_partial_write (__main__.PostgreSQLChecks.test_13_failed_transaction_leaves_no_partial_write) ... ERROR
+test_14_migration_repeat_and_checksum_drift (__main__.PostgreSQLChecks.test_14_migration_repeat_and_checksum_drift) ... ERROR
+test_15_foreign_reset_rejected (__main__.PostgreSQLChecks.test_15_foreign_reset_rejected) ... ERROR
+test_16_persisted_restart (__main__.PostgreSQLChecks.test_16_persisted_restart) ... ERROR
+test_17_repeatable_disposable_reset (__main__.PostgreSQLChecks.test_17_repeatable_disposable_reset) ... ERROR
+
+======================================================================
+ERROR: test_01_connections_and_version (__main__.PostgreSQLChecks.test_01_connections_and_version)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_02_role_boundaries (__main__.PostgreSQLChecks.test_02_role_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_03_eleven_contract_tables (__main__.PostgreSQLChecks.test_03_eleven_contract_tables)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_04_plan_prices_and_synthetic_seed_repeat (__main__.PostgreSQLChecks.test_04_plan_prices_and_synthetic_seed_repeat)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_05_geographical_hierarchy (__main__.PostgreSQLChecks.test_05_geographical_hierarchy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_06_one_main_photo (__main__.PostgreSQLChecks.test_06_one_main_photo)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_07_interval_and_hash_constraints (__main__.PostgreSQLChecks.test_07_interval_and_hash_constraints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_08_same_key_and_payload_are_scoped_by_user (__main__.PostgreSQLChecks.test_08_same_key_and_payload_are_scoped_by_user)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_09_retry_exact_body_without_extension (__main__.PostgreSQLChecks.test_09_retry_exact_body_without_extension)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_10_different_payload_and_second_key (__main__.PostgreSQLChecks.test_10_different_payload_and_second_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_11_concurrent_first_activation (__main__.PostgreSQLChecks.test_11_concurrent_first_activation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_12_expired_key_and_expired_period (__main__.PostgreSQLChecks.test_12_expired_key_and_expired_period)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_13_failed_transaction_leaves_no_partial_write (__main__.PostgreSQLChecks.test_13_failed_transaction_leaves_no_partial_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_14_migration_repeat_and_checksum_drift (__main__.PostgreSQLChecks.test_14_migration_repeat_and_checksum_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_15_foreign_reset_rejected (__main__.PostgreSQLChecks.test_15_foreign_reset_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_16_persisted_restart (__main__.PostgreSQLChecks.test_16_persisted_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+======================================================================
+ERROR: test_17_repeatable_disposable_reset (__main__.PostgreSQLChecks.test_17_repeatable_disposable_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 54, in setUp
+    app('DELETE FROM agentapp.idempotency; DELETE FROM agentapp.subscriptions; DELETE FROM agentapp.photos; DELETE FROM agentapp.profiles; DELETE FROM agentapp.sessions; DELETE FROM agentapp.password_resets;')
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 13, in app
+    def app(s): return db.sql('test',s,role='age34_app')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\age34_driver.py", line 43, in sql
+    if p.returncode:raise RuntimeError('SQL failed: '+p.stderr[:500].replace(password,'[REDACTED]'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SQL failed: ERROR:  permission denied for table idempotency
+
+
+----------------------------------------------------------------------
+Ran 17 tests in 184.936s
+
+FAILED (errors=17)

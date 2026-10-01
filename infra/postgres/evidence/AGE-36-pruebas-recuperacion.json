@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "criterion": "empty_install_v1_and_additive_upgrade_v2_preserve_fixtures",
+      "status": "passed",
+      "seconds": 103.547
+    },
+    {
+      "criterion": "repeated_migration_is_noop",
+      "status": "passed",
+      "seconds": 16.14
+    },
+    {
+      "criterion": "partial_ddl_and_version_record_rollback_together",
+      "status": "passed",
+      "seconds": 13.0
+    },
+    {
+      "criterion": "two_migrators_serialized_by_advisory_transaction_lock",
+      "status": "passed",
+      "seconds": 22.766
+    },
+    {
+      "criterion": "migration_source_drift_rejected",
+      "status": "passed",
+      "seconds": 16.172
+    },
+    {
+      "criterion": "logical_backup_restore_complete_data_and_v2_schema_foreign_or_tampered_rejected",
+      "status": "passed",
+      "seconds": 142.531
+    }
+  ],
+  "total_seconds": 314.156,
+  "image": "postgres@sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722",
+  "database": "agentapp_age34_test",
+  "version": 2,
+  "scope": "local_synthetic_only",
+  "sql_compatibility": "additive index; original columns/queries unchanged; no application coexistence claimed",
+  "lock_timeout_seconds": 5,
+  "statement_timeout_seconds": 30,
+  "backup_scope": "logical data snapshot plus exact reviewed schema migrations, no roles/control marker or real data",
+  "author": "Codex supervision; not autonomous agent correction"
+}

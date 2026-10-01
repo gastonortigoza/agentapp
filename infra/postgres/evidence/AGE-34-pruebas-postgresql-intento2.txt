@@ -1,0 +1,41 @@
+test_01_connections_and_version (__main__.PostgreSQLChecks.test_01_connections_and_version) ... ok
+test_02_role_boundaries (__main__.PostgreSQLChecks.test_02_role_boundaries) ... ok
+test_03_eleven_contract_tables (__main__.PostgreSQLChecks.test_03_eleven_contract_tables) ... ok
+test_04_plan_prices_and_synthetic_seed_repeat (__main__.PostgreSQLChecks.test_04_plan_prices_and_synthetic_seed_repeat) ... ok
+test_05_geographical_hierarchy (__main__.PostgreSQLChecks.test_05_geographical_hierarchy) ... ok
+test_06_one_main_photo (__main__.PostgreSQLChecks.test_06_one_main_photo) ... ok
+test_07_interval_and_hash_constraints (__main__.PostgreSQLChecks.test_07_interval_and_hash_constraints) ... ok
+test_08_same_key_and_payload_are_scoped_by_user (__main__.PostgreSQLChecks.test_08_same_key_and_payload_are_scoped_by_user) ... ok
+test_09_retry_exact_body_without_extension (__main__.PostgreSQLChecks.test_09_retry_exact_body_without_extension) ... ok
+test_10_different_payload_and_second_key (__main__.PostgreSQLChecks.test_10_different_payload_and_second_key) ... ok
+test_11_concurrent_first_activation (__main__.PostgreSQLChecks.test_11_concurrent_first_activation) ... FAIL
+test_12_expired_key_and_expired_period (__main__.PostgreSQLChecks.test_12_expired_key_and_expired_period) ... ok
+test_13_failed_transaction_leaves_no_partial_write (__main__.PostgreSQLChecks.test_13_failed_transaction_leaves_no_partial_write) ... ok
+test_14_migration_repeat_and_checksum_drift (__main__.PostgreSQLChecks.test_14_migration_repeat_and_checksum_drift) ... ok
+test_15_foreign_reset_rejected (__main__.PostgreSQLChecks.test_15_foreign_reset_rejected) ... ok
+test_16_persisted_restart (__main__.PostgreSQLChecks.test_16_persisted_restart) ... ok
+test_17_repeatable_disposable_reset (__main__.PostgreSQLChecks.test_17_repeatable_disposable_reset) ... ok
+
+======================================================================
+FAIL: test_11_concurrent_first_activation (__main__.PostgreSQLChecks.test_11_concurrent_first_activation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\gasto\Documents\Codex\2026-09-30\continu-con-age-46-le-el\work\test_age34.py", line 122, in test_11_concurrent_first_activation
+    self.assertEqual(sorted(x['status'] for x in results),[201,409])
+AssertionError: Lists differ: [201, 201] != [201, 409]
+
+First differing element 1:
+201
+409
+
+- [201, 201]
+?       ^ ^
+
++ [201, 409]
+?       ^ ^
+
+
+----------------------------------------------------------------------
+Ran 17 tests in 637.611s
+
+FAILED (failures=1)
