@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0",
+  "project": {
+    "name": "observabilidad-local",
+    "repository": "gastonortigoza/agentapp",
+    "base_ref": "local-ai-setup",
+    "resolved_base_sha": "d6be382560d2cfe8e61263c2d6950543e02f8782"
+  },
+  "runtimes": [
+    {
+      "language": "python",
+      "version": "3.12.14",
+      "package_manager": "uv",
+      "package_manager_version": "0.11.33"
+    }
+  ],
+  "commands": {
+    "unit": {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_agent.py"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 120,
+      "max_retries": 0,
+      "network_profile": "offline"
+    }
+  },
+  "services_required": [],
+  "paths": {
+    "allowed_write": [
+      "pilot"
+    ],
+    "denied_write": [
+      ".git",
+      ".github",
+      "config",
+      "schemas",
+      "controller.py",
+      "manifest.py",
+      "agent.py",
+      "tests",
+      "pyproject.toml",
+      "uv.lock"
+    ],
+    "links": "deny"
+  },
+  "limits": {
+    "memory_mib": 512,
+    "cpu_cores": 1,
+    "processes": 64,
+    "disk_mib": 128,
+    "time_seconds": 120,
+    "network_profiles": {
+      "offline": {
+        "mode": "none"
+      }
+    }
+  },
+  "roles": {
+    "planner": {
+      "model_ref": "ollama/qwen3.8:27b-q4_K_M@baseline-2026-09-21",
+      "resolved_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "context_tokens": 32768,
+      "output_tokens": 4096
+    },
+    "developer": {
+      "model_ref": "ollama/qwen3.8:27b-q4_K_M@baseline-2026-09-21",
+      "resolved_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "context_tokens": 32768,
+      "output_tokens": 4096
+    },
+    "tester": {
+      "model_ref": "ollama/qwen3.8:27b-q4_K_M@baseline-2026-09-21",
+      "resolved_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "context_tokens": 32768,
+      "output_tokens": 4096
+    },
+    "reviewer": {
+      "model_ref": "ollama/qwen3.8:27b-q4_K_M@baseline-2026-09-21",
+      "resolved_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "context_tokens": 32768,
+      "output_tokens": 4096
+    }
+  },
+  "budgets": {
+    "rounds": 1,
+    "active_seconds": 120,
+    "input_tokens": 8192,
+    "output_tokens": 4096,
+    "external_cost_max": 0,
+    "wait_policy": "human_wait_excluded",
+    "authorization": {
+      "reference": "piloto-local-sin-inferencia-v1",
+      "active_seconds": 120,
+      "input_tokens": 8192,
+      "output_tokens": 4096,
+      "external_cost_max": 0
+    }
+  },
+  "checks": {
+    "format": {
+      "status": "not_applicable",
+      "reason": "Primera simulación del controlador; no certifica entrega de aplicación.",
+      "policy_revision": "local-stub-v1"
+    },
+    "lint": {
+      "status": "not_applicable",
+      "reason": "Primera simulación del controlador; no certifica entrega de aplicación.",
+      "policy_revision": "local-stub-v1"
+    },
+    "types": {
+      "status": "not_applicable",
+      "reason": "Primera simulación del controlador; no certifica entrega de aplicación.",
+      "policy_revision": "local-stub-v1"
+    },
+    "unit": {
+      "status": "required",
+      "commands": [
+        "unit"
+      ]
+    },
+    "integration": {
+      "status": "not_applicable",
+      "reason": "Primera simulación del controlador; no certifica entrega de aplicación.",
+      "policy_revision": "local-stub-v1"
+    },
+    "e2e": {
+      "status": "not_applicable",
+      "reason": "Primera simulación del controlador; no certifica entrega de aplicación.",
+      "policy_revision": "local-stub-v1"
+    },
+    "build": {
+      "status": "not_applicable",
+      "reason": "Primera simulación del controlador; no certifica entrega de aplicación.",
+      "policy_revision": "local-stub-v1"
+    }
+  },
+  "approval_policy": {
+    "revision": "local-stub-v1",
+    "actions": [
+      "local_stub"
+    ],
+    "reviewers": [
+      "human"
+    ],
+    "trusted_evidence": [
+      "controller_suite",
+      "stub_adapter"
+    ]
+  },
+  "deployment_policy": {
+    "mode": "disabled",
+    "environments": []
+  },
+  "allowed_resources": {
+    "repositories": [],
+    "notion_pages": [],
+    "linear_projects": [],
+    "postgresql": [],
+    "coolify": []
+  },
+  "secrets_refs": []
+}

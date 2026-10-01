@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "repository": "gastonortigoza/agentapp",
+  "workflow_path": ".github/workflows/ci.yml",
+  "app_id": 15368,
+  "required_jobs": [
+    "pilot-tests"
+  ],
+  "trusted_files": {
+    ".github/workflows/ci.yml": "f1372a8cd473c38d753dabe47600c9785b757c8a",
+    "tests/test_status_summary.py": "9c856bcab1f02008b4de85b7041ecca8268cdb34"
+  }
+}

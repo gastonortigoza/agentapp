@@ -1,0 +1,447 @@
+{
+  "description": "60 consultas curadas: 20 piloto y 40 holdout prefijadas. No son consultas de usuarios reales; corpus pequeño, resultados preliminares.",
+  "sources": {
+    "virtualizacion": "https://www.asus.com/ca-en/support/faq/1045141/",
+    "gpu": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "contexto": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "thinking": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "limites": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "tester": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "sandbox": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "git": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "logs": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "backup": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "mtp": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "embeddings": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "metricas": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "qdrant": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "rag": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md",
+    "social": "https://www.incibe.es/empresas/blog/tematicas-ingenieria-social-base-mayoria-incidentes-seguridad",
+    "canales": "https://www.nist.gov/blogs/cybersecurity-insights/phishing-resistance-protecting-keys-your-kingdom",
+    "otp": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+    "verificar": "https://www.ftc.gov/business-guidance/resources/protecting-personal-information-guide-business",
+    "evidencia": "C:/Users/gasto/Downloads/plan_implementacion_ia_local_v5 (1).md"
+  },
+  "queries": [
+    {
+      "query": "Docker dice que no detecta virtualización, ¿qué activo?",
+      "relevant": [
+        "virtualizacion"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Where is the AMD BIOS virtualization setting?",
+      "relevant": [
+        "virtualizacion"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué significa SVM Mode para ejecutar contenedores?",
+      "relevant": [
+        "virtualizacion"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cómo compruebo que Ollama usa toda la GPU?",
+      "relevant": [
+        "gpu"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Which accelerator backend is currently used on this AMD machine?",
+      "relevant": [
+        "gpu"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cuánta memoria tiene la tarjeta RX 7900 XTX?",
+      "relevant": [
+        "gpu"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Con qué ventana de contexto arrancan las pruebas?",
+      "relevant": [
+        "contexto"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Why can a larger context consume more VRAM?",
+      "relevant": [
+        "contexto"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cuándo conviene adoptar 64K en lugar de 32K?",
+      "relevant": [
+        "contexto"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qwen think es lo mismo que CrewAI planning?",
+      "relevant": [
+        "thinking"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "What controls the states and transitions of the agent workflow?",
+      "relevant": [
+        "thinking"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué tres capas de razonamiento y control hay que distinguir?",
+      "relevant": [
+        "thinking"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cuántas rondas puede intentar el Flow?",
+      "relevant": [
+        "limites"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "What happens after three unsuccessful development rounds?",
+      "relevant": [
+        "limites"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cuál es el límite de tiempo y de iteraciones de cada agente?",
+      "relevant": [
+        "limites"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué evidencia tiene que devolver el ejecutor de tests?",
+      "relevant": [
+        "tester"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Can an agent approve code without running tests?",
+      "relevant": [
+        "tester"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Quién ejecuta las pruebas y quién interpreta el resultado?",
+      "relevant": [
+        "tester"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Dónde se ejecuta el código generado por el agente?",
+      "relevant": [
+        "sandbox"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Does the code sandbox have network access?",
+      "relevant": [
+        "sandbox"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cuánto puede durar un test antes de detenerlo?",
+      "relevant": [
+        "sandbox"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué comandos Git pueden leer los agentes?",
+      "relevant": [
+        "git"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Are force pushes allowed automatically?",
+      "relevant": [
+        "git"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué comprobación se hace antes de guardar un commit?",
+      "relevant": [
+        "git"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cómo relaciono logs de una misma ejecución?",
+      "relevant": [
+        "logs"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Which observability fields identify the model and agent?",
+      "relevant": [
+        "logs"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Se deben registrar contraseñas para depurar un agente?",
+      "relevant": [
+        "logs"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué carpetas debe incluir un respaldo de la IA local?",
+      "relevant": [
+        "backup"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Do backups need to contain all model weights?",
+      "relevant": [
+        "backup"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cómo se deben proteger las credenciales de un backup?",
+      "relevant": [
+        "backup"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué hay que medir al probar el modelo MTP?",
+      "relevant": [
+        "mtp"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Should MTP always replace the baseline model?",
+      "relevant": [
+        "mtp"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cómo decido si la predicción de múltiples tokens conviene?",
+      "relevant": [
+        "mtp"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué modelo convierte los documentos en vectores?",
+      "relevant": [
+        "embeddings"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Which embedding model is the initial choice?",
+      "relevant": [
+        "embeddings"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Para qué sirven los embeddings de las consultas?",
+      "relevant": [
+        "embeddings"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cuáles son las metas de calidad de recuperación?",
+      "relevant": [
+        "metricas"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "How many questions are needed for the retrieval pilot?",
+      "relevant": [
+        "metricas"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Son universales los umbrales de Recall y MRR del plan?",
+      "relevant": [
+        "metricas"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cómo persisten los vectores después de reiniciar Docker?",
+      "relevant": [
+        "qdrant"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Which Qdrant ports should be bound to localhost?",
+      "relevant": [
+        "qdrant"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué mecanismo respalda las colecciones vectoriales?",
+      "relevant": [
+        "qdrant"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué pasos transforma un documento en una respuesta RAG?",
+      "relevant": [
+        "rag"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Which document metadata must be retained?",
+      "relevant": [
+        "rag"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Dónde encaja retrieval antes de generar una respuesta?",
+      "relevant": [
+        "rag"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué es la ingeniería social?",
+      "relevant": [
+        "social"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Does urgency alone prove a message is fraudulent?",
+      "relevant": [
+        "social"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué papel tiene la persuasión en los fraudes?",
+      "relevant": [
+        "social"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cuál es la diferencia entre vishing y smishing?",
+      "relevant": [
+        "canales"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "What is phishing through a telephone call called?",
+      "relevant": [
+        "canales"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cómo se llama el phishing recibido por SMS?",
+      "relevant": [
+        "canales"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Los códigos OTP manuales son resistentes al phishing?",
+      "relevant": [
+        "otp"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Does lack of phishing resistance make MFA useless?",
+      "relevant": [
+        "otp"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué diferencia hay entre OTP y autenticación ligada al dominio?",
+      "relevant": [
+        "otp"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Cómo verifico una solicitud sospechosa de transferencia?",
+      "relevant": [
+        "verificar"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Should I call the number included in a suspicious email?",
+      "relevant": [
+        "verificar"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué significa verificar por un canal independiente conocido?",
+      "relevant": [
+        "verificar"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué debe guardar el Evidence Store?",
+      "relevant": [
+        "evidencia"
+      ],
+      "split": "pilot"
+    },
+    {
+      "query": "Do two pages from one publisher count as independent sources?",
+      "relevant": [
+        "evidencia"
+      ],
+      "split": "holdout"
+    },
+    {
+      "query": "¿Qué debe hacer el verificador para evitar una cámara de eco?",
+      "relevant": [
+        "evidencia"
+      ],
+      "split": "holdout"
+    }
+  ]
+}

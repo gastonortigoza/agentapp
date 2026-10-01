@@ -1,0 +1,20 @@
+[project]
+name = "local-ai-lab"
+version = "0.1.0"
+description = "Agentes locales verificables sobre Ollama"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "crewai[litellm]==1.15.22",
+    "qdrant-client==1.19.1",
+    "PyYAML==6.0.3",
+    "mcp==1.28.1",
+    "beautifulsoup4==4.14.3",
+    "httpx==0.28.1",
+    "jsonschema==4.26.0",
+]
+
+[dependency-groups]
+dev = ["pytest==9.1.1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

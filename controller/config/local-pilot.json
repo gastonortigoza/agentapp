@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.1",
+  "project": {
+    "name": "resumen-de-estados-local-v1",
+    "repository": "gastonortigoza/agentapp",
+    "base_ref": "local-ai-setup",
+    "resolved_base_sha": "d6be382560d2cfe8e61263c2d6950543e02f8782"
+  },
+  "runtimes": [
+    {
+      "language": "python",
+      "version": "3.12.14",
+      "package_manager": "uv",
+      "package_manager_version": "0.11.33"
+    }
+  ],
+  "commands": {
+    "unit": {
+      "argv": [
+        "python",
+        "-I",
+        "-c",
+        "import sys,unittest; sys.path.insert(0,'/work'); s=unittest.defaultTestLoader.discover('/work',pattern='test_solution.py'); r=unittest.TextTestRunner(verbosity=2).run(s); sys.exit(0 if r.wasSuccessful() and r.testsRun>0 else 1)"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 60,
+      "max_retries": 0,
+      "network_profile": "offline"
+    }
+  },
+  "services_required": [],
+  "paths": {
+    "allowed_write": [
+      "solution.py"
+    ],
+    "denied_write": [
+      ".git",
+      ".github",
+      "config",
+      "schemas",
+      "controller.py",
+      "manifest.py",
+      "agent.py",
+      "tests",
+      "pyproject.toml",
+      "uv.lock"
+    ],
+    "links": "deny"
+  },
+  "limits": {
+    "memory_mib": 512,
+    "cpu_cores": 1,
+    "processes": 64,
+    "disk_mib": 128,
+    "time_seconds": 60,
+    "network_profiles": {
+      "offline": {
+        "mode": "none"
+      }
+    }
+  },
+  "roles": {
+    "planner": {
+      "model_ref": "ollama/qwen3.8:27b-q4_K_M@baseline-2026-09-21",
+      "resolved_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "context_tokens": 8192,
+      "output_tokens": 384
+    },
+    "developer": {
+      "model_ref": "ollama/qwen3.8:27b-q4_K_M@baseline-2026-09-21",
+      "resolved_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "context_tokens": 8192,
+      "output_tokens": 1536
+    },
+    "tester": {
+      "model_ref": "ollama/qwen3.8:27b-q4_K_M@baseline-2026-09-21",
+      "resolved_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "context_tokens": 8192,
+      "output_tokens": 384
+    },
+    "reviewer": {
+      "model_ref": "ollama/qwen3.8:27b-q4_K_M@baseline-2026-09-21",
+      "resolved_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "context_tokens": 8192,
+      "output_tokens": 512
+    }
+  },
+  "budgets": {
+    "rounds": 1,
+    "active_seconds": 600,
+    "input_tokens": 32768,
+    "output_tokens": 3072,
+    "external_cost_max": 0,
+    "wait_policy": "human_wait_excluded",
+    "authorization": {
+      "reference": "piloto-local-autorizado-2026-09-21-v1",
+      "active_seconds": 600,
+      "input_tokens": 32768,
+      "output_tokens": 3072,
+      "external_cost_max": 0
+    }
+  },
+  "checks": {
+    "format": {
+      "status": "not_applicable",
+      "reason": "Piloto de función pura Python; suite de contrato y revisión obligatorias.",
+      "policy_revision": "local-agents-v1"
+    },
+    "lint": {
+      "status": "not_applicable",
+      "reason": "Piloto de función pura Python; suite de contrato y revisión obligatorias.",
+      "policy_revision": "local-agents-v1"
+    },
+    "types": {
+      "status": "not_applicable",
+      "reason": "Piloto de función pura Python; suite de contrato y revisión obligatorias.",
+      "policy_revision": "local-agents-v1"
+    },
+    "unit": {
+      "status": "required",
+      "commands": [
+        "unit"
+      ]
+    },
+    "integration": {
+      "status": "not_applicable",
+      "reason": "Piloto de función pura Python; suite de contrato y revisión obligatorias.",
+      "policy_revision": "local-agents-v1"
+    },
+    "e2e": {
+      "status": "not_applicable",
+      "reason": "Piloto de función pura Python; suite de contrato y revisión obligatorias.",
+      "policy_revision": "local-agents-v1"
+    },
+    "build": {
+      "status": "not_applicable",
+      "reason": "Piloto de función pura Python; suite de contrato y revisión obligatorias.",
+      "policy_revision": "local-agents-v1"
+    }
+  },
+  "approval_policy": {
+    "revision": "local-agents-v1",
+    "actions": [
+      "local_inference",
+      "sandbox_tests"
+    ],
+    "reviewers": [
+      "local_reviewer",
+      "human_after_delivery"
+    ],
+    "trusted_evidence": [
+      "controller_suite",
+      "docker_executor",
+      "local_reviewer"
+    ]
+  },
+  "deployment_policy": {
+    "mode": "disabled",
+    "environments": []
+  },
+  "allowed_resources": {
+    "repositories": [],
+    "notion_pages": [],
+    "linear_projects": [],
+    "postgresql": [],
+    "coolify": []
+  },
+  "secrets_refs": [],
+  "pipeline": {
+    "kind": "status_summary_v1",
+    "requirement_sha256": "eec99e7a8d73e2514bbbb588afb68d935e9ea0e938c0eabbda9263f56d5a9f57",
+    "tests_sha256": "f6c6e5c5db0c10d33d68e737ae29dd168f7392ef7527f5567b8e702e20ac0cc3",
+    "docker_image": "python@sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea",
+    "model_timeout_seconds": 120,
+    "limits_scope": "sandbox",
+    "model_memory_policy": "existing_local_service"
+  }
+}
