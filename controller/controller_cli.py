@@ -16,7 +16,8 @@ DATABASE = ROOT/'.state/controller.sqlite'
 def tracked_inputs(root=ROOT):
     paths = {*root.glob('*.py'), *root.glob('*.cmd'), *(root/'tests').glob('*.py'),
              *(root/'schemas').glob('*.json'), root/'pyproject.toml', root/'uv.lock',
-             root/'config/agents.yaml',root/'config/pilot-manifest.json'}
+             root/'config/agents.yaml',root/'config/pilot-manifest.json',root/'config/phase3-input-lock.json',
+             *(root/'fixtures/phase3-contract-v1').glob('*.json')}
     return sorted(str(p.relative_to(root)).replace('\\','/') for p in paths)
 
 
@@ -24,6 +25,9 @@ def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command',required=True)
     sub.add_parser('self-test')
+    phase3=sub.add_parser('phase3-prepare',help='Prepare pinned phase3 input/file plan; no code execution')
+    phase3.add_argument('--bundle',type=Path,default=ROOT/'fixtures/phase3-contract-v1')
+    phase3.add_argument('--plan',type=Path,help='Optional typed planner output to validate')
     check = sub.add_parser('manifest-check')
     check.add_argument('manifest',nargs='?',default=str(ROOT/'config/pilot-manifest.json'))
     run = sub.add_parser('run-stub')
@@ -62,7 +66,12 @@ def main(argv):
     ci.add_argument('job_id')
     args = parser.parse_args(argv)
     try:
-        if args.command=='ci-check':
+        if args.command=='phase3-prepare':
+            controller_gate.require_green()
+            import phase3_prepare
+            plan=phase3_prepare.read_json(args.plan) if args.plan else None
+            result=phase3_prepare.snapshot(args.bundle,ROOT/'.state/phase3/snapshots',plan)
+        elif args.command=='ci-check':
             from github_ci import inspect
             result=inspect(args.job_id)
         elif args.command=='delivery-prepare':

@@ -17,7 +17,8 @@ def source_identity(root=ROOT):
     paths = sorted({*root.glob('*.py'), *root.glob('*.cmd'),
                     *(root/'tests').glob('*.py'), *(root/'schemas').glob('*.json'),
                     root/'pyproject.toml', root/'uv.lock',
-                    *(p for p in (root/'config').glob('*') if p.name in {'agents.yaml','pilot-manifest.json','local-pilot.json','ci-policy.json','github-app.json','phase2.json'})})
+                    *(p for p in (root/'config').glob('*') if p.name in {'agents.yaml','pilot-manifest.json','local-pilot.json','ci-policy.json','github-app.json','phase2.json','phase3-input-lock.json'}),
+                    *(root/'fixtures/phase3-contract-v1').glob('*.json')})
     hashes = {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     packages = {name:importlib.metadata.version(name) for name in ('crewai','jsonschema','PyYAML','pytest')}
     return hashlib.sha256(json.dumps({'files':hashes,'python':sys.version,'packages':packages},sort_keys=True).encode()).hexdigest()

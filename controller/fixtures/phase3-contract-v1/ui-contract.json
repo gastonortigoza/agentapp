@@ -1,0 +1,54 @@
+{
+  "schema": "age31.ui-contract/1",
+  "revision": 1,
+  "root": "/",
+  "pages": [
+    {
+      "path": "/",
+      "behavior": "Public directory without session; registration button. Country/province/zone filters reset descendants and cursor. Labelled Promocionados section above Listado básico; group current API page by plan, no duplicate cards. Clear empty/loading/error states; continuation uses same filter-bound cursor."
+    },
+    {
+      "path": "/personas/:profile_id",
+      "behavior": "GET public detail, main first then other photos and escaped description/location/name/age/gender. WhatsApp button opens exact server E.164 URL.404 for absent/non-public profiles."
+    },
+    {
+      "path": "/registro",
+      "behavior": "Email/password/private birth date; age rule visible18+. On201 continue own profile form, upload photos then plan choice; visible server validation field errors."
+    },
+    {
+      "path": "/ingresar",
+      "behavior": "Login and link to reset request; Session token only memory and secure refresh cookie."
+    },
+    {
+      "path": "/recuperar",
+      "behavior": "Generic forgot-password202 confirmation without account enumeration."
+    },
+    {
+      "path": "/restablecer",
+      "behavior": "Reset token from email, password input; invalid/expired token shows useful422 message. Never log token."
+    },
+    {
+      "path": "/mi-perfil",
+      "behavior": "Authenticated own form, AR hierarchical selectors, any gender free text, libphonenumber MOBILE validation both FE/API; max5 photos, choose/delete principal. Publication request requires complete profile. Expired subscription still permits management."
+    },
+    {
+      "path": "/mi-plan",
+      "behavior": "Basic ARS15000/month and promoted ARS30000/month. In dev/staging prominent Sin cobro — activación de prueba, no card fields; POST activation gets server catalog, generate key per logical attempt and reuse on network retry. Display persisted origin/start/end; no fabricated payment status. Real Rebill flow/cancellation/change added in AGE-40, no such endpoint in this version."
+    }
+  ],
+  "checks_specified": [
+    "UI01 unauthenticated root shows filtered cards and register button; no login redirect",
+    "UI02 selected geography filters BOTH sections, promoted labelled above basic, no duplicate card",
+    "UI03 empty filters result has visible no-coincidences state;503 has retry action preserving filters",
+    "UI04 card opens correct detail/gallery/main photo/description; WhatsApp href matches that profile",
+    "UI05 html/script description renders as text and executes no script",
+    "UI06 registration adult boundary and phone fixed/ambiguous errors shown; server same rule",
+    "UI07 upload/change/delete main updates preview to persisted API result, invalid file never appears",
+    "UI08 basic/promoted simulated choice shows test notice and no card fields; retry same logical key",
+    "UI09 reload or server restart preserves profile/subscription; expiry hides publicly, own form stays accessible",
+    "UI10 at360px and1280px filters/forms/gallery usable without horizontal scroll; labelled controls, keyboard access and announced form errors",
+    "UI11 production simulated choice unavailable and direct endpoint403; no browser flag can enable it"
+  ],
+  "status": "specified_not_executed",
+  "scope": "Vertical contract only; moderation/report/suspension workflow deferred, not invented as implemented"
+}

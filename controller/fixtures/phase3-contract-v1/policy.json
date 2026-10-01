@@ -1,0 +1,16 @@
+{
+  "id": "age31-document-contract-policy",
+  "revision": 1,
+  "scope": "contract_preparation_and_local_document_review",
+  "tools": [],
+  "generated_code_execution": false,
+  "remote_writes": false,
+  "deployment": "disabled",
+  "real_payment_execution": false,
+  "review_rounds_max": 2,
+  "review_calls_max": 16,
+  "uncertain_operation_retry": false,
+  "local_model": "qwen3.8:27b-q4_K_M",
+  "local_model_digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+  "note": "Effective policy for local reviewers only. Codex authorized documentation/ticket updates separate. This policy does not authorize SaaS commands. Controller integration AGE-32 pending."
+}
