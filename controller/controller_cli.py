@@ -28,6 +28,10 @@ def main(argv):
     phase3=sub.add_parser('phase3-prepare',help='Prepare pinned phase3 input/file plan; no code execution')
     phase3.add_argument('--bundle',type=Path,default=ROOT/'fixtures/phase3-contract-v1')
     phase3.add_argument('--plan',type=Path,help='Optional typed planner output to validate')
+    review=sub.add_parser('phase3-review',help='Bounded local correction/review of a file plan; no product execution')
+    review.add_argument('--run-id',required=True)
+    review.add_argument('--seed',type=Path,help='New run only: original typed candidate, possibly defective')
+    review.add_argument('--export',type=Path)
     check = sub.add_parser('manifest-check')
     check.add_argument('manifest',nargs='?',default=str(ROOT/'config/pilot-manifest.json'))
     run = sub.add_parser('run-stub')
@@ -66,7 +70,16 @@ def main(argv):
     ci.add_argument('job_id')
     args = parser.parse_args(argv)
     try:
-        if args.command=='phase3-prepare':
+        if args.command=='phase3-review':
+            controller_gate.require_green()
+            import phase3_review
+            journal=phase3_review.Journal()
+            if args.seed:journal.create(args.run_id,phase3_review.preparation.read_json(args.seed))
+            result=phase3_review.run(journal,args.run_id)
+            if args.export:phase3_review.export(journal,args.run_id,args.export)
+            print(json.dumps(result,ensure_ascii=False,indent=2))
+            return 0 if result['state']=='reviewed_plan' else 2
+        elif args.command=='phase3-prepare':
             controller_gate.require_green()
             import phase3_prepare
             plan=phase3_prepare.read_json(args.plan) if args.plan else None
