@@ -1,0 +1,2 @@
+# Frozen documentary artifacts are bound to their exact UTF-8 bytes by SHA256.
+/docs/phase3/age31/v1/** -text
