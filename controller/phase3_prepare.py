@@ -1,5 +1,6 @@
 """Pinned structured input/file planning. No command dispatcher or code execution."""
 import hashlib
+from functools import lru_cache
 from pathlib import Path, PurePosixPath
 import re
 from jsonschema import Draft202012Validator
@@ -26,6 +27,17 @@ def read_json(path):
         fail('input_too_large', '/', 'Use the bounded structured input.')
     return manifest.parse(path.read_text(encoding='utf-8'))
 
+@lru_cache(maxsize=8)
+def validate_frozen_contract(schema_text,contract_text):
+    """Cache only immutable bytes already hash-checked on every bundle read.
+
+    Do not cache mutable documents or bypass file/hash checks when resuming.
+    """
+    schema=manifest.parse(schema_text);contract=manifest.parse(contract_text)
+    Draft202012Validator.check_schema(schema)
+    if any(Draft202012Validator(schema).iter_errors(contract)):
+        fail('contract_schema', '/contract', 'Use the accepted typed API/data/manifest contract.')
+
 
 def load_bundle(bundle=FIXTURE):
     lock = read_json(LOCK)
@@ -48,10 +60,7 @@ def load_bundle(bundle=FIXTURE):
     # The source hash binds original user-record bytes, not the PR7 reserialization.
     if bound['requirement']['business_source_sha256'] != lock['files']['business-source.json'] or documents['business-source.json']!=documents['business-decisions.json']:
         fail('business_binding', '/requirement', 'Restore the business decision binding.')
-    schema = documents['contract.schema.json']
-    Draft202012Validator.check_schema(schema)
-    if any(Draft202012Validator(schema).iter_errors(contract)):
-        fail('contract_schema', '/contract', 'Use the accepted typed API/data/manifest contract.')
+    validate_frozen_contract(raw['contract.schema.json'].decode('utf-8'),raw['contract.json'].decode('utf-8'))
     if contract['manifest']['enabled'] is not False or contract['manifest']['deployment']!='disabled':
         fail('execution_not_authorized', '/manifest', 'Keep documentary preparation disabled for execution.')
     policy = documents['policy.json']

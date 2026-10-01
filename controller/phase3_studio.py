@@ -1,4 +1,27 @@
 """Optional projection into existing Studio storage; no decision/control authority."""
+from phase3_review import now
+
+
+class PreflightObserver:
+    """Zero model calls here; do not count referenced review usage twice."""
+    def __init__(self,store):self.store=store
+
+    def __call__(self,result):
+        rec=self.store.get_run(result['id'])
+        identity=result['binding_sha256']
+        if rec:
+            if rec.get('inputs',{}).get('binding_sha256')!=identity:
+                raise ValueError('Studio preflight identity drift')
+            return
+        at=now()
+        rec={'id':result['id'],'workspace_id':'','spec_name':'AGE-32/50 · control previo del ejecutor',
+             'started_at':at,'finished_at':at,'dry_run':False,'trigger':'external:execution_preflight',
+             'tokens':0,'cost':None,'status':'failed','hitl':None,'error':None,
+             'inputs':{'scope':'execution_preflight','binding_sha256':identity,'reviews':result['binding']['reviews']},
+             'result':'Estado: '+result['state']+'. '+result['reason']+' Cero llamadas de modelo y cero comandos de producto en este preflight.'}
+        self.store.create_run(rec)
+        self.store.append_event(result['id'],{'seq':0,'ts':at,'kind':'run.blocked',
+            'evidence_key':'phase3-execution-preflight','task':rec['result'],'agent':None,'ms':0})
 
 
 class StudioObserver:

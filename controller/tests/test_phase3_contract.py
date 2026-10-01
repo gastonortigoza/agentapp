@@ -1,6 +1,7 @@
 import copy
 from pathlib import Path
 import pytest
+from jsonschema import Draft202012Validator
 import controller_gate
 import manifest
 import phase3_prepare as preparation
@@ -52,6 +53,8 @@ def test_accepted_sections_have_no_deterministic_rejections_and_bound_citations(
     ('api','/dtos/PublicCard/email','string','API01','private_public_field'),
     ('api','/routes/0/rule','Apply filters to promoted only','API03','frozen_clause_changed'),
     ('api','/routes/18/status',201,'API02','route_access_status'),
+    ('api','/routes/2/errors',[401],'API02','route_error_contract'),
+    ('api','/routes/2/errors',[400,422],'API02','route_error_contract'),
     ('data','/tables/idempotency/primary_key',['key'],'DATA02','idempotency_scope'),
     ('data','/tables/idempotency/unique',[['payload_hash']],'DATA02','global_idempotency_unique'),
     ('data','/tables/idempotency/columns/payload_hash','text UNIQUE','DATA02','global_idempotency_unique'),
@@ -88,6 +91,33 @@ def test_nullable_array_empty_requests_and_health_primitive_are_valid(env):
     c['dtos']['OwnProfile']['photos']='$Photo[]|null'
     assert contract.defects(c,'api',docs)==[]
     assert c['routes'][6]['request']=={} and c['routes'][18]['response']['status']=='string: ok'
+
+
+def test_error_status_order_can_change_without_changing_the_contract(env):
+    _,_,docs=env;c=copy.deepcopy(docs['contract.json']['api'])
+    c['routes'][2]['errors'].reverse()
+    assert contract.defects(c,'api',docs)==[]
+
+
+def test_writer_format_constrains_error_statuses_without_narrowing_review_acceptance(env):
+    _,_,docs=env;schema=contract.writer_schema('api',docs)
+    Draft202012Validator.check_schema(schema)
+    good=copy.deepcopy(docs['contract.json']['api'])
+    good['dtos']['OwnProfile']['photos']='$Photo[]|null'
+    good['dtos']['Photo']['created_at']='RFC3339 UTC timestamp'
+    Draft202012Validator(schema).validate(good)
+    bad=copy.deepcopy(good);bad['routes'][2]['errors']=[401]
+    with pytest.raises(Exception):Draft202012Validator(schema).validate(bad)
+    # Neither grammar nor reviewer imposes a new route ordering requirement.
+    good['routes'].reverse()
+    Draft202012Validator(schema).validate(good)
+    assert contract.defects(good,'api',docs)==[]
+
+
+def test_non_api_writer_formats_remain_the_pinned_section_schema(env):
+    _,_,docs=env
+    for section in ('data','subscriptions','manifest'):
+        assert contract.writer_schema(section,docs)==contract.schema(section,docs)
 
 
 def test_unrelated_rule_or_stale_candidate_citation_cannot_approve(env):

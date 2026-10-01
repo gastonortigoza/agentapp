@@ -33,6 +33,11 @@ def main(argv):
     review.add_argument('--seed',type=Path,help='New run only: original typed candidate, possibly defective')
     review.add_argument('--export',type=Path)
     review.add_argument('--section',choices=['api','data','subscriptions','manifest'],help='New run only: review a typed documentary section against the frozen contract')
+    execute=sub.add_parser('phase3-check-execution',help='Consume original plan/section reviews at the executor boundary; documentary policy blocks dispatch')
+    execute.add_argument('--preflight-id',required=True)
+    execute.add_argument('--reviews',type=Path,required=True,help='JSON object with original plan/api/data/subscriptions/manifest review IDs')
+    execute.add_argument('--workspace',type=Path,required=True)
+    execute.add_argument('--export',type=Path)
     check = sub.add_parser('manifest-check')
     check.add_argument('manifest',nargs='?',default=str(ROOT/'config/pilot-manifest.json'))
     run = sub.add_parser('run-stub')
@@ -71,7 +76,21 @@ def main(argv):
     ci.add_argument('job_id')
     args = parser.parse_args(argv)
     try:
-        if args.command=='phase3-review':
+        if args.command=='phase3-check-execution':
+            import executor,phase3_review
+            result=executor.run_phase3(phase3_review.Journal(),args.preflight_id,
+                                      phase3_review.preparation.read_json(args.reviews),args.workspace)
+            if args.export:
+                args.export.parent.mkdir(parents=True,exist_ok=True)
+                # Export immutable evidence; an uncertain retry must not replace it.
+                content=manifest.canonical(result)+'\n'
+                try:
+                    with args.export.open('x',encoding='utf-8',newline='\n') as output:output.write(content)
+                except FileExistsError:
+                    if args.export.read_text(encoding='utf-8')!=content:raise ValueError('Existing export differs; preserve the original evidence')
+            print(json.dumps(result,ensure_ascii=False,indent=2))
+            return 2
+        elif args.command=='phase3-review':
             controller_gate.require_green()
             import phase3_review
             journal=phase3_review.Journal()

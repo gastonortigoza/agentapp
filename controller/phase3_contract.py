@@ -46,6 +46,25 @@ def rules(section):
 def schema(section, documents):
     return copy.deepcopy(documents['contract.schema.json']['properties'][section])
 
+def writer_schema(section,documents):
+    """Constrain immutable route facts at generation, then validate again.
+
+    Use array items/oneOf supported by the local grammar converter, not tuple
+    prefixItems. Both writer and reviewer permit equivalent route ordering.
+    References and descriptive type aliases remain subject to semantic checks.
+    """
+    output=schema(section,documents)
+    if section=='api':
+        routes=output['properties']['routes'];item=routes['items']
+        variants=[]
+        for accepted in documents['contract.json']['api']['routes']:
+            variant=copy.deepcopy(item)
+            for member in ('method','path','auth','status','errors'):
+                variant['properties'][member]={'const':accepted[member]}
+            variants.append(variant)
+        routes.update(items={'oneOf':variants},minItems=len(variants),maxItems=len(variants))
+    return output
+
 
 def pointer(parts):
     return ''.join('/'+str(p).replace('~','~0').replace('/','~1') for p in parts)
@@ -76,14 +95,19 @@ def defects(candidate, section, documents):
     if section=='api':
         dtos=candidate.get('dtos',{})
         if isinstance(dtos,dict):
+            for name,fields in accepted['dtos'].items():
+                present=dtos.get(name,{})
+                if isinstance(present,dict):
+                    for field in fields.keys()-present.keys():
+                        fail('API01',pointer(['dtos',name,field]),'required_dto_field','Restore the field required by the accepted DTO.')
             def references(value,parts):
                 if isinstance(value,dict):
                     for k,v in value.items():references(v,parts+[k])
                 elif isinstance(value,list):
                     for i,v in enumerate(value):references(v,parts+[i])
                 elif isinstance(value,str) and value.startswith('$'):
-                    name=value[1:].removesuffix('|null').removesuffix('[]')
-                    if name not in dtos:fail('API01',pointer(parts),'undefined_dto','Use a defined DTO, including nullable/array suffixes, or an explicit primitive.')
+                    match=re.fullmatch(r'\$([A-Za-z][A-Za-z0-9_]*)(?:\[\])?(?:\|null)?',value)
+                    if not match or match[1] not in dtos:fail('API01',pointer(parts),'undefined_dto','Use a defined DTO, including nullable/array suffixes, or an explicit primitive.')
             references(candidate,[])
             for name in ('PublicCard','PublicProfile'):
                 public=dtos.get(name,{})
@@ -106,6 +130,18 @@ def defects(candidate, section, documents):
                 if found is None:fail('API02','/routes','missing_route','Restore '+key[0]+' '+key[1]+'.')
                 elif any(found[1].get(k)!=r[k] for k in ('auth','status')):
                     fail('API02',f'/routes/{found[0]}','route_access_status','Restore accepted auth and success status for this route.')
+                if found:
+                    errors=found[1].get('errors')
+                    if isinstance(errors,list) and (any(type(code) is not int for code in errors) or sorted(errors)!=sorted(r['errors'])):
+                        fail('API02',pointer(['routes',found[0],'errors']),'route_error_contract','Restore every accepted error status for this route without substituting an unrelated status.')
+                    for member in ('request','response'):
+                        payload=found[1].get(member)
+                        if isinstance(payload,dict):
+                            for field in r[member].keys()-payload.keys():
+                                fail('API02',pointer(['routes',found[0],member,field]),'required_route_field','Restore the accepted route payload field; an accepted empty request remains valid.')
+            for key,(i,_) in by_key.items():
+                if not any((r['method'],r['path'])==key for r in accepted['routes']):
+                    fail('API02',f'/routes/{i}','unsupported_route','Use only routes declared in the accepted vertical.')
             # Locate related routes by identity, not brittle list positions.
             for key in [('GET','/api/profiles'),('GET','/api/profiles/:profile_id'),('GET','/api/me/profile'),('PATCH','/api/me/profile')]:
                 if key in by_key:
@@ -115,6 +151,13 @@ def defects(candidate, section, documents):
     elif section=='data':
         tables=candidate.get('tables',{})
         if isinstance(tables,dict):
+            for name,table in accepted['tables'].items():
+                present=tables.get(name)
+                if not isinstance(present,dict):
+                    fail('DATA01',pointer(['tables',name]),'required_table','Restore the accepted persistence table.')
+                elif isinstance(present.get('columns'),dict):
+                    for column in table['columns'].keys()-present['columns'].keys():
+                        fail('DATA01',pointer(['tables',name,'columns',column]),'required_column','Restore the column required by the accepted persistence contract.')
             for name,t in tables.items():
                 if not isinstance(t,dict) or not isinstance(t.get('columns'),dict):continue
                 columns=t['columns']

@@ -109,7 +109,7 @@ def output_schema(row,op,lock,documents):
     if contract_mode(row):
         import phase3_contract as contract
         section=row['binding']['section']
-        return (contract.schema(section,documents) if op['role']=='developer' else
+        return (contract.writer_schema(section,documents) if op['role']=='developer' else
                 contract.review_schema(row['candidate'],section,documents))
     return plan_schema(lock,documents) if op['role']=='developer' else review_schema()
 

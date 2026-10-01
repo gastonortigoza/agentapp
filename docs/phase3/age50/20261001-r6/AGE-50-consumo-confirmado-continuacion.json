@@ -1,0 +1,24 @@
+{
+  "scope": "continuation_confirmed_model_usage_only",
+  "attempted_operations": 29,
+  "confirmed_model_calls": 28,
+  "input_tokens": 143893,
+  "output_tokens": 23239,
+  "active_ms_all_operations": 841813,
+  "unknown_operations": [
+    {
+      "run_id": "age50-handoff-r5-api-20261001",
+      "seq": 1,
+      "state": "uncertain_operation",
+      "error_type": "HTTPError",
+      "reserved_input": 32768,
+      "reserved_output": 5000
+    }
+  ],
+  "previous_execution_confirmed_model_calls": 16,
+  "cumulative_confirmed_model_calls": 44,
+  "cumulative_input_tokens": 239771,
+  "cumulative_output_tokens": 31035,
+  "cumulative_active_ms_all_operations": 1292622,
+  "previous_preflight_operations_not_sent": 2
+}

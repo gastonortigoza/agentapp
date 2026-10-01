@@ -130,6 +130,7 @@ def main(argv=None):
         from integration_cli import main as integration_main
         return integration_main(argv)
     if argv and argv[0] in {'self-test','manifest-check','run-stub','run-local','pause','resume',
+                           'phase3-prepare','phase3-review','phase3-check-execution',
                            'publication-status','publication-resolve','publication-pause','publication-resume',
                            'pr-prepare','pr-open','pr-status','pr-resolve','pr-pause','pr-resume','delivery-prepare','ci-check'}:
         from controller_cli import main as control_main
