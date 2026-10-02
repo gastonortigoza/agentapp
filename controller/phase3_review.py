@@ -13,7 +13,7 @@ import manifest
 import phase3_prepare as preparation
 from worker_lock import worker_lock
 
-SOURCE_SECTIONS = ('application', 'public_api', 'public_profile')
+SOURCE_SECTIONS = ('application', 'public_api', 'public_profile', 'auth_api', 'auth_pages')
 
 ROOT = Path(__file__).resolve().parent
 DATABASE = ROOT/'.state/phase3/review.sqlite'

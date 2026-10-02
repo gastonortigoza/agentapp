@@ -47,7 +47,7 @@ def main(argv):
     review.add_argument('--run-id',required=True)
     review.add_argument('--seed',type=Path,help='New run only: original typed candidate, possibly defective')
     review.add_argument('--export',type=Path)
-    review.add_argument('--section',choices=['api','data','subscriptions','manifest','application','public_api','public_profile'],help='New run only: review a typed documentary section or bounded source file against the frozen rules')
+    review.add_argument('--section',choices=['api','data','subscriptions','manifest','application','public_api','public_profile','auth_api','auth_pages'],help='New run only: review a typed documentary section or bounded source file against the frozen rules')
     execute=sub.add_parser('phase3-check-execution',help='Consume original plan/section reviews at the executor boundary; documentary policy blocks dispatch')
     execute.add_argument('--preflight-id',required=True)
     execute.add_argument('--reviews',type=Path,required=True,help='JSON object with original plan/api/data/subscriptions/manifest review IDs')

@@ -1,7 +1,7 @@
 """Existing CrewAI roles, one journaled Ollama request per role, no tools."""
 import manifest
 import phase3_prepare as preparation
-from phase3_review import RULES, output_schema as schema_for, contract_mode
+from phase3_review import RULES, output_schema as schema_for, contract_mode, SOURCE_SECTIONS
 
 
 def prompt(row,op,lock,documents):
@@ -13,7 +13,7 @@ def prompt(row,op,lock,documents):
     return instruction
 
 def _prompt(row,op,lock,documents):
-    if row['binding'].get('section') in ('application','public_api','public_profile'):
+    if row['binding'].get('section') in SOURCE_SECTIONS:
         from phase3_source import prompt as code_prompt
         return code_prompt(row,op,documents)
     if contract_mode(row):
@@ -84,7 +84,7 @@ def call_role(row,op,lock,documents):
             return result.get('text') or 'Blocked; no retry permitted.'
     llm=JournaledOllama(model=row['binding']['model'],context=limits['context_tokens'],think=False)
     cfg=lab.CONFIG['agents'][op['role']]
-    scope='application source file' if row['binding'].get('section') in ('application','public_api','public_profile') else 'documentary contract section' if contract_mode(row) else 'structural file plan'
+    scope='application source file' if row['binding'].get('section') in SOURCE_SECTIONS else 'documentary contract section' if contract_mode(row) else 'structural file plan'
     agent=lab.Agent(role=cfg['role']+' · '+scope,goal='Correct or review only the supplied frozen rules and their related evidence.',
         backstory='You separate structural planning from product execution and business decisions.',
         llm=llm,tools=[],allow_delegation=False,reasoning=False,verbose=False,max_iter=1,

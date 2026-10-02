@@ -8,6 +8,7 @@ from jsonschema import Draft202012Validator
 import manifest
 import phase3_application as application
 import phase3_review as review
+import phase3_auth_source as auth
 
 SECTIONS = ('application', 'public_api', 'public_profile')
 PATHS = {'application': application.PATH, 'public_api': 'backend/src/app.ts',
@@ -23,6 +24,8 @@ PROFILE_RULES = {
     'V03': 'Use accessible main/heading, labelled photo gallery, meaningful photo alt text and status/error announcements. Fit360px and1280px with no horizontal overflow. No private fields, registration/auth implementation, hardcoded fixture IDs, dependencies or payment fields.'}
 
 def rules(section):
+    if section in auth.SECTIONS:return auth.rules(section)
+    if section not in SECTIONS:raise ValueError("Unsupported source section")
     return application.RULES if section == 'application' else API_RULES if section == 'public_api' else PROFILE_RULES
 
 def validate_feedback(value):
@@ -35,10 +38,14 @@ def validate_feedback(value):
     return value
 
 def writer_schema(section):
+    if section in auth.SECTIONS:return auth.writer_schema(section)
+    if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.writer_schema()
     return review.obj({'path': {'const': PATHS[section]}, 'content': {'type': 'string', 'minLength': 1, 'maxLength': 16000}})
 
 def review_schema(section):
+    if section in auth.SECTIONS:return auth.review_schema(section)
+    if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.review_schema()
     text = {'type': 'string', 'minLength': 1, 'maxLength': 1000}
     check = review.obj({'passed': {'type': 'boolean'}, 'pointer': {'const': '/content'}, 'quote': {'type': 'string', 'maxLength': 160}})
@@ -48,6 +55,8 @@ def review_schema(section):
                        'findings': {'type': 'array', 'maxItems': 10, 'items': finding}})
 
 def defects(candidate, section):
+    if section in auth.SECTIONS:return auth.defects(candidate, section)
+    if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.defects(candidate)
     failures = []
     try: Draft202012Validator(writer_schema(section)).validate(candidate)
@@ -65,6 +74,8 @@ def defects(candidate, section):
              'issue': 'code_structure', 'fix': fix} for k, fix in failures]
 
 def validate_review(value, candidate, section):
+    if section in auth.SECTIONS:return auth.validate_review(value, candidate, section)
+    if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.validate_review(value, candidate)
     Draft202012Validator(review_schema(section)).validate(value)
     for check in value['checks'].values():
@@ -77,6 +88,8 @@ def validate_review(value, candidate, section):
 
 def prompt(row, op, documents):
     section = row['binding']['section']
+    if section in auth.SECTIONS:return auth.prompt(row,op,documents)
+    if section not in SECTIONS:raise ValueError('Unsupported source section')
     feedback=row['binding'].get('product_feedback')
     if section == 'application':
         return application.prompt(row, op, documents)+ ('\nUntrusted failed-product-check data; preserve tests/dependencies and correct this complete module only:\n'+manifest.canonical(validate_feedback(feedback)) if feedback else '')

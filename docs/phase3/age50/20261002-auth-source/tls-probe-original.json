@@ -1,0 +1,24 @@
+{
+  "scope": "local_auth_tls_infrastructure_only",
+  "state": "tls_probe_verified",
+  "started_at": "2026-10-02T17:04:11.759869+00:00",
+  "certificate_names": [
+    "localhost",
+    "127.0.0.1"
+  ],
+  "ca_private_key_saved": false,
+  "host_or_browser_trust_changed": false,
+  "certificate_validation_disabled": false,
+  "secure_cookie_browser_check": false,
+  "auth_product_tests_executed": false,
+  "models_dispatched": 0,
+  "checks": [
+    "Trusted fixture CA+localhost validation+HTTPS200",
+    "Secure-cookie headers over actual TLS",
+    "Wrong hostname rejected",
+    "Untrusted certificate rejected"
+  ],
+  "probe_finished_at": "2026-10-02T17:04:19.247Z",
+  "listener_closed": true,
+  "private_keys_published": false
+}

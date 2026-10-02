@@ -1,0 +1,11 @@
+{
+  "auth-readiness.json": "2d4b7921cb22a7ffe14f9ab3d7a23a8d1ff2047edfba27d63169d1362d44e6a8",
+  "auth-source-original-1.py.txt": "b989e8cd6badb96b14b6f72d02182c39580d2232412af56366859b32570fcb86",
+  "auth-tls-probe.mjs": "8c4b9d21e462cab2c58b976967edb0b3b1fcfc56a5a52409abd7b9e66609e20b",
+  "registry-qualification.json": "55f48f609585651298bce278bfc59a50ed99ddc3b09c266775fa7cecd83149cc",
+  "RESULTADO.md": "9b6d1a7f3919430bd80bef279ebe8eac9f160b07f2c8a3105f2151d323674bbe",
+  "suite-auth-registry-failed-original.txt": "daae6a19d2e7f5f9c123893ce12074821732198c94dfd6e3c076ac62656f8c88",
+  "suite-auth-registry-final.txt": "5c5332a9d472c11830c982decba2c5b21f1115294688cef346ec2c10dddd8e75",
+  "tls-probe-original.json": "262746c1a80814492bade18d10f94af793ad1419ff06d0ba2fc64e990757346b",
+  "tls-qualification.json": "968b3c306568615b136bc92f4c9015f750e81b226679b705877f3f394d2f9985"
+}
