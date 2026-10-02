@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-02T19:59:57.716578+00:00",
+  "state": "qualified_increment_queue_protocol",
+  "suite_identity": "997e1ca41d0afe3636a6e2b7c6d7c6e41e75c2a39c7f2e728d1e3db32eda8e70",
+  "controller_summary": "714 passed, 1 skipped, 547 warnings in 153.36s (0:02:33)",
+  "new_queue_protocol_tests": 22,
+  "registered_scopes": 6,
+  "supported_dispatch": [
+    "auth-session-core"
+  ],
+  "unsupported_scopes": [
+    "auth-password-reset",
+    "owner-profile",
+    "owner-photos",
+    "simulated-activation",
+    "official-geography"
+  ],
+  "periodic_review_every_completed_attempts": 3,
+  "model_calls": 0,
+  "new_agent_rounds": 0,
+  "auth_product_tests_executed": false,
+  "real_queue_rows_created": 0,
+  "real_auth_execution_rows_created": 0,
+  "previous_profile_budget_reset": false,
+  "preview_http": 200,
+  "active_controller_changed": false,
+  "full_product_acceptance": false,
+  "pending": [
+    "real source proposals/reviews for session core",
+    "nine PG/API and five Chromium product tests",
+    "other five frozen source registries/runtimes/acceptance",
+    "controlled preservation of queue history across future controller revisions",
+    "LAN auth HTTPS and client-IP/rate-limit before activation"
+  ]
+}
