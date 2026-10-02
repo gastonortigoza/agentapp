@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-02T21:45:57.492219+00:00",
+  "suite_identity": "dbc2a0d3dfb068f6429adf0fd8610d82f1ad50eb1c4c21add6ddde8d8f6faa27",
+  "controller_tests": "758 passed, 2 skipped, 553 warnings in 138.54s (0:02:18)",
+  "scope": "prospective_durable_transport_protocol",
+  "new_real_model_calls": 0,
+  "new_completed_agent_rounds": 0,
+  "auth_product_tests_executed": false,
+  "full_product_acceptance": false,
+  "old_queue_id": "age50-saas-queue-20261002",
+  "old_queue_sha256": "1443688a18fee0c30625710a5e467468f5c785e695b39da68ebb4e52f41f7562",
+  "old_queue_state": "uncertain_operation",
+  "old_queue_binding_suite": "b3b0fe28b9c809ed5bb8a6f83bc571edce948d514fbbf25238c3e95ddd697471",
+  "old_queue_used": {
+    "active_ms": 1200000,
+    "calls": 10,
+    "executions": 0,
+    "input_tokens": 327680,
+    "output_tokens": 40000
+  },
+  "old_child_sha256": "6a949edd2ba6181281b0a2fd24682039611d38304dac50cd91e6371a0c2e1e27",
+  "old_operations_sha256": "326b44a64d3f8c600a2dc67a84bafccbfaa748009e7d6446832044efa69bebfc",
+  "old_uncertainty_not_migrated_recovered_or_resent": true,
+  "profile_budget_preserved": true,
+  "historical_uncertain_preserved": true,
+  "new_requests_capture_stream": true,
+  "read_only_reconciliation_only": true,
+  "larger_model_budget": false,
+  "preview_http": 200,
+  "auth_enabled": false,
+  "no_merge_or_deployment": true,
+  "author": "Codex controller/protocol and synthetic tests; no new product proposal"
+}

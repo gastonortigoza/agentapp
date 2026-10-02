@@ -253,6 +253,10 @@ class Journal:
              'digest':documents['policy.json']['local_model_digest'],'limits':limits,
              'rules':rules,'seed_sha256':manifest.identity(candidate)}
         if section is not None:cfg['section']=section
+        import phase3_auth_source as auth
+        if section in auth.SECTIONS:
+            from phase3_transport import PROTOCOL
+            cfg['transport_protocol']=PROTOCOL
         if type(initial_proposal) is not bool:raise ValueError('Invalid initial source proposal')
         if initial_proposal:
             import phase3_auth_source as auth
@@ -377,6 +381,11 @@ class Journal:
 
 def verify_binding(row):
     if manifest.identity(row['binding'])!=row['binding_sha256']:raise ValueError('Binding changed')
+    if 'transport_protocol' in row['binding']:
+        import phase3_auth_source as auth
+        from phase3_transport import PROTOCOL
+        if row['binding'].get('section') not in auth.SECTIONS or row['binding']['transport_protocol']!=PROTOCOL:
+            raise ValueError('Durable transport binding invalid')
     if 'initial_proposal' in row['binding']:
         import phase3_auth_source as auth
         section=row['binding'].get('section')

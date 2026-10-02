@@ -1,0 +1,7 @@
+{
+  "controller/phase3_transport.py": "276aed045b02c22e6ee3ea9c395b3f257c0ee2ac2010383295fcfd3d7931e607",
+  "controller/phase3_roles.py": "441b51655d287a3973569083c811f4035ce0745f0b3c622eca220249e5c0942c",
+  "controller/phase3_review.py": "d7dab5046e53a79866c38548d931b43c540468ab0131d5c294b0c6c57970ef9b",
+  "controller/tests/test_phase3_transport.py": "d9bc6af512d5eb03cf4841b25226de912f355232a6fb33b00b73e812f41a0be0",
+  "controller/PHASE3-TRANSPORTE-DURABLE.md": "040e5dcf393e15eaeada4215994ca8df7a5e68692f2cd07d01f1590029a07860"
+}

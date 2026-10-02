@@ -1,0 +1,31 @@
+{
+  "inspection": {
+    "at": "2026-10-02T21:29:20.105539+00:00",
+    "operator": "Codex",
+    "kind": "transport_timeout_inspection",
+    "child_id": "age50-saas-queue-20261002-v1-r0-auth-api",
+    "original_sha256": "6a949edd2ba6181281b0a2fd24682039611d38304dac50cd91e6371a0c2e1e27",
+    "operations_sha256": "326b44a64d3f8c600a2dc67a84bafccbfaa748009e7d6446832044efa69bebfc",
+    "events_sha256": "fe654e3d93988d7cc309065680308b67af1cefef09ba23b549b673def986e983",
+    "transport_elapsed_ms": 150016,
+    "child_active_ms": 153516,
+    "confirmed_complete_agent_attempts": 1,
+    "periodic_three_round_audit_due": false,
+    "original_text_available": false,
+    "complete_usage_available": false,
+    "transport_stream": false,
+    "durable_response_artifact": false,
+    "original_cannot_be_accepted_or_resent": true,
+    "parent_reservation_retained": true,
+    "next_technical_work": "Prospective durable per-request transport evidence and smaller supported work units; keep existing uncertain inference and all budgets. Do not dispatch it again."
+  },
+  "queue_sha256_after_inspection": "1443688a18fee0c30625710a5e467468f5c785e695b39da68ebb4e52f41f7562",
+  "queue_state": "uncertain_operation",
+  "used": {
+    "active_ms": 1200000,
+    "calls": 10,
+    "executions": 0,
+    "input_tokens": 327680,
+    "output_tokens": 40000
+  }
+}

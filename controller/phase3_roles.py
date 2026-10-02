@@ -57,6 +57,10 @@ def _prompt(row,op,lock,documents):
 def call_role(row,op,lock,documents):
     import lab
     from agent_runtime import transport
+    protocol=row['binding'].get('transport_protocol')
+    if protocol is not None:
+        from phase3_transport import PROTOCOL,transport
+        if protocol!=PROTOCOL:raise ValueError('Unsupported durable transport protocol')
     results=[]
     limits=row['binding']['limits']
     output_schema=schema_for(row,op,lock,documents)
@@ -77,6 +81,9 @@ def call_role(row,op,lock,documents):
             payload={'model':row['binding']['model'],'digest':row['binding']['digest'],'messages':messages,
                      'context_tokens':limits['context_tokens'],'output_tokens':op['reserve_output'],
                      'timeout_seconds':op['timeout_seconds'],'format':output_schema}
+            if protocol is not None:
+                payload['evidence']={'protocol':protocol,'run_id':row['id'],'sequence':op['seq'],
+                  'binding_sha256':row['binding_sha256']}
             op['_record_request'](payload)
             result=transport(payload,op['timeout_seconds']+1)
             result['prompt_sha256']=manifest.identity(messages)
