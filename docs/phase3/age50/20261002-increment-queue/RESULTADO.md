@@ -12,3 +12,4 @@ Autoría Codex: cola, controles y pruebas de protocolo. Propuestas/revisiones fu
 
 El control de bytes antes del commit detectó normalización Git del agent.py preexistente CRLF/mixed. Se preservó el fallo y se añadió una regla -text sólo para ese archivo, conservando exactamente sus bytes calificados. No hubo commit/push ni dispatch de agentes durante el fallo.
 La misma comprobación detectó luego controller_gate.py con CRLF/mixed preexistente. Se extendió -text únicamente a los dos archivos existentes y se conservaron ambos fallos; tampoco cambió el recibo de suite ni el código calificado.
+La revisión final de atributos preservó también la regla *.sql -text preexistente: las reglas nuevas son aditivas. Se guarda su original; la corrección se registra antes del primer push.
