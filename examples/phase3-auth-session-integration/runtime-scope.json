@@ -1,0 +1,12 @@
+{
+  "product_sources_present": false,
+  "dispatch_enabled": false,
+  "product_acceptance": false,
+  "model_calls": 0,
+  "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+  "author": "Codex runtime scaffold; auth.ts/AuthPages.tsx await original agent proposals",
+  "copied_fixture_sha256": {
+    "auth-acceptance.test.mjs": "1612dcf1068035aa22eded92f6fbab8c0d1264ed715569104fb022da0f82c7d1",
+    "schema.sql": "04fd9f494144280fcf619fd4d45ce1b75714e7ef99f38a900f848fec422070a0"
+  }
+}

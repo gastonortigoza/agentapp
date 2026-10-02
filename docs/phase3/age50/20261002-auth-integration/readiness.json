@@ -1,0 +1,26 @@
+{
+  "schema": "agentapp.auth-integration-readiness/1",
+  "state": "trusted_scaffold_qualified_execution_profile_pending",
+  "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+  "root_lock_sha256": "e4c4b4ad25631363aa7518383e1fe337d85b75fe726b622bac0ed9e1c5a756a6",
+  "dispatch_enabled": false,
+  "model_calls": 0,
+  "auth_product_acceptance": false,
+  "qualified_operator_checks": {
+    "adapter": 4,
+    "Chromium_fixture": 9,
+    "gateway": 4
+  },
+  "unexecuted_product_checks": {
+    "original_PG_API": 9,
+    "new_Chromium": 5
+  },
+  "product_entries_unresolved": "require original auth.ts/AuthPages.tsx plus public directory snapshot",
+  "pending": [
+    "auth-specific immutable manifest and isolated PG/API/gateway/Chromium executor",
+    "durable cross-increment queue",
+    "original local-agent proposals/reviews and bounded product acceptance"
+  ],
+  "profile_discrepancy_and_exhausted_budget_preserved": true,
+  "linear_update": "pending_explicit_human_authorization"
+}

@@ -1,0 +1,194 @@
+{
+  "state": "qualified_trusted_gateway",
+  "nonce": "52b90765423b740c22ad10dbe79724aa",
+  "scope": "trusted_gateway_fixture_only",
+  "source_sha256": {
+    "auth-gateway.mjs": "fb2f7123646fe7e39aa5e253e3b702a7616181ac33d9c39a533b114e043e226f",
+    "gateway-fixture.test.mjs": "fc14845f5894cae122c9b696f55a1ad28dcae64ec90eead3e9ecec77ef0e0dd3",
+    "ca.pem": "5005b12e11d915b3a91b688733fb595ff3af0b6fd57f5650f0fab9e0d7a6381e",
+    "server.pem": "f6b0b33b12f91f0e5ca646d732d8f61c0de177a4132399f903893aa661ceffe3"
+  },
+  "model_calls": 0,
+  "product_tests_executed": false,
+  "prior_budget_reset": false,
+  "operations": [
+    {
+      "argv": [
+        "docker",
+        "container",
+        "inspect",
+        "age50-auth-gateway-52b90765423b740c"
+      ],
+      "state": "confirmed",
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "Error response from daemon: No such container: age50-auth-gateway-52b90765423b740c\n",
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 203
+    },
+    {
+      "argv": [
+        "docker",
+        "build",
+        "--network",
+        "none",
+        "--pull=false",
+        "--progress",
+        "plain",
+        "--tag",
+        "age50-auth-gateway-52b90765423b740c-image",
+        "-"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "#0 building with \"desktop-linux\" instance using docker driver\n\n#1 [internal] load remote build context\n#1 DONE 0.0s\n\n#2 copy /context /\n#2 DONE 0.0s\n\n#3 [internal] load metadata for docker.io/library/node@sha256:0d130e2ee18e88e1561375276daced6bff032539200173f2daf48c2e33f38ff5\n#3 DONE 0.0s\n\n#4 [1/2] FROM docker.io/library/node@sha256:0d130e2ee18e88e1561375276daced6bff032539200173f2daf48c2e33f38ff5\n#4 resolve docker.io/library/node@sha256:0d130e2ee18e88e1561375276daced6bff032539200173f2daf48c2e33f38ff5 0.0s done\n#4 CACHED\n\n#5 [2/2] COPY --chown=1000:1000 work/ /work/\n#5 DONE 0.0s\n\n#6 exporting to image\n#6 exporting layers 0.1s done\n#6 exporting manifest sha256:b24cea66297e64313644e1cda7aef144227bfb5951cfc8bcf2128a70790cee3e 0.0s done\n#6 exporting config sha256:587f84cdcc0ef99d8b5fdca070f22092cfac879075fe36b72786f6933fc15928 0.0s done\n#6 exporting attestation manifest sha256:2f74548c0adcf45210cc7adcd710094f3ac06eca0732799f7a01874a57c3a4f7 0.0s done\n#6 exporting manifest list sha256:12c09afa058c476ec6622c1d84dcd6dc3b0f8adb12b8f4346952df4695169061 0.0s done\n#6 naming to docker.io/library/age50-auth-gateway-52b90765423b740c-image:latest done\n#6 unpacking to docker.io/library/age50-auth-gateway-52b90765423b740c-image:latest 0.0s done\n#6 DONE 0.2s\n",
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 985
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "age50-auth-gateway-52b90765423b740c-image"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "stdout": "[\n    {\n        \"Id\": \"sha256:12c09afa058c476ec6622c1d84dcd6dc3b0f8adb12b8f4346952df4695169061\",\n        \"RepoTags\": [\n            \"age50-auth-gateway-52b90765423b740c-image:latest\"\n        ],\n        \"RepoDigests\": [\n            \"age50-auth-gateway-52b90765423b740c-image@sha256:12c09afa058c476ec6622c1d84dcd6dc3b0f8adb12b8f4346952df4695169061\"\n        ],\n        \"Comment\": \"buildkit.dockerfile.v0\",\n        \"Created\": \"2026-10-02T18:13:33.625794024Z\",\n        \"Config\": {\n            \"Env\": [\n                \"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\n                \"NODE_VERSION=22.18.0\",\n                \"YARN_VERSION=1.22.22\"\n            ],\n            \"Entrypoint\": [\n                \"docker-entrypoint.sh\"\n            ],\n            \"Cmd\": [\n                \"node\"\n            ],\n            \"Labels\": {\n                \"agentapp.auth-gateway.nonce\": \"52b90765423b740c22ad10dbe79724aa\"\n            }\n        },\n        \"Architecture\": \"amd64\",\n        \"Os\": \"linux\",\n        \"Size\": 78928093,\n        \"RootFS\": {\n            \"Type\": \"layers\",\n            \"Layers\": [\n                \"sha256:eb5f13bce9936c760b9fa73aeb1b608787daa36106cc888104132e353ed37252\",\n                \"sha256:5e63d79d36027aac3b9fffcdd79aec007ba39bac1fbb918dcd6db5aa41f9c19a\",\n                \"sha256:06769c9c802b79461910d4a68119c97dce29b4e1d1d47039c760aba60e084629\",\n                \"sha256:4f5fd88901b05e59a3cd054b22447a2ad4b13fb964da9489f023ffea11683856\",\n                \"sha256:b54dd33191f2b56314b0cb0e39066c22ec5a18f11f1fcc7a279f319d3da8a49a\",\n                \"sha256:0070d94a13795604ec7372825b7257d55cefa992b3870a2639050d6e89638e20\"\n            ]\n        },\n        \"Metadata\": {\n            \"LastTagTime\": \"2026-10-02T18:13:33.770902093Z\"\n        },\n        \"Descriptor\": {\n            \"mediaType\": \"application/vnd.oci.image.index.v1+json\",\n            \"digest\": \"sha256:12c09afa058c476ec6622c1d84dcd6dc3b0f8adb12b8f4346952df4695169061\",\n            \"size\": 856\n        }\n    }\n]\n",
+      "stderr": "",
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 281
+    },
+    {
+      "argv": [
+        "docker",
+        "create",
+        "--name",
+        "age50-auth-gateway-52b90765423b740c",
+        "--pull",
+        "never",
+        "--network",
+        "none",
+        "--read-only",
+        "--user",
+        "1000:1000",
+        "--cap-drop",
+        "ALL",
+        "--security-opt",
+        "no-new-privileges",
+        "--cpus",
+        "0.4",
+        "--memory",
+        "256m",
+        "--memory-swap",
+        "256m",
+        "--pids-limit",
+        "32",
+        "--log-driver",
+        "none",
+        "--tmpfs",
+        "/tmp:rw,nosuid,nodev,noexec,size=32m,uid=1000,gid=1000",
+        "--label",
+        "agentapp.auth-gateway.nonce=52b90765423b740c22ad10dbe79724aa",
+        "sha256:12c09afa058c476ec6622c1d84dcd6dc3b0f8adb12b8f4346952df4695169061",
+        "node",
+        "-e",
+        "setTimeout(()=>process.exit(0),120000)"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "stdout": "28fe691aa240bb5e94ab829f9199387ef9c05028bdb765db223822c0b613ec4b\n",
+      "stderr": "",
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 265
+    },
+    {
+      "argv": [
+        "docker",
+        "start",
+        "age50-auth-gateway-52b90765423b740c"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "stdout": "age50-auth-gateway-52b90765423b740c\n",
+      "stderr": "",
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 359
+    },
+    {
+      "argv": [
+        "docker",
+        "container",
+        "inspect",
+        "age50-auth-gateway-52b90765423b740c"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "stdout": "[\n    {\n        \"Id\": \"28fe691aa240bb5e94ab829f9199387ef9c05028bdb765db223822c0b613ec4b\",\n        \"Created\": \"2026-10-02T18:13:34.455420314Z\",\n        \"Path\": \"docker-entrypoint.sh\",\n        \"Args\": [\n            \"node\",\n            \"-e\",\n            \"setTimeout(()=\\u003eprocess.exit(0),120000)\"\n        ],\n        \"State\": {\n            \"Status\": \"running\",\n            \"Running\": true,\n            \"Paused\": false,\n            \"Restarting\": false,\n            \"OOMKilled\": false,\n            \"Dead\": false,\n            \"Pid\": 50321,\n            \"ExitCode\": 0,\n            \"Error\": \"\",\n            \"StartedAt\": \"2026-10-02T18:13:34.747793969Z\",\n            \"FinishedAt\": \"0001-01-01T00:00:00Z\"\n        },\n        \"Image\": \"sha256:12c09afa058c476ec6622c1d84dcd6dc3b0f8adb12b8f4346952df4695169061\",\n        \"ResolvConfPath\": \"/var/lib/docker/containers/28fe691aa240bb5e94ab829f9199387ef9c05028bdb765db223822c0b613ec4b/resolv.conf\",\n        \"HostnamePath\": \"/var/lib/docker/containers/28fe691aa240bb5e94ab829f9199387ef9c05028bdb765db223822c0b613ec4b/hostname\",\n        \"HostsPath\": \"/var/lib/docker/containers/28fe691aa240bb5e94ab829f9199387ef9c05028bdb765db223822c0b613ec4b/hosts\",\n        \"LogPath\": \"\",\n        \"Name\": \"/age50-auth-gateway-52b90765423b740c\",\n        \"RestartCount\": 0,\n        \"Driver\": \"overlayfs\",\n        \"Platform\": \"linux\",\n        \"MountLabel\": \"\",\n        \"ProcessLabel\": \"\",\n        \"AppArmorProfile\": \"\",\n        \"ExecIDs\": null,\n        \"HostConfig\": {\n            \"Binds\": null,\n            \"ContainerIDFile\": \"\",\n            \"LogConfig\": {\n                \"Type\": \"none\",\n                \"Config\": {}\n            },\n            \"NetworkMode\": \"none\",\n            \"PortBindings\": {},\n            \"RestartPolicy\": {\n                \"Name\": \"no\",\n                \"MaximumRetryCount\": 0\n            },\n            \"AutoRemove\": false,\n            \"VolumeDriver\": \"\",\n            \"VolumesFrom\": null,\n            \"ConsoleSize\": [\n                0,\n                0\n            ],\n            \"CapAdd\": null,\n            \"CapDrop\": [\n                \"ALL\"\n            ],\n            \"CgroupnsMode\": \"private\",\n            \"Dns\": null,\n            \"DnsOptions\": [],\n            \"DnsSearch\": [],\n            \"ExtraHosts\": null,\n            \"GroupAdd\": null,\n            \"IpcMode\": \"private\",\n            \"Cgroup\": \"\",\n            \"Links\": null,\n            \"OomScoreAdj\": 0,\n            \"PidMode\": \"\",\n            \"Privileged\": false,\n            \"PublishAllPorts\": false,\n            \"ReadonlyRootfs\": true,\n            \"SecurityOpt\": [\n                \"no-new-privileges\"\n            ],\n            \"Tmpfs\": {\n                \"/tmp\": \"rw,nosuid,nodev,noexec,size=32m,uid=1000,gid=1000\"\n            },\n            \"UTSMode\": \"\",\n            \"UsernsMode\": \"\",\n            \"ShmSize\": 67108864,\n            \"Runtime\": \"runc\",\n            \"Isolation\": \"\",\n            \"CpuShares\": 0,\n            \"Memory\": 268435456,\n            \"NanoCpus\": 400000000,\n            \"CgroupParent\": \"\",\n            \"BlkioWeight\": 0,\n            \"BlkioWeightDevice\": [],\n            \"BlkioDeviceReadBps\": [],\n            \"BlkioDeviceWriteBps\": [],\n            \"BlkioDeviceReadIOps\": [],\n            \"BlkioDeviceWriteIOps\": [],\n            \"CpuPeriod\": 0,\n            \"CpuQuota\": 0,\n            \"CpuRealtimePeriod\": 0,\n            \"CpuRealtimeRuntime\": 0,\n            \"CpusetCpus\": \"\",\n            \"CpusetMems\": \"\",\n            \"Devices\": [],\n            \"DeviceCgroupRules\": null,\n            \"DeviceRequests\": null,\n            \"MemoryReservation\": 0,\n            \"MemorySwap\": 268435456,\n            \"MemorySwappiness\": null,\n            \"OomKillDisable\": null,\n            \"PidsLimit\": 32,\n            \"Ulimits\": [],\n            \"CpuCount\": 0,\n            \"CpuPercent\": 0,\n            \"IOMaximumIOps\": 0,\n            \"IOMaximumBandwidth\": 0,\n            \"MaskedPaths\": [\n                \"/proc/acpi\",\n                \"/proc/asound\",\n                \"/proc/interrupts\",\n                \"/proc/kcore\",\n                \"/proc/keys\",\n                \"/proc/latency_stats\",\n                \"/proc/sched_debug\",\n                \"/proc/scsi\",\n                \"/proc/timer_list\",\n                \"/proc/timer_stats\",\n                \"/sys/devices/virtual/powercap\",\n                \"/sys/firmware\"\n            ],\n            \"ReadonlyPaths\": [\n                \"/proc/bus\",\n                \"/proc/fs\",\n                \"/proc/irq\",\n                \"/proc/sys\",\n                \"/proc/sysrq-trigger\"\n            ]\n        },\n        \"GraphDriver\": {\n            \"Data\": null,\n            \"Name\": \"\"\n        },\n        \"Mounts\": [],\n        \"Config\": {\n            \"Hostname\": \"28fe691aa240\",\n            \"Domainname\": \"\",\n            \"User\": \"1000:1000\",\n            \"AttachStdin\": false,\n            \"AttachStdout\": true,\n            \"AttachStderr\": true,\n            \"Tty\": false,\n            \"OpenStdin\": false,\n            \"StdinOnce\": false,\n            \"Env\": [\n                \"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\n                \"NODE_VERSION=22.18.0\",\n                \"YARN_VERSION=1.22.22\"\n            ],\n            \"Cmd\": [\n                \"node\",\n                \"-e\",\n                \"setTimeout(()=\\u003eprocess.exit(0),120000)\"\n            ],\n            \"Image\": \"sha256:12c09afa058c476ec6622c1d84dcd6dc3b0f8adb12b8f4346952df4695169061\",\n            \"Volumes\": null,\n            \"WorkingDir\": \"\",\n            \"Entrypoint\": [\n                \"docker-entrypoint.sh\"\n            ],\n            \"OnBuild\": null,\n            \"Labels\": {\n                \"agentapp.auth-gateway.nonce\": \"52b90765423b740c22ad10dbe79724aa\"\n            },\n            \"StopTimeout\": 1\n        },\n        \"NetworkSettings\": {\n            \"Bridge\": \"\",\n            \"SandboxID\": \"473bb094412d8f78f59189279494700b5f57a8d16ee8fbbccb1ea7df6e8b9b1f\",\n            \"SandboxKey\": \"/var/run/docker/netns/473bb094412d\",\n            \"Ports\": {},\n            \"HairpinMode\": false,\n            \"LinkLocalIPv6Address\": \"\",\n            \"LinkLocalIPv6PrefixLen\": 0,\n            \"SecondaryIPAddresses\": null,\n            \"SecondaryIPv6Addresses\": null,\n            \"EndpointID\": \"\",\n            \"Gateway\": \"\",\n            \"GlobalIPv6Address\": \"\",\n            \"GlobalIPv6PrefixLen\": 0,\n            \"IPAddress\": \"\",\n            \"IPPrefixLen\": 0,\n            \"IPv6Gateway\": \"\",\n            \"MacAddress\": \"\",\n            \"Networks\": {\n                \"none\": {\n                    \"IPAMConfig\": null,\n                    \"Links\": null,\n                    \"Aliases\": null,\n                    \"MacAddress\": \"\",\n                    \"DriverOpts\": null,\n                    \"GwPriority\": 0,\n                    \"NetworkID\": \"db2b9cc65bca714da763ff1eff778abdde894b2b3ace3d52abdf5dc7aba2bb69\",\n                    \"EndpointID\": \"9fe23eb9b1bea35732b9b2ae960051e21170c83bad158ad59fc0e664c703b7a0\",\n                    \"Gateway\": \"\",\n                    \"IPAddress\": \"\",\n                    \"IPPrefixLen\": 0,\n                    \"IPv6Gateway\": \"\",\n                    \"GlobalIPv6Address\": \"\",\n                    \"GlobalIPv6PrefixLen\": 0,\n                    \"DNSNames\": null\n                }\n            }\n        },\n        \"ImageManifestDescriptor\": {\n            \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n            \"digest\": \"sha256:b24cea66297e64313644e1cda7aef144227bfb5951cfc8bcf2128a70790cee3e\",\n            \"size\": 1433,\n            \"platform\": {\n                \"architecture\": \"amd64\",\n                \"os\": \"linux\"\n            }\n        }\n    }\n]\n",
+      "stderr": "",
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 219
+    },
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "age50-auth-gateway-52b90765423b740c",
+        "sh",
+        "-c",
+        "umask 077; cat > /tmp/server-key.pem; chmod 400 /tmp/server-key.pem"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 297
+    },
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "--workdir",
+        "/work",
+        "age50-auth-gateway-52b90765423b740c",
+        "node",
+        "--test",
+        "gateway-fixture.test.mjs"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "stdout": "TAP version 13\n# Subtest: HTTPS public/auth SPA routes remain available without authentication\nok 1 - HTTPS public/auth SPA routes remain available without authentication\n  ---\n  duration_ms: 112.258216\n  type: 'test'\n  ...\n# Subtest: API proxy preserves method/body/origin/cookie/authorization and response cookie flags\nok 2 - API proxy preserves method/body/origin/cookie/authorization and response cookie flags\n  ---\n  duration_ms: 5.771618\n  type: 'test'\n  ...\n# Subtest: caller forwarding headers are stripped before the backend\nok 3 - caller forwarding headers are stripped before the backend\n  ---\n  duration_ms: 68.848359\n  type: 'test'\n  ...\n# Subtest: static symlink/traversal cannot expose files outside root\nok 4 - static symlink/traversal cannot expose files outside root\n  ---\n  duration_ms: 4.021844\n  type: 'test'\n  ...\n1..4\n# tests 4\n# suites 0\n# pass 4\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 400.622214\n",
+      "stderr": "",
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 734
+    }
+  ],
+  "cleanup": [
+    {
+      "kind": "container",
+      "resource": "age50-auth-gateway-52b90765423b740c",
+      "exit_code": 0
+    },
+    {
+      "kind": "image",
+      "resource": "sha256:12c09afa058c476ec6622c1d84dcd6dc3b0f8adb12b8f4346952df4695169061",
+      "exit_code": 0
+    }
+  ],
+  "started_at": "2026-10-02T18:13:32.862885+00:00",
+  "max_active_ms": 120000,
+  "gateway_fixture_tests": 4,
+  "auth_implementation_executed": false,
+  "duration_ms": 4391
+}
