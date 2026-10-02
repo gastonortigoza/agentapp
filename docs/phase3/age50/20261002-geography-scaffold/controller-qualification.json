@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-02T23:50:15.298271+00:00",
+  "suite_identity": "9e9359f6fac91dc48d3c19ebcf50af300447b821f259fd6cd2973889cadb890f",
+  "summary": "838 passed, 3 skipped, 553 warnings in 180.79s (0:03:00)",
+  "scope": "frozen A25 PostgreSQL acceptance scaffold and preparation/source gates",
+  "targeted": "24 scaffold/controller-gate tests passed /1 OS-link skip; actual Node syntax check does not import candidate",
+  "new_model_calls": 0,
+  "product_tests_executed": false,
+  "full_product_acceptance": false,
+  "materializer_implemented": false
+}

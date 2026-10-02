@@ -10,6 +10,7 @@ import uuid
 
 ROOT = Path(__file__).resolve().parent
 RECEIPT = ROOT/'.state/controller-suite.json'
+SELF_TEST_SECONDS = 240
 
 
 def source_identity(root=ROOT):
@@ -40,8 +41,14 @@ def self_test(root=ROOT, receipt=RECEIPT):
     receipt = Path(receipt)
     receipt.parent.mkdir(parents=True, exist_ok=True)
     receipt.unlink(missing_ok=True)
-    proc = subprocess.run([sys.executable,'-m','pytest','-q'],cwd=root,
-                          capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=180)
+    try:
+        proc = subprocess.run([sys.executable,'-m','pytest','-q'],cwd=root,
+                              capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=SELF_TEST_SECONDS)
+    except subprocess.TimeoutExpired as exc:
+        # A timeout must preserve diagnostics without reviving an older green.
+        for output in (exc.stdout,exc.stderr):
+            if output:print(output.decode('utf-8','replace') if isinstance(output,bytes) else output)
+        raise
     print(proc.stdout)
     if proc.returncode or source_identity(root) != before:
         raise ValueError('Suite fallida o revisión modificada durante validación')

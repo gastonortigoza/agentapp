@@ -1,0 +1,9 @@
+Scaffold A25 preparado con14 casos PostgreSQL/API congelados y esquema mínimo de jerarquía AR. Reutiliza7 inputs, incluido lockfile y cuatro manifiestos de dependencia existentes, y101 tarballs verificados sin descarga. Node comprobó sintaxis sin importar el candidato. Consulta READ ONLY del entorno AGE-34 confirmó PostgreSQL18.6 y restricciones de país/provincia/zona; no ejecutó los casos contra fuentes de agente, no creó roles ni modificó datos.
+
+Los tres originales de geografía siguen rechazados por el handoff, sin materializar bytes. Cinco originales totales de la cola se conservan, consumo18calls/347951in/46520out/1541001ms/0exec intacto. Preparación no crea presupuesto/agentes/recursos ni otra ronda; auditoría formal sigue hasta3 de4 cerrados. No se repitió la revalidación agotada ni auth incierta.
+
+Se corrigió la proyección de hashes que sobrescribía los tres originales en vez de ligarlos por ID, antes de crear el recibo. La primera suite completa superó180s y borró el verde anterior. La comprobación local pasa a240s y conserva stdout/stderr parcial al agotar plazo; no cambian150s ni límites de modelos/producto. Regresiones y suite actual en controller-qualification.json. Timeout original conservado.
+
+Faltan materializador aislado con ledger compartido, registro de fuentes financiadas del incremento soportado y fuente aceptada antes de ejecutar. prepared_fixture_only y source_preflight NO habilitan ejecución. Catálogo oficial, UI01/UI02, login y aceptación completa siguen pendientes. Preview permanece con directorio anterior. Sin merge, despliegue, cobros, permisos de servicios o tickets Done. Autoría del scaffold/control/pruebas Codex; ningún código nuevo del producto fue generado en esta etapa.
+
+El control de bytes precommit detectó normalización CRLF/LF en test_controller_gate.py y abortó antes del commit. Un atributo Git específico preserva exactamente el archivo probado; suite y originales no se modificaron.
