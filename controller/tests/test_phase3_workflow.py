@@ -32,6 +32,9 @@ def flow(tmp_path,monkeypatch):
         row=j.get(run)
         if row['state']!='active':return row
         seen.append((run,row['role'],row['binding'].get('product_feedback')))
+        if row['binding'].get('product_feedback') and row['binding'].get('section')=='public_profile':
+            row['candidate']['content']+='\n// Simulated repaired candidate '+run
+            row['candidate_sha256']=manifest.identity(row['candidate'])
         row.update(state='reviewed_plan' if row['binding'].get('section') is None else 'reviewed_application_file' if row['binding']['section'] in source.SECTIONS else 'reviewed_contract_section',calls=1,input_tokens=10,output_tokens=5,active_ms=1)
         op={'state':'confirmed','reserve_input':32768,'reserve_output':5000,'result':{'ok':True,'done':True,'done_reason':'stop','model_digest':row['binding']['digest'],'input_tokens':10,'output_tokens':5}}
         with j.transaction() as db:

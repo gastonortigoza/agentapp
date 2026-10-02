@@ -31,7 +31,15 @@ def main(argv):
     workflow.add_argument('--plan',type=Path)
     workflow.add_argument('--cache',type=Path)
     workflow.add_argument('--parent-id',help='New continuation after a verified controller/input repair; preserve parent global budget and evidence')
+    workflow.add_argument('--review-every',type=int,default=3,help='New run: periodic operator inspection every N completed review/correction attempts; 0 is discrepancies-only mode')
+    workflow.add_argument('--input-amendment',type=Path,help='New terminal-parent continuation only: explicit operator test/fixture repair, preserving all parent consumption')
     workflow.add_argument('--export',type=Path,required=True)
+    audit=sub.add_parser('phase3-flow-audit',help='Record an operator inspection of an exact periodic packet, without overriding product gates')
+    audit.add_argument('--run-id',required=True)
+    audit.add_argument('--packet-digest',required=True)
+    audit.add_argument('--decision',choices=['continue','discrepancy'],required=True)
+    audit.add_argument('--summary',type=Path,required=True)
+    audit.add_argument('--export',type=Path,required=True)
     phase3=sub.add_parser('phase3-prepare',help='Prepare pinned phase3 input/file plan; no code execution')
     phase3.add_argument('--bundle',type=Path,default=ROOT/'fixtures/phase3-contract-v1')
     phase3.add_argument('--plan',type=Path,help='Optional typed planner output to validate')
@@ -98,13 +106,20 @@ def main(argv):
     ci.add_argument('job_id')
     args = parser.parse_args(argv)
     try:
-        if args.command=='phase3-workflow':
+        if args.command=='phase3-flow-audit':
+            import phase3_review,phase3_workflow
+            journal=phase3_review.Journal()
+            result=phase3_workflow.acknowledge_audit(journal,args.run_id,args.packet_digest,args.decision,args.summary.read_text(encoding='utf-8'))
+            phase3_workflow.export(journal,args.run_id,args.export)
+            print(json.dumps({'id':result['id'],'state':result['state'],'last_audited_round':result['last_audited_round']},ensure_ascii=False))
+            return 0 if result['state']=='active' else 2
+        elif args.command=='phase3-workflow':
             import phase3_review,phase3_workflow,phase3_studio
             journal=phase3_review.Journal()
             if any((args.workspace,args.plan,args.cache)):
                 if not all((args.workspace,args.plan,args.cache)):raise ValueError('New workflow requires workspace, plan and cache together')
-                phase3_workflow.create(journal,args.run_id,args.workspace,phase3_review.preparation.read_json(args.plan),args.cache,parent_id=args.parent_id)
-            elif args.parent_id:raise ValueError('Parent continuation requires explicit frozen inputs')
+                phase3_workflow.create(journal,args.run_id,args.workspace,phase3_review.preparation.read_json(args.plan),args.cache,parent_id=args.parent_id,review_every=args.review_every,input_amendment=phase3_review.preparation.read_json(args.input_amendment) if args.input_amendment else None)
+            elif args.parent_id or args.input_amendment:raise ValueError('Parent continuation/amendment requires explicit frozen inputs')
             observers=phase3_studio.configured_observers()
             result=phase3_workflow.run(journal,args.run_id,**observers)
             if observers:

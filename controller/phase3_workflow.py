@@ -40,8 +40,9 @@ def save(journal,row,event=None):
     with journal.transaction() as db:
         db.execute('UPDATE phase3_workflows SET body=? WHERE id=?',(manifest.canonical(row),row['id']))
 
-def create(journal,run_id,workspace,plan,cache,parent_id=None):
+def create(journal,run_id,workspace,plan,cache,parent_id=None,review_every=0,input_amendment=None):
     if not isinstance(run_id,str) or not re.fullmatch(r'[a-z0-9-]{1,55}',run_id):raise ValueError('Bad workflow ID')
+    if type(review_every) is not int or not 0<=review_every<=100:raise ValueError('Bad periodic review interval')
     suite=controller_gate.require_green();lock,docs,_=preparation.load_bundle()
     preparation.validate_plan(plan,lock,docs)
     fingerprint,files=sandbox.capture(workspace,plan)
@@ -49,13 +50,21 @@ def create(journal,run_id,workspace,plan,cache,parent_id=None):
     for path in source.PATHS.values():files[path].decode('utf-8')
     cache_data,receipt=execution.cache_archive(files,cache)
     parent=get(journal,parent_id) if parent_id else None
+    if input_amendment is not None and not parent:raise ValueError('Input amendment requires a terminal parent')
     if parent:
         verify_accounting(parent)
+        verify_audits(parent)
         if parent['state'] not in ('awaiting_discrepancy','needs_external_help','blocked_drift') or any(op['state']!='confirmed' for op in parent['operations']):raise ValueError('Uncertain/active/budget-limited parent cannot be restarted')
-        if parent['binding']['limits']!=LIMITS or parent['binding']['workspace']!=fingerprint or parent['binding']['plan']!=plan:raise ValueError('Continuation must preserve parent budget and original inputs')
+        if parent['binding']['limits']!=LIMITS or parent['binding']['plan']!=plan:raise ValueError('Continuation must preserve parent budget and plan')
+        if input_amendment is None:
+            if parent['binding']['workspace']!=fingerprint:raise ValueError('Continuation must preserve original inputs')
+        else:validate_amendment(parent,fingerprint,input_amendment)
     binding={'suite_identity':suite,'input_identity':manifest.identity(lock),'policy_sha256':manifest.identity(sandbox.POLICY),
         'workspace':fingerprint,'plan':plan,'cache':str(Path(cache).resolve()),
         'cache_sha256':hashlib.sha256(cache_data).hexdigest(),'receipt_sha256':manifest.identity(receipt),'limits':LIMITS}
+    binding['review_every']=review_every
+    binding['audit_start']=len(parent['operations']) if parent else 0
+    if input_amendment is not None:binding['operator_input_amendment']=copy.deepcopy(input_amendment)
     if parent:binding['parent']={'id':parent_id,'sha256':manifest.identity(parent)}
     # Freeze all inputs including tests; only the three registered source modules
     # can be replaced by model output. No test, lock or controller patch is accepted.
@@ -72,7 +81,8 @@ def create(journal,run_id,workspace,plan,cache,parent_id=None):
         'created_at':review.now(),'updated_at':review.now(),'review_index':0,'round':0,'children':{},
         'operations':[],'events':[],'used':{k:0 for k in LIMITS},'product_feedback':None,
         'product_tests_executed':False,'full_product_acceptance':False,'scope':'local_directory_and_public_profile',
-        'recoveries':{},'recovery_feedback':{},'overrides':{}}
+        'recoveries':{},'recovery_feedback':{},'overrides':{},'audits':[],
+        'audit_start':len(parent['operations']) if parent else 0,'last_audited_round':0}
     if parent:
         row['used']=copy.deepcopy(parent['used']);row['operations']=copy.deepcopy(parent['operations'])
         prior_id=parent.get('attention',{}).get('child_id')
@@ -89,10 +99,31 @@ def create(journal,run_id,workspace,plan,cache,parent_id=None):
     save(journal,row,{'kind':'workflow.created'})
     return row
 
+
+def validate_amendment(parent,fingerprint,value):
+    """Explicit operator repair of a fixed test/fixture; keep all prior spend."""
+    if (not isinstance(value,dict) or set(value)!={'reason','paths','parent_fingerprint_sha256'}
+        or not isinstance(value['reason'],str) or not 1<=len(value['reason'])<=1000
+        or not isinstance(value['paths'],list) or not 1<=len(value['paths'])<=10
+        or any(not isinstance(p,str) for p in value['paths']) or len(set(value['paths']))!=len(value['paths'])
+        or value['parent_fingerprint_sha256']!=manifest.identity(parent['binding']['workspace'])):
+        raise ValueError('Invalid operator input amendment')
+    old=parent['binding']['workspace']['files'];new=fingerprint['files']
+    changed={p for p in old if old[p]!=new.get(p)}
+    if set(old)!=set(new) or changed!=set(value['paths']):raise ValueError('Amendment must declare exactly all changed existing inputs')
+    for path in changed:
+        preparation.plan_path(path)
+        if (path in source.PATHS.values() or not (re.fullmatch(r'frontend/e2e/[A-Za-z0-9_/-]+\.spec\.ts',path)
+            or re.fullmatch(r'backend/tests/[A-Za-z0-9_/-]+\.test\.ts',path)
+            or path.startswith('frontend/fixtures/'))):raise ValueError('Only fixed acceptance tests/fixtures may be amended by the operator')
+
 def verify(row):
     binding=row['binding']
     if manifest.identity(binding)!=row['binding_sha256'] or binding['limits']!=LIMITS:raise ValueError('Workflow binding drift')
+    every=binding.get('review_every',0)
+    if type(every) is not int or not 0<=every<=100:raise ValueError('Audit policy drift')
     verify_accounting(row)
+    verify_audits(row)
     if controller_gate.require_green()!=binding['suite_identity']:raise ValueError('Controller drift')
     if manifest.identity(preparation.load_bundle()[0])!=binding['input_identity'] or manifest.identity(sandbox.POLICY)!=binding['policy_sha256']:raise ValueError('Input/policy drift')
     fingerprint,files=sandbox.capture(binding['workspace']['root'],binding['plan'])
@@ -146,6 +177,76 @@ def verified_usage(journal,child):
             or any(type(result.get(k)) is not int or not 0<=result[k]<=op['reserve_'+k.split('_')[0]] for k in ('input_tokens','output_tokens'))):return False
     return True
 
+
+def closed_rounds(row):
+    """One whole task correction/review attempt, not each call or shell command."""
+    start=row.get('audit_start',0)
+    if type(start) is not int or not 0<=start<=len(row['operations']):raise ValueError('Audit origin drift')
+    return [op for op in row['operations'][start:] if op['kind']=='review' and op['state']=='confirmed']
+
+
+def audit_packet(row):
+    rounds=closed_rounds(row);start=row.get('last_audited_round',0)
+    if type(start) is not int or not 0<=start<=len(rounds):raise ValueError('Audit counter drift')
+    return {'schema':'agentapp.phase3-flow-audit/1','workflow_id':row['id'],
+        'binding_sha256':row['binding_sha256'],'from_round':start+1,'through_round':len(rounds),
+        'review_index':row['review_index'],'product_round':row['round'],'used':copy.deepcopy(row['used']),
+        'children':copy.deepcopy(row['children']),
+        'originals':[{'id':op['child_id'],'sha256':op['result_sha256'],'state':op['child_state']} for op in rounds[start:]],
+        'product_tests_executed':row['product_tests_executed'],'full_product_acceptance':False}
+
+
+def verify_audits(row):
+    if row.get('audit_start',0)!=row['binding'].get('audit_start',0):raise ValueError('Audit origin drift')
+    rounds=closed_rounds(row);last=0
+    for audit in row.get('audits',[]):
+        packet=audit['packet'];end=packet['through_round']
+        if (audit['sha256']!=manifest.identity(packet) or packet['workflow_id']!=row['id']
+            or packet['binding_sha256']!=row['binding_sha256'] or packet['from_round']!=last+1
+            or type(end) is not int or not last<end<=len(rounds)
+            or audit['decision'] not in ('continue','discrepancy')):raise ValueError('Audit record drift')
+        expected=[{'id':op['child_id'],'sha256':op['result_sha256'],'state':op['child_state']} for op in rounds[last:end]]
+        if packet['originals']!=expected:raise ValueError('Audit original identities drift')
+        last=end
+    if row.get('last_audited_round',0)!=last:raise ValueError('Audit counter drift')
+
+
+def checkpoint(journal,row):
+    every=row['binding'].get('review_every',0)
+    if not every or len(closed_rounds(row))-row.get('last_audited_round',0)<every:return False
+    if any(op['state']=='in_flight' for op in row['operations']):raise ValueError('Cannot audit an uncertain operation')
+    packet=audit_packet(row)
+    row.update(state='awaiting_flow_audit',reason='Periodic operator audit after completed agent rounds',
+        pending_audit={'packet':packet,'sha256':manifest.identity(packet)})
+    save(journal,row,{'kind':'workflow.periodic_audit','through_round':packet['through_round']})
+    return True
+
+
+def acknowledge_audit(journal,run_id,digest,decision,summary):
+    """Operator inspection; cannot approve rejected code or reset any budget."""
+    if decision not in ('continue','discrepancy') or not isinstance(summary,str) or not 1<=len(summary.encode())<=5000:
+        raise ValueError('Invalid audit decision/summary')
+    with worker_lock(journal.path,'workflow-'+run_id) as owned:
+        if not owned:raise ValueError('Workflow worker busy; audit at the next safe checkpoint')
+        row=get(journal,run_id)
+        previous=next((a for a in row.get('audits',[]) if a['sha256']==digest),None)
+        if previous:
+            if previous['decision']!=decision or previous['summary']!=summary:raise ValueError('Audit replay conflict')
+            return row
+        if row['state']!='awaiting_flow_audit':raise ValueError('No periodic audit awaiting inspection')
+        verify(row);packet=audit_packet(row)
+        if row['pending_audit']!={'packet':packet,'sha256':manifest.identity(packet)} or digest!=manifest.identity(packet):
+            raise ValueError('Stale or altered audit packet')
+        for original in packet['originals']:
+            if manifest.identity(journal.get(original['id']))!=original['sha256']:raise ValueError('Original review changed before audit')
+        row.setdefault('audits',[]).append({'sha256':digest,'packet':packet,'decision':decision,
+            'summary':summary,'at':review.now(),'operator':'Codex/user'})
+        row['last_audited_round']=packet['through_round'];row.pop('pending_audit')
+        if decision=='discrepancy':return stop(journal,row,'awaiting_discrepancy','Operator flow audit: '+summary)
+        row.update(state='active',reason='')
+        save(journal,row,{'kind':'workflow.audit.completed','through_round':packet['through_round']})
+        return row
+
 def feedback(child):
     failures=[op for op in child['operations'] if op.get('state')=='confirmed' and op.get('exit_code') not in (None,0)
               and op.get('stage') in ('be_build','fe_build','unit','e2e') and not op.get('timed_out') and not op.get('truncated')]
@@ -154,6 +255,21 @@ def feedback(child):
     if op['exit_code'] in (125,126,127):return None
     output=(op.get('stdout','')+'\n'+op.get('stderr','')).encode()[-6000:].decode('utf-8','replace')
     return source.validate_feedback({'execution_id':child['id'],'execution_sha256':manifest.identity(child),'stage':op['stage'],'output':output})
+
+
+def unchanged_product(journal,row):
+    """Compare all reviewed sources with the last failed execution's originals."""
+    previous=next((op for op in reversed(row['operations']) if op['kind']=='execution' and op['state']=='confirmed'),None)
+    if not previous or previous['child_id']!=row['product_feedback']['execution_id']:raise ValueError('Missing failed execution lineage')
+    originals={}
+    for op in row['operations'][:previous['seq']]:
+        if op['kind']!='review':continue
+        child=journal.get(op['child_id']);section=child['binding'].get('section')
+        if section in source.SECTIONS:
+            if manifest.identity(child)!=op['result_sha256']:raise ValueError('Failed source original drift')
+            originals[section]=child['candidate']
+    if set(originals)!=set(source.SECTIONS):raise ValueError('Missing failed source originals')
+    return all(journal.get(row['children'][section])['candidate']==originals[section] for section in source.SECTIONS)
 
 def recovery_evidence(journal,child_id):
     """One re-evaluation of a known complete invalid REVIEW, never transport retry."""
@@ -201,6 +317,7 @@ def run(journal,run_id,caller=None,observer=None,review_observer=None,execution_
                 if row['state']!='active':raise
                 return stop(journal,row,'blocked_drift','Source, policy, runtime, input or cache changed')
             if row['state']!='active':return row
+            if checkpoint(journal,row):return row
             started=time.monotonic()
             if observer:
                 try:observer(row)
@@ -251,6 +368,10 @@ def run(journal,run_id,caller=None,observer=None,review_observer=None,execution_
                 row.get('overrides',{}).pop(kind,None);row.get('recovery_feedback',{}).pop(kind,None)
                 row['review_index']+=1;save(journal,row);continue
             child_id=row['id']+'-exec-r'+str(row['round'])
+            if row.get('product_feedback'):
+                try:
+                    if unchanged_product(journal,row):return stop(journal,row,'awaiting_discrepancy','Agents returned identical sources after confirmed product failure; no repeated execution',row['product_feedback']['execution_id'])
+                except ValueError as exc:return stop(journal,row,'blocked_drift',str(exc),row['product_feedback']['execution_id'])
             if pending and pending['child_id']!=child_id:return stop(journal,row,'uncertain_operation','Pending execution identity mismatch',pending['child_id'])
             confirmed=next((item for item in row['operations'] if item['child_id']==child_id and item['state']=='confirmed'),None)
             op=pending or confirmed or reserve(journal,row,child_id,'execution',{'executions':1,'active_ms':sandbox.POLICY['total_seconds']*1000})
@@ -276,7 +397,7 @@ def run(journal,run_id,caller=None,observer=None,review_observer=None,execution_
                 return row
             failed=feedback(child)
             if not failed:return stop(journal,row,'needs_external_help','Infrastructure, cleanup or unsupported failure requires operator help',child_id)
-            if row['round']>=LIMITS['executions']-1:return stop(journal,row,'awaiting_discrepancy','Product checks still fail after bounded agent corrections',child_id)
+            if row['used']['executions']>=LIMITS['executions'] or row['round']>=LIMITS['executions']-1:return stop(journal,row,'awaiting_discrepancy','Product checks still fail after bounded agent corrections; aggregate execution budget exhausted',child_id)
             row.update(round=row['round']+1,review_index=0,product_feedback=failed)
             save(journal,row,{'kind':'workflow.product_feedback','execution_id':child_id,'stage':failed['stage']})
 

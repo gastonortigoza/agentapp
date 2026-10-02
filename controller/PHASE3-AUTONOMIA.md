@@ -14,6 +14,13 @@ build/unidad/E2E con salida completa y recursos limpiados devuelve evidencia
 acotada a los redactores de los tres módulos y exige otra revisión y pruebas.
 Los tests, scaffolds, lockfiles y entradas del contrato quedan congelados.
 
+Si los tres redactores devuelven exactamente las fuentes del último sandbox
+fallido, el controlador eleva discrepancia antes de reservar otra ejecución.
+Un cambio no certifica una reparación: todavía requiere gates y pruebas. El
+agotamiento agregado de ejecuciones se comprueba antes de otra ronda de redactores,
+incluyendo consumo heredado. El prompt exige diagnosticar el fallo confirmado
+aunque la revisión documental previa no haya generado findings.
+
 Una respuesta de revisión completa con citas/formato inválidos admite una sola
 revisión adicional por tarea. La nueva identidad referencia el original y consume
 el presupuesto agregado. Truncación, identidad/consumo no verificables y transporte
@@ -45,9 +52,44 @@ terminal devuelve su resultado vigente sin nuevos pasos. El comando usa Studio
 local si existe/configura su store; un fallo de proyección no decide el avance.
 El padre no duplica los tokens registrados en los hijos.
 
+### Etapa con auditorías cada tres rondas
+
+Los nuevos arranques CLI usan `--review-every 3`. Una ronda es un intento completo
+de corrección/revisión de una tarea, con resultado confirmado; no una llamada
+individual ni un comando Docker. Las operaciones heredadas del padre no se cuentan
+otra vez. Al cerrar3 intentos el worker termina en `awaiting_flow_audit`, sin
+inferencias en vuelo. El paquete ligado al binding conserva identidades/hashes de
+originales, alcance, presupuesto y estado; el checkpoint no pide nueva aprobación
+de negocio ni instrucciones para la siguiente tarea.
+
+Codex inspecciona el paquete y sus originales, registra una nota con
+`phase3-flow-audit --run-id ID --packet-digest SHA --decision continue|discrepancy
+--summary NOTA --export EVIDENCIA` y continúa la misma identidad. La auditoría
+no reemplaza revisión/validadores/pruebas, ni habilita salidas rechazadas, ni
+reinicia consumo. Repetir la misma decisión/nota es idempotente; cambiarla,
+usar un paquete antiguo, modificar originales o saltar el contador se rechaza.
+El modo posterior `--review-every 0` se fija al iniciar una identidad y permite
+que los pasos soportados continúen hasta aceptación/discrepancia/límite, sin
+auditorías periódicas. No se altera una política vigente dentro de un expediente.
+
+En esta etapa el chat tiene seguimiento nativo cada10min. Su revisión se basa
+en rondas cerradas, no en el reloj: despierta, inspecciona checkpoints pendientes,
+registra la auditoría y continúa lo autorizado. El equipo y la aplicación local
+deben estar encendidos. Las revisiones periódicas son de Codex; no se atribuyen
+a CrewAI/Ollama. Fuera del modo provisional, se mantienen las discrepancias
+persistentes y decisiones externas como motivos de intervención.
+
 Una reparación del controlador requiere suite verde nueva y una continuación
 explícita con ID nuevo, mismos inputs y `--parent-id ANTERIOR`. No constituye un
 reset de presupuesto ni una aprobación de evidencias inválidas.
+
+Si la discrepancia demuestra un error del operador en una prueba fija, el padre
+terminado conserva su entrada y resultado. `--input-amendment enmienda.json`
+permite una continuación con entrada nueva, mismo plan y consumo heredado. El
+JSON declara exactamente `reason`, `paths` y `parent_fingerprint_sha256`; sólo
+admite tests de aceptación existentes y fixtures, nunca las fuentes del producto
+ni dependencias. La comparación de hashes exige declarar todos y sólo los archivos
+cambiados. Los agentes siguen sin permiso para editar las pruebas.
 
 ## Estado de calificación
 

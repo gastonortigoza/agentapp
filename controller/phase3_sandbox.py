@@ -35,7 +35,7 @@ POLICY = {'schema': 'agentapp.phase3-local-sandbox-policy/1', 'scope': 'local_sy
           'host_ports': False, 'network': 'shared_loopback_namespace_without_interfaces',
           'dependency_network': False, 'dependency_scripts': False,
           'total_seconds': 900, 'cleanup_seconds': 90, 'input_bytes': 8 * 1024 * 1024, 'cache_bytes': 100 * 1024 * 1024,
-          'minimum_unit_tests': 7, 'minimum_e2e_tests': 8, 'max_files': 200, 'max_packages': 200, 'cpu_total': 2, 'memory_total_mib': 4096,
+          'minimum_unit_tests': 7, 'minimum_e2e_tests': 9, 'max_files': 200, 'max_packages': 200, 'cpu_total': 2, 'memory_total_mib': 4096,
           'node': {'image': NODE, 'cpu': '0.8', 'memory': '1024m', 'pids': '128', 'tmpfs': '512m'},
           'postgres': {'image': POSTGRES, 'cpu': '0.4', 'memory': '768m', 'pids': '64', 'tmpfs': '256m'},
           'browser': {'image': BROWSER, 'node_tool_version': '22.20.0', 'cpu': '0.8', 'memory': '2048m', 'pids': '256', 'tmpfs': '512m'}}

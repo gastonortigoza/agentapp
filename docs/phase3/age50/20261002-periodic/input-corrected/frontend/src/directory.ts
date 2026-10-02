@@ -1,0 +1,3 @@
+export type Card={id:string;display_name:string;plan:'basic'|'promoted';age:number;gender:string;country_id:string;province_id:string;zone_id:string;zone_label:string;description:string;main_photo:{id:string;url:string;is_main:boolean;created_at:string};whatsapp_url:string};
+export function groups(items:Card[]){return {promoted:items.filter(x=>x.plan==='promoted'),basic:items.filter(x=>x.plan==='basic')};}
+export function filters(country:string,province:string,zone:string){const q=new URLSearchParams();if(country)q.set('country_id',country);if(province)q.set('province_id',province);if(zone)q.set('zone_id',zone);return q;}

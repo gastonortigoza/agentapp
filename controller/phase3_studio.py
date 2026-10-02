@@ -25,7 +25,7 @@ class WorkflowObserver:
                 'tokens':0,'cost':None,'status':'observando','hitl':None,'error':None,
                 'inputs':{'scope':row['scope'],'binding_sha256':identity},'result':None}
             self.store.create_run(rec)
-        rec['status']='succeeded' if row['state']=='completed_slice' else 'observando' if row['state']=='active' else 'failed'
+        rec['status']='succeeded' if row['state']=='completed_slice' else 'awaiting_review' if row['state']=='awaiting_flow_audit' else 'observando' if row['state']=='active' else 'failed'
         rec['finished_at']=row['updated_at'] if row['state']!='active' else None
         rec['result']='Estado: '+row['state']+'. Ronda de producto: '+str(row['round'])+'. '+row['reason']+' Autonomía del corte local; aceptación del SaaS completo pendiente. Consumo original en los hijos; padre sin tokens duplicados.'
         self.store.update_run(rec)
