@@ -157,16 +157,16 @@ def test_cleanup_rejects_foreign_resource_without_removal(tmp_path,monkeypatch):
 @pytest.fixture
 def dispatch(tmp_path,monkeypatch):
     journal=review.Journal(tmp_path/'review.sqlite')
-    code={'candidate':{'path':application.PATH,'content':'bounded fixture'}}
-    files={application.PATH:b'bounded fixture'}
+    from phase3_source import PATHS
+    files={path:b'bounded fixture' for path in PATHS.values()}
     monkeypatch.setattr(execution.handoff,'assemble',lambda *a:{'binding':{'suite_identity':'exact'},'plan':{}})
-    monkeypatch.setattr(execution.handoff,'consume',lambda *a:(code,[],None,None))
+    monkeypatch.setattr(execution.handoff,'consume',lambda j,run,kind:({'candidate':{'path':PATHS[kind],'content':'bounded fixture'}},[],None,None))
     monkeypatch.setattr(sandbox,'validate_execution',lambda *a:{})
     monkeypatch.setattr(sandbox,'capture',lambda *a:({},files.copy()))
     monkeypatch.setattr(sandbox,'build_manifest',lambda *a:{})
     monkeypatch.setattr(execution,'cache_archive',lambda *a:(b'',{}))
     monkeypatch.setattr(controller_gate,'require_green',lambda:'exact')
-    return journal,files,lambda:execution.run(journal,'dispatch',{},'source',tmp_path,{},'bound',tmp_path)
+    return journal,files,lambda:execution.run(journal,'dispatch',{},dict(zip(PATHS,PATHS)),tmp_path,{},'bound',tmp_path)
 
 
 def test_interrupted_dispatch_never_resends_operation(dispatch,monkeypatch):

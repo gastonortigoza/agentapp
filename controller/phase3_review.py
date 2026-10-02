@@ -13,6 +13,8 @@ import manifest
 import phase3_prepare as preparation
 from worker_lock import worker_lock
 
+SOURCE_SECTIONS = ('application', 'public_api', 'public_profile')
+
 ROOT = Path(__file__).resolve().parent
 DATABASE = ROOT/'.state/phase3/review.sqlite'
 LIMITS = {'calls':4, 'corrections':2, 'active_seconds':600,
@@ -45,13 +47,44 @@ def plan_schema(lock, documents):
         'stages':{'const':list(preparation.STAGES)}})
 
 
-def review_schema():
+def plan_evidence(candidate):
+    """Bounded exact locations, independent of the model's pass/fail decision."""
+    paths={
+        'P01':['/schema','/requirement_id','/revision','/contract_sha256','/stages'],
+        'P02':[], 'P03':[], 'P04':[], 'P05':[]}
+    if isinstance(candidate,dict) and isinstance(candidate.get('files'),list):
+        for i,entry in enumerate(candidate['files']):
+            if not isinstance(entry,dict):continue
+            base='/files/'+str(i)
+            paths['P02'].append(base+'/path')
+            if entry.get('criteria'):paths['P03'].append(base+'/criteria')
+            if entry.get('path') in {'package.json','package-lock.json','frontend/package.json','frontend/package-lock.json','backend/package.json','backend/package-lock.json'}:paths['P04'].append(base+'/path')
+            paths['P05'].append(base+'/purpose')
+    cards={}
+    for rule,pointers in paths.items():
+        cards[rule]=[]
+        for pointer in pointers[:12]:
+            try:value=resolve_pointer(candidate,pointer)
+            except (ValueError,KeyError,IndexError,TypeError):continue
+            content=value if isinstance(value,str) else manifest.canonical(value)
+            if content:cards[rule].append({'pointer':pointer,'quote':content[:160]})
+        # Missing or malformed members can still be rejected. Root always exists.
+        cards[rule].append({'pointer':'','quote':''})
+    return cards
+
+
+def review_schema(candidate=None):
     text = {'type':'string','minLength':1,'maxLength':1000}
     check = obj({'passed':{'type':'boolean'}, 'pointer':{'type':'string','maxLength':300},
                  'quote':{'type':'string','maxLength':160}})
     finding = obj({'rule':{'enum':list(RULES)},'source':{'const':'planning-rules/1'},
                    'rule_quote':text,'pointer':{'type':'string','maxLength':300},'issue':text,'fix':text})
-    return obj({'checks':obj({rule:check for rule in RULES}),
+    checks={rule:check for rule in RULES}
+    if candidate is not None:
+        checks={rule:{'oneOf':[obj({'passed':{'type':'boolean'} if card['quote'] else {'const':False},
+                    'pointer':{'const':card['pointer']},'quote':{'const':card['quote']}})
+                    for card in cards]} for rule,cards in plan_evidence(candidate).items()}
+    return obj({'checks':obj(checks),
                 'findings':{'type':'array','maxItems':10,'items':finding}})
 
 
@@ -104,23 +137,32 @@ def defects(candidate, lock, documents):
 
 def contract_mode(row):return row['binding'].get('section') is not None
 
+def validate_recovery(value):
+    if (not isinstance(value,dict) or set(value)!={'child_id','result_sha256','validation_error','previous_review'}
+        or not isinstance(value['child_id'],str) or not re.fullmatch(r'[a-z0-9-]{1,100}',value['child_id'])
+        or not isinstance(value['result_sha256'],str) or not re.fullmatch(r'[0-9a-f]{64}',value['result_sha256'])
+        or not isinstance(value['validation_error'],str) or not 1<=len(value['validation_error'])<=1000
+        or not isinstance(value['previous_review'],str) or len(value['previous_review'].encode())>8000):
+        raise ValueError('Invalid review recovery evidence')
+    return value
+
 
 def output_schema(row,op,lock,documents):
-    if row['binding'].get('section')=='application':
-        import phase3_application as application
-        return application.writer_schema() if op['role']=='developer' else application.review_schema()
+    if row['binding'].get('section') in SOURCE_SECTIONS:
+        import phase3_source as application
+        return application.writer_schema(row['binding']['section']) if op['role']=='developer' else application.review_schema(row['binding']['section'])
     if contract_mode(row):
         import phase3_contract as contract
         section=row['binding']['section']
         return (contract.writer_schema(section,documents) if op['role']=='developer' else
                 contract.review_schema(row['candidate'],section,documents))
-    return plan_schema(lock,documents) if op['role']=='developer' else review_schema()
+    return plan_schema(lock,documents) if op['role']=='developer' else review_schema(row['candidate'])
 
 
 def candidate_defects(row,lock,documents):
-    if row['binding'].get('section')=='application':
-        import phase3_application as application
-        return application.defects(row['candidate'])
+    if row['binding'].get('section') in SOURCE_SECTIONS:
+        import phase3_source as application
+        return application.defects(row['candidate'],row['binding']['section'])
     if contract_mode(row):
         import phase3_contract as contract
         return contract.defects(row['candidate'],row['binding']['section'],documents)
@@ -128,9 +170,9 @@ def candidate_defects(row,lock,documents):
 
 
 def checked_review(row,value,documents):
-    if row['binding'].get('section')=='application':
-        import phase3_application as application
-        return application.validate_review(value,row['candidate'])
+    if row['binding'].get('section') in SOURCE_SECTIONS:
+        import phase3_source as application
+        return application.validate_review(value,row['candidate'],row['binding']['section'])
     if contract_mode(row):
         import phase3_contract as contract
         return contract.validate_review(value,row['candidate'],row['binding']['section'],documents)
@@ -187,7 +229,7 @@ class Journal:
             self.save(db,row,{'kind':'state.changed','reason':reason})
         return row
 
-    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None):
+    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None,product_feedback=None,review_recovery=None):
         if not re.fullmatch('[a-z0-9-]{1,100}',run_id):raise ValueError('Bad run ID')
         if len(manifest.canonical(candidate).encode())>24000:raise ValueError('Candidate too large')
         suite=controller_gate.require_green()
@@ -199,9 +241,9 @@ class Journal:
         snapshot=preparation.snapshot(bundle,folder)
         limits,rules=LIMITS,RULES
         if section is not None:
-            if section=='application':
-                import phase3_application as application
-                limits,rules=application.LIMITS,application.RULES
+            if section in SOURCE_SECTIONS:
+                import phase3_source as application
+                limits,rules=application.LIMITS,application.rules(section)
             else:
                 import phase3_contract as contract
                 if section not in contract.SECTIONS:raise ValueError('Unsupported contract section')
@@ -211,6 +253,13 @@ class Journal:
              'digest':documents['policy.json']['local_model_digest'],'limits':limits,
              'rules':rules,'seed_sha256':manifest.identity(candidate)}
         if section is not None:cfg['section']=section
+        if review_recovery is not None:
+            if expected_checks is not None or product_feedback is not None:raise ValueError('Recovery cannot alter fixture or product-feedback control')
+            cfg['review_recovery']=validate_recovery(review_recovery)
+        if product_feedback is not None:
+            if section not in SOURCE_SECTIONS or expected_checks is not None:raise ValueError('Product feedback is only for real source corrections')
+            import phase3_source
+            cfg['product_feedback']=phase3_source.validate_feedback(product_feedback)
         if expected_checks is not None:
             if section is None or not isinstance(expected_checks,dict) or set(expected_checks)!=set(rules) or any(type(v) is not bool for v in expected_checks.values()):
                 raise ValueError('Fixture expectations must match every section rule')
@@ -221,7 +270,12 @@ class Journal:
              'binding':cfg,'binding_sha256':manifest.identity(cfg),
              'snapshot_directory':snapshot['snapshot_directory'], 'execution_authorized':False,
              'product_tests_executed':False,'scope':'contract_fixture_evaluation' if expected_checks is not None else
-             'application_file_review' if section=='application' else 'contract_section_document_review' if section else 'file_plan_structural_review'}
+             'application_file_review' if section in SOURCE_SECTIONS else 'contract_section_document_review' if section else 'file_plan_structural_review'}
+        if product_feedback is not None:
+            first=next(iter(rules));row['role']='developer'
+            row['findings']=[{'rule':first,'source':'directory-code-rules/1' if section=='application' else 'public-source-rules/1',
+                'rule_quote':rules[first],'pointer':'/content','issue':'failed_product_check',
+                'fix':'Correct the failed product check using its supplied evidence. Replace this complete module; preserve tests, dependencies and the accepted contract. Return unchanged content if this module requires no correction.'}]
         with self.transaction() as db:
             db.execute('INSERT INTO plan_runs VALUES(?,?)',(run_id,manifest.canonical(row)))
             self.save(db,row,{'kind':'run.created','seed_sha256':cfg['seed_sha256']})
@@ -295,8 +349,8 @@ class Journal:
                                 row.update(state='evaluated_fixture',fixture_passed=actual==row['binding']['expected_checks'],
                                            reason='Fixture evaluation only; not contract or product acceptance')
                             elif row['findings']:row['role']='developer'
-                            else:row.update(state='reviewed_application_file' if row['binding'].get('section')=='application' else 'reviewed_contract_section' if contract_mode(row) else 'reviewed_plan',
-                                            reason='Scoped source file accepted; sandbox tests pending' if row['binding'].get('section')=='application' else 'Documentary section accepted; no product execution' if contract_mode(row) else 'Structural plan accepted; no product execution')
+                            else:row.update(state='reviewed_application_file' if row['binding'].get('section') in SOURCE_SECTIONS else 'reviewed_contract_section' if contract_mode(row) else 'reviewed_plan',
+                                            reason='Scoped source file accepted; sandbox tests pending' if row['binding'].get('section') in SOURCE_SECTIONS else 'Documentary section accepted; no product execution' if contract_mode(row) else 'Structural plan accepted; no product execution')
                         else:
                             Draft202012Validator(output_schema(row,op,lock,documents)).validate(parsed)
                             row.update(candidate=parsed,candidate_sha256=manifest.identity(parsed),role='reviewer')
@@ -315,11 +369,16 @@ class Journal:
 
 def verify_binding(row):
     if manifest.identity(row['binding'])!=row['binding_sha256']:raise ValueError('Binding changed')
+    if 'review_recovery' in row['binding']:validate_recovery(row['binding']['review_recovery'])
+    if 'product_feedback' in row['binding']:
+        import phase3_source
+        if row['binding'].get('section') not in SOURCE_SECTIONS or 'expected_checks' in row['binding']:raise ValueError('Product feedback binding invalid')
+        phase3_source.validate_feedback(row['binding']['product_feedback'])
     limits,rules=LIMITS,RULES
     if contract_mode(row):
-        if row['binding']['section']=='application':
-            import phase3_application as application
-            limits,rules=application.LIMITS,application.RULES
+        if row['binding']['section'] in SOURCE_SECTIONS:
+            import phase3_source as application
+            limits,rules=application.LIMITS,application.rules(row['binding']['section'])
         else:
             import phase3_contract as contract
             limits,rules=contract.LIMITS,contract.rules(row['binding']['section'])

@@ -1,6 +1,6 @@
 import Fastify from 'fastify';
 import {Pool} from 'pg';
-import {createHash,createHmac,timingSafeEqual,randomUUID} from 'node:crypto';
+import {createHash,createHmac,timingSafeEqual} from 'node:crypto';
 
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 type Query={country_id?:string;province_id?:string;zone_id?:string;cursor?:string;limit?:string};
@@ -47,9 +47,8 @@ export function createApp(pool:Pool,key:string){
   if(key.length<32)throw new Error('Cursor signing key required');
   const app=Fastify({logger:false,bodyLimit:8192});
   app.setErrorHandler((err,req,reply)=>{
-    const requestId=randomUUID();
-    if(err instanceof InputError)return reply.code(err.status).send({error:{code:err.code,message:err.code},request_id:requestId});
-    return reply.code(503).send({error:{code:'service_unavailable',message:'Servicio temporalmente no disponible'},request_id:requestId});
+    if(err instanceof InputError)return reply.code(err.status).send({error:{code:err.code,message:err.code}});
+    return reply.code(503).send({error:{code:'service_unavailable',message:'Servicio temporalmente no disponible'}});
   });
   async function hierarchy(q:Query){
     if(q.country_id&&(await pool.query('SELECT 1 FROM agentapp.countries WHERE id=$1 AND code=\'AR\'',[q.country_id])).rowCount!==1)throw new InputError(422,'geography_invalid');
@@ -74,39 +73,6 @@ export function createApp(pool:Pool,key:string){
       ORDER BY rank DESC,p.created_at DESC,p.id DESC LIMIT $7`,[q.country_id??null,q.province_id??null,q.zone_id??null,boundary?.rank??null,boundary?.at??null,boundary?.id??null,size+1])).rows;
     const page=rows.slice(0,size),last=page.at(-1);
     return {items:page.map(({rank,sort_at,...publicFields})=>publicFields),next_cursor:rows.length>size&&last?cursor({hash:filtersHash(q),rank:last.rank,at:last.sort_at,id:last.id},key):null};
-  });
-  app.get('/api/profiles/:profile_id',async req=>{
-    const {profile_id}=req.params as {profile_id:string};
-    if(!uuid.test(profile_id))throw new InputError(400,'invalid_request');
-    const q=req.query as Record<string,unknown>;
-    if(q&&Object.keys(q).length>0)throw new InputError(400,'invalid_request');
-    
-    const detailQuery = `SELECT p.id,p.display_name,p.gender,p.country_id,p.province_id,p.zone_id,z.name AS zone_label,
-      p.description,EXTRACT(YEAR FROM age((statement_timestamp() AT TIME ZONE 'America/Argentina/Buenos_Aires')::date,u.birth_date))::integer AS age,
-      sub.plan_id AS plan, 'https://wa.me/'||substring(p.phone_e164 from 2) AS whatsapp_url,
-      (SELECT json_agg(json_build_object('id',ph.id,'url','/synthetic-placeholder.png','is_main',ph.is_main,'created_at',ph.created_at) ORDER BY ph.is_main DESC, ph.created_at ASC, ph.id ASC)
-       FROM agentapp.photos ph WHERE ph.profile_id=p.id) AS photos
-      ` + eligible + ` AND p.id = $1`;
-
-    const result = await pool.query(detailQuery, [profile_id]);
-    if(result.rows.length === 0) throw new InputError(404, 'profile_not_found');
-    
-    const row = result.rows[0];
-    const profile = {
-      id: row.id,
-      display_name: row.display_name,
-      gender: row.gender,
-      country_id: row.country_id,
-      province_id: row.province_id,
-      zone_id: row.zone_id,
-      zone_label: row.zone_label,
-      description: row.description,
-      age: row.age,
-      plan: row.plan,
-      whatsapp_url: row.whatsapp_url,
-      photos: row.photos
-    };
-    return { profile };
   });
   return app;
 }

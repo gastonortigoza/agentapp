@@ -29,6 +29,38 @@ def result(value,**changes):
             'text':manifest.canonical(value),'input_tokens':40,'output_tokens':30,**changes}
 
 
+def test_constrained_plan_evidence_rejects_fabrication_and_crossed_pointers(env):
+    from jsonschema import Draft202012Validator, ValidationError
+    _,plan,lock,docs=env
+    cards=review.plan_evidence(plan)
+    value={'checks':{rule:{'passed':True,**next(c for c in items if c['quote'])} for rule,items in cards.items()},'findings':[]}
+    schema=review.output_schema({'candidate':plan,'binding':{}},{'role':'reviewer'},lock,docs)
+    Draft202012Validator(schema).validate(value)
+    review.validate_review(value,plan)
+    fabricated=copy.deepcopy(value);fabricated['checks']['P01']['quote']='invented shorter purpose'
+    with pytest.raises(ValidationError):Draft202012Validator(schema).validate(fabricated)
+    crossed=copy.deepcopy(value);crossed['checks']['P01']['pointer']='/revision'
+    with pytest.raises(ValidationError):Draft202012Validator(schema).validate(crossed)
+    empty=copy.deepcopy(value);empty['checks']['P01']={'passed':True,'pointer':'','quote':''}
+    with pytest.raises(ValidationError):Draft202012Validator(schema).validate(empty)
+
+
+def test_constrained_evidence_preserves_rejection_and_deterministic_veto(env):
+    from jsonschema import Draft202012Validator
+    _,plan,lock,docs=env
+    plan['files']=[f for f in plan['files'] if f['path']!='backend/package-lock.json']
+    cards=review.plan_evidence(plan)
+    value={'checks':{rule:{'passed':True,**next(c for c in items if c['quote'])} for rule,items in cards.items()},'findings':[]}
+    schema=review.review_schema(plan)
+    Draft202012Validator(schema).validate(value)
+    review.validate_review(value,plan)
+    assert any(f['rule']=='P04' for f in review.defects(plan,lock,docs))
+    value['checks']['P04']={'passed':False,'pointer':'','quote':''}
+    value['findings']=[{'rule':'P04','source':'planning-rules/1','rule_quote':review.RULES['P04'],'pointer':'/files','issue':'missing lock','fix':'Include backend lock'}]
+    Draft202012Validator(schema).validate(value)
+    review.validate_review(value,plan)
+
+
 def test_false_approval_is_vetoed_then_agent_replaces_plan_and_is_reviewed(env):
     journal,plan,lock,docs=env
     defective=copy.deepcopy(plan)

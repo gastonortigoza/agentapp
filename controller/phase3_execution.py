@@ -154,18 +154,32 @@ def copy_tar_member(member,path):
     return entry
 
 
+def consume_sources(journal,review_ids,files):
+    from phase3_source import SECTIONS,PATHS
+    if not isinstance(review_ids,dict) or set(review_ids)!=set(SECTIONS) or any(not isinstance(v,str) or not v for v in review_ids.values()):
+        raise ValueError('All public source reviews required')
+    if len(set(review_ids.values()))!=len(SECTIONS):raise ValueError('Source review identities must be distinct')
+    binding={}
+    for section in SECTIONS:
+        code,ops,_,_=handoff.consume(journal,review_ids[section],section)
+        candidate=code['candidate']
+        if candidate['path']!=PATHS[section] or files.get(candidate['path'])!=candidate['content'].encode():
+            raise ValueError('Reviewed source bytes differ from the application:'+section)
+        binding[section]={'id':review_ids[section],'path':candidate['path'],'run_sha256':manifest.identity(code),'ops_sha256':manifest.identity(ops)}
+    return binding
+
+
 def run(journal,run_id,reviews,code_review,workspace,candidate,bound_digest,cache,observer=None):
     if not re.fullmatch(r'[a-z0-9-]{1,100}',run_id):raise ValueError('Bad execution ID')
     with worker_lock(journal.path,'execution-'+run_id) as owned:
         if not owned:raise ValueError('Execution already owned')
         assembled=handoff.assemble(journal,reviews,workspace)
-        code,code_ops,_,_=handoff.consume(journal,code_review,'application')
         actual=sandbox.validate_execution(candidate,workspace,assembled['plan'],bound_digest)
         fingerprint,files=sandbox.capture(workspace,assembled['plan'])
-        if files.get(code['candidate']['path'])!=code['candidate']['content'].encode():raise ValueError('Reviewed source bytes differ from the application')
+        code_binding = consume_sources(journal,code_review,files)
         data=sandbox.archive(files);cache_data,acquisition=cache_archive(files,cache)
         binding={'preflight':assembled['binding'],'manifest_sha256':manifest.identity(actual),
-                 'code_review':{'id':code_review,'run_sha256':manifest.identity(code),'ops_sha256':manifest.identity(code_ops)},
+                 'code_reviews':code_binding,
                  'archive_sha256':hashlib.sha256(data).hexdigest(),'cache_sha256':hashlib.sha256(cache_data).hexdigest(),
                  'acquisition_sha256':manifest.identity(acquisition)}
         prior=get(journal,run_id)
@@ -194,13 +208,14 @@ def run(journal,run_id,reviews,code_review,workspace,candidate,bound_digest,cach
         def check_binding():
             if controller_gate.require_green()!=binding['preflight']['suite_identity']:raise ValueError('Controller drift')
             if sandbox.build_manifest(workspace,assembled['plan'])!=actual:raise ValueError('Code/lock/policy drift during execution')
-        def command(argv,timeout=30,stdin=None,binary=False,allow_failure=False):
+        def command(argv,timeout=30,stdin=None,binary=False,allow_failure=False,stage_name=None):
             check_binding()
             remaining=sandbox.POLICY['total_seconds']-sandbox.POLICY['cleanup_seconds']-(time.monotonic()-started)
             if remaining<=0:raise TimeoutError('Global execution budget exhausted')
             if len(row['operations'])>=100:raise TimeoutError('Operation budget exhausted')
             redacted=[re.sub(r'^(DATABASE_URL|CURSOR_KEY|POSTGRES_PASSWORD)=.*',r'\1=<ephemeral>',arg) for arg in argv]
             op={'seq':len(row['operations']),'argv':redacted,'state':'in_flight','stdin_sha256':hashlib.sha256(stdin).hexdigest() if stdin else None}
+            if stage_name is not None:op['stage']=stage_name
             row['operations'].append(op);save(journal,row)
             result=process(argv,min(timeout,remaining),stdin,200*1024*1024 if binary else MAX_OUTPUT)
             op.update(state='confirmed',**{k:result[k] for k in ('exit_code','duration_ms','timed_out','truncated')})
@@ -236,15 +251,16 @@ def run(journal,run_id,reviews,code_review,workspace,candidate,bound_digest,cach
             if container=='node':args+=['--env','DATABASE_URL=postgresql://age50_app:'+app_password+'@127.0.0.1:5432/age50_test','--env','CURSOR_KEY='+cursor_key]
             args+=[row['resources'][container],*argv]
             if name in ('be','fe'):args.insert(2,'-d')
-            op_index=len(row['operations']);result=command(args,timeout,stdin)
+            op_index=len(row['operations']);result=command(args,timeout,stdin,stage_name=name)
             record={'name':name,'operation':op_index,'exit_code':result['exit_code'],'duration_ms':result['duration_ms']}
             if name=='unit':
                 counts=[int(n) for n in re.findall(r'# tests (\d+)',result['stdout'].decode())]
-                if sum(counts)<5 or re.search(r'# fail [1-9]',result['stdout'].decode()):raise RuntimeError('No complete independent unit/integration check evidence')
+                if sum(counts)<sandbox.POLICY['minimum_unit_tests'] or re.search(r'# (?:fail|skipped|cancelled) [1-9]',result['stdout'].decode()):raise RuntimeError('No complete independent unit/integration check evidence')
                 record['tests']=sum(counts)
             if name=='e2e':
-                if not re.search(r'4 passed',result['stdout'].decode()):raise RuntimeError('No complete integrated browser check evidence')
-                record['tests']=4
+                summary=re.search(r'(\d+) passed',result['stdout'].decode())
+                if not summary or int(summary[1])<sandbox.POLICY['minimum_e2e_tests'] or re.search(r'\d+ (?:failed|skipped|did not run)',result['stdout'].decode()):raise RuntimeError('No complete integrated browser check evidence')
+                record['tests']=int(summary[1])
             if name in ('unit','e2e'):row['product_tests_executed']=True
             row['stages'].append(record);save(journal,row);notify()
         def ready(kind,port,path):

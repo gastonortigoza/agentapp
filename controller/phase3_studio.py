@@ -1,6 +1,41 @@
 """Optional projection into existing Studio storage; no decision/control authority."""
 from phase3_review import now
 
+def configured_observers():
+    """Use the installed local Studio store when explicitly configured/present."""
+    import importlib.util
+    import os
+    from pathlib import Path
+    path=Path(os.environ.get('CREW_AI_STUDIO_STORE','E:/IA/tools/crew-ai-studio/server/store.py'))
+    if not path.is_file():return {}
+    spec=importlib.util.spec_from_file_location('phase3_configured_studio',path)
+    store=importlib.util.module_from_spec(spec);spec.loader.exec_module(store)
+    return {'observer':WorkflowObserver(store),'review_observer':StudioObserver(store),'execution_observer':ExecutionObserver(store)}
+
+class WorkflowObserver:
+    """Project parent task transitions; children retain their own original usage."""
+    def __init__(self,store):self.store=store
+
+    def __call__(self,row):
+        rec=self.store.get_run(row['id']);identity=row['binding_sha256']
+        if rec and rec.get('inputs',{}).get('binding_sha256')!=identity:raise ValueError('Studio workflow identity drift')
+        if not rec:
+            rec={'id':row['id'],'workspace_id':'','spec_name':'AGE-32/50 · coordinación autónoma local',
+                'started_at':row['created_at'],'finished_at':None,'dry_run':False,'trigger':'external:phase3_workflow',
+                'tokens':0,'cost':None,'status':'observando','hitl':None,'error':None,
+                'inputs':{'scope':row['scope'],'binding_sha256':identity},'result':None}
+            self.store.create_run(rec)
+        rec['status']='succeeded' if row['state']=='completed_slice' else 'observando' if row['state']=='active' else 'failed'
+        rec['finished_at']=row['updated_at'] if row['state']!='active' else None
+        rec['result']='Estado: '+row['state']+'. Ronda de producto: '+str(row['round'])+'. '+row['reason']+' Autonomía del corte local; aceptación del SaaS completo pendiente. Consumo original en los hijos; padre sin tokens duplicados.'
+        self.store.update_run(rec)
+        events=self.store.get_events(row['id'],0);known={e.get('evidence_key') for e in events};seq=max((e['seq'] for e in events),default=-1)+1
+        for event in row['events']:
+            key='phase3-workflow-'+str(event['seq'])
+            if key in known:continue
+            self.store.append_event(row['id'],{'seq':seq,'ts':event['at'],'kind':event['kind'],'evidence_key':key,
+                'agent':None,'task':event.get('child_id') or event.get('reason') or event.get('stage') or event['kind'],'ms':None});seq+=1
+
 
 class PreflightObserver:
     """Zero model calls here; do not count referenced review usage twice."""
@@ -59,7 +94,7 @@ class StudioObserver:
         if rec and rec.get('inputs',{}).get('binding_sha256')!=identity:
             raise ValueError('Studio run ID belongs to another identity')
         if not rec:
-            label=('archivo de interfaz' if row['scope']=='application_file_review' else ('evaluación de fixture ' if row['scope']=='contract_fixture_evaluation' else 'sección contractual ')+row['binding']['section'] if row['binding'].get('section') else 'estructura de plan')
+            label=('archivo fuente '+row['binding']['section'] if row['scope']=='application_file_review' else ('evaluación de fixture ' if row['scope']=='contract_fixture_evaluation' else 'sección contractual ')+row['binding']['section'] if row['binding'].get('section') else 'estructura de plan')
             rec={'id':row['id'],'workspace_id':'','spec_name':'AGE-32/50 · '+label,
                  'started_at':row['created_at'],'finished_at':None,'dry_run':False,
                  'trigger':'external:'+row['scope'],'tokens':0,'cost':None,
@@ -74,7 +109,7 @@ class StudioObserver:
                           for op in ops if op['state']=='confirmed'
                           and type(op.get('result',{}).get('input_tokens')) is int
                           and type(op.get('result',{}).get('output_tokens')) is int)
-        label=('archivo de interfaz' if row['scope']=='application_file_review' else ('evaluación de fixture ' if row['scope']=='contract_fixture_evaluation' else 'sección contractual ')+row['binding']['section'] if row['binding'].get('section') else 'estructura de plan')
+        label=('archivo fuente '+row['binding']['section'] if row['scope']=='application_file_review' else ('evaluación de fixture ' if row['scope']=='contract_fixture_evaluation' else 'sección contractual ')+row['binding']['section'] if row['binding'].get('section') else 'estructura de plan')
         rec['result']=(f"Estado: {row['state']}. {row['calls']} llamadas, {row['corrections']} correcciones. "
                        'Sólo '+label+'. Producto y comandos no ejecutados. '+row['reason']) if terminal else None
         self.store.update_run(rec)

@@ -1,0 +1,68 @@
+.........s.............................................................. [ 12%]
+........................................................................ [ 24%]
+........................................................................ [ 37%]
+........................................................................ [ 49%]
+........................................................................ [ 62%]
+........................................................................ [ 74%]
+........................................................................ [ 86%]
+........................................................................ [ 99%]
+....                                                                     [100%]
+============================== warnings summary ===============================
+E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\pydantic_settings\sources\utils.py:47
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\pydantic_settings\sources\utils.py:47: IncompleteFieldDefinitionWarning: Field 'lifespan' has an incomplete definition: its annotation contains an unresolved forward reference, so settings sources may fail to correctly resolve its value. Call `model_rebuild()` on the model where the field is defined, once all the referenced types are defined.
+    warnings.warn(
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\agent\core.py:405: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    if self.function_calling_llm and not isinstance(
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\agent\core.py:413: DeprecationWarning: deprecated
+    if self.allow_code_execution:
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\agent\core.py:424: DeprecationWarning: deprecated
+    if self.reasoning and self.planning_config is None:
+
+tests/test_controller_delivery.py: 36 warnings
+tests/test_local_agents.py: 90 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crew.py:650: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    if self.function_calling_llm and not isinstance(self.function_calling_llm, LLM):
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crews\utils.py:372: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    crew.function_calling_llm,
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crews\utils.py:87: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    if not agent.function_calling_llm:  # type: ignore[attr-defined]
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\agent\core.py:1201: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    function_calling_llm=self.function_calling_llm,
+
+tests/test_controller_delivery.py: 24 warnings
+tests/test_local_agents.py: 60 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crew.py:1675: DeprecationWarning: deprecated
+    if hasattr(agent, "allow_code_execution") and getattr(
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crew.py:1682: DeprecationWarning: deprecated
+    and hasattr(agent, "multimodal")
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crew.py:1683: DeprecationWarning: deprecated
+    and getattr(agent, "multimodal", False)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+579 passed, 1 skipped, 547 warnings in 78.19s (0:01:18)
+
+a77ae35fdedaf4583cfcaea21f1d82a94588b51000f4d459e95fd5b206c7e594

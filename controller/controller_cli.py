@@ -25,6 +25,13 @@ def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command',required=True)
     sub.add_parser('self-test')
+    workflow=sub.add_parser('phase3-workflow',help='Autonomously chain review, source corrections and isolated product checks; stop with a durable dispute packet')
+    workflow.add_argument('--run-id',required=True)
+    workflow.add_argument('--workspace',type=Path,help='New run only: frozen planned scaffold and immutable acceptance tests')
+    workflow.add_argument('--plan',type=Path)
+    workflow.add_argument('--cache',type=Path)
+    workflow.add_argument('--parent-id',help='New continuation after a verified controller/input repair; preserve parent global budget and evidence')
+    workflow.add_argument('--export',type=Path,required=True)
     phase3=sub.add_parser('phase3-prepare',help='Prepare pinned phase3 input/file plan; no code execution')
     phase3.add_argument('--bundle',type=Path,default=ROOT/'fixtures/phase3-contract-v1')
     phase3.add_argument('--plan',type=Path,help='Optional typed planner output to validate')
@@ -32,7 +39,7 @@ def main(argv):
     review.add_argument('--run-id',required=True)
     review.add_argument('--seed',type=Path,help='New run only: original typed candidate, possibly defective')
     review.add_argument('--export',type=Path)
-    review.add_argument('--section',choices=['api','data','subscriptions','manifest','application'],help='New run only: review a typed documentary section or bounded source file against the frozen rules')
+    review.add_argument('--section',choices=['api','data','subscriptions','manifest','application','public_api','public_profile'],help='New run only: review a typed documentary section or bounded source file against the frozen rules')
     execute=sub.add_parser('phase3-check-execution',help='Consume original plan/section reviews at the executor boundary; documentary policy blocks dispatch')
     execute.add_argument('--preflight-id',required=True)
     execute.add_argument('--reviews',type=Path,required=True,help='JSON object with original plan/api/data/subscriptions/manifest review IDs')
@@ -45,7 +52,7 @@ def main(argv):
     sandbox=sub.add_parser('phase3-run-sandbox',help='Execute a narrow local synthetic slice; immutable documentary policy stays disabled')
     sandbox.add_argument('--run-id',required=True)
     sandbox.add_argument('--reviews',type=Path,required=True)
-    sandbox.add_argument('--code-review',required=True)
+    sandbox.add_argument('--code-reviews',type=Path,required=True,help='JSON mapping application/public_api/public_profile to exact original review IDs')
     sandbox.add_argument('--workspace',type=Path,required=True)
     sandbox.add_argument('--manifest',type=Path,required=True)
     sandbox.add_argument('--bound-digest',required=True)
@@ -91,7 +98,22 @@ def main(argv):
     ci.add_argument('job_id')
     args = parser.parse_args(argv)
     try:
-        if args.command=='phase3-cleanup-sandbox':
+        if args.command=='phase3-workflow':
+            import phase3_review,phase3_workflow,phase3_studio
+            journal=phase3_review.Journal()
+            if any((args.workspace,args.plan,args.cache)):
+                if not all((args.workspace,args.plan,args.cache)):raise ValueError('New workflow requires workspace, plan and cache together')
+                phase3_workflow.create(journal,args.run_id,args.workspace,phase3_review.preparation.read_json(args.plan),args.cache,parent_id=args.parent_id)
+            elif args.parent_id:raise ValueError('Parent continuation requires explicit frozen inputs')
+            observers=phase3_studio.configured_observers()
+            result=phase3_workflow.run(journal,args.run_id,**observers)
+            if observers:
+                try:observers['observer'](result)
+                except Exception:phase3_workflow.save(journal,result,{'kind':'observer.failed'})
+            phase3_workflow.export(journal,args.run_id,args.export)
+            print(json.dumps({k:result[k] for k in ('id','state','reason','used','scope','full_product_acceptance')},ensure_ascii=False,indent=2))
+            return 0 if result['state']=='completed_slice' else 2
+        elif args.command=='phase3-cleanup-sandbox':
             import phase3_execution,phase3_review
             journal=phase3_review.Journal();row=phase3_execution.get(journal,args.run_id)
             if row is None:raise ValueError('Unknown sandbox run')
@@ -103,7 +125,7 @@ def main(argv):
                 result=phase3_sandbox.build_manifest(args.workspace,phase3_review.preparation.read_json(args.plan))
             else:
                 result=executor.run_phase3_sandbox(phase3_review.Journal(),args.run_id,
-                    phase3_review.preparation.read_json(args.reviews),args.code_review,args.workspace,
+                    phase3_review.preparation.read_json(args.reviews),phase3_review.preparation.read_json(args.code_reviews),args.workspace,
                     phase3_review.preparation.read_json(args.manifest),args.bound_digest,args.cache)
             content=manifest.canonical(result)+'\n'
             args.export.parent.mkdir(parents=True,exist_ok=True)

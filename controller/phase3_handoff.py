@@ -59,7 +59,7 @@ def consume(journal,run_id,kind):
     row=journal.get(run_id)
     expected_state='reviewed_plan' if kind=='plan' else 'reviewed_contract_section'
     expected_scope='file_plan_structural_review' if kind=='plan' else 'contract_section_document_review'
-    if kind=='application':expected_state,expected_scope='reviewed_application_file','application_file_review'
+    if kind in review.SOURCE_SECTIONS:expected_state,expected_scope='reviewed_application_file','application_file_review'
     if (row['state']!=expected_state or row['scope']!=expected_scope or
         row['binding'].get('section')!=(None if kind=='plan' else kind) or
         'expected_checks' in row['binding'] or row['findings']):
