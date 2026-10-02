@@ -1,0 +1,12 @@
+...................F
+================================== FAILURES ===================================
+_ test_simulated_pipeline_obeys_all_stages_ownership_credentials_and_cleanup __
+tests\test_phase3_auth_materializer.py:201: in test_simulated_pipeline_obeys_all_stages_ownership_credentials_and_cleanup
+    if data and b'AUTH_FIXTURE_DATABASE_URL' in data:assert any(a.endswith('-api-test') for a in args)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   assert False
+E    +  where False = any(<generator object test_simulated_pipeline_obeys_all_stages_ownership_credentials_and_cleanup.<locals>.<genexpr> at 0x000001DE1CA368E0>)
+=========================== short test summary info ===========================
+FAILED tests/test_phase3_auth_materializer.py::test_simulated_pipeline_obeys_all_stages_ownership_credentials_and_cleanup
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 19 passed in 4.80s

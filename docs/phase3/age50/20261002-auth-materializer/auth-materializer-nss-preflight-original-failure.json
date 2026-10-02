@@ -1,0 +1,7 @@
+{
+  "state": "confirmed_preflight_failure",
+  "reason": "Pinned Debian archive data.tar.zst unsupported by Python decoder",
+  "external_operations": 0,
+  "real_auth_budget_changed": false,
+  "correction": "Pinned dpkg-deb --fsys-tarfile in readonly isolated installer; certutil output must match qualified SHA"
+}

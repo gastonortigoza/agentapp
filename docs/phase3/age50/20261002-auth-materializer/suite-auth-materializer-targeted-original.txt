@@ -1,0 +1,13 @@
+................F
+================================== FAILURES ===================================
+__ test_build_ready_cannot_authorize_api_or_browser_and_stage_order_is_fixed __
+tests\test_phase3_auth_materializer.py:115: in test_build_ready_cannot_authorize_api_or_browser_and_stage_order_is_fixed
+    with pytest.raises(ValueError,match='order'):ledger.reserve(j,row['id'],'fe_build','stage',60000,request())
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'order'
+E     Actual message: 'Auth operation bound denied'
+=========================== short test summary info ===========================
+FAILED tests/test_phase3_auth_materializer.py::test_build_ready_cannot_authorize_api_or_browser_and_stage_order_is_fixed
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 16 passed in 3.63s

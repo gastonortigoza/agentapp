@@ -1,0 +1,20 @@
+{
+  ".gitattributes": "48747480eddba024928d03be9bf83dc579e5515768647507a767e8187a85c9ab",
+  "auth-materializer-controller-final-qualification.json": "81db8c1f8a5f1bfc1c5280f581ccb996e3946281fdbf21e479663a9e48b284f5",
+  "auth-materializer-journal-audit.json": "aa11c6bf120477882368478a75978488d7cb16e56325950e67a02f0458b1b41b",
+  "auth-materializer-nss-preflight-original-failure.json": "fc2ed2a85d530531a2f18925bee73af5e503956c2850409cbd4f52134133ad84",
+  "auth-materializer-resource-qualification-intent.json": "eda36ddc2a7f46c7bee30f79dcdb4c47c0a0ff98219829183e3cf5e77cb8a8e9",
+  "input-SHA256.json": "1c888f44d5103813f96510fc8044dd9a478d5f672301be37ed3889e6b47eb60f",
+  "journal-after.json": "b8341fca32183c25ad3a1329d92ebf16b9f7079a2b458ba5f2e080172b612b57",
+  "original-phase3_auth_execution.py": "626e15b454fa688f0f345e257220dc76060b39336f2f22f8433469598cde615b",
+  "original-phase3_auth_materializer.py": "918f549d5bfc14b94d272ca957d92dbf2f5e406f6e030083fd92d6845b401332",
+  "original-test_phase3_auth_materializer.py": "3eb37aa7b74a35040cf55e7052952d95eec58a266e632d04d0d01b8a0a6d4513",
+  "readiness.json": "12d63336bb7d5471cfeb24cc602d8bf424c01f53785e620946eece47f0b09a6d",
+  "RESULTADO.md": "8d5bc4f1ff53f361084d478cfd04cf7710652768a0503a88b3c9be5d780fe1b6",
+  "suite-auth-materializer-final-process-lock-original-failure.txt": "340501667cfbb2c78886f93c20be29dfccf8cb272542fb5706ce479645d2aeb9",
+  "suite-auth-materializer-final.txt": "bcdc00a790a8ca4fd90cdbca7298a05ebe41645fb7181564a2bb0f4b9a26c2a2",
+  "suite-auth-materializer-nss-correction.txt": "4e4db9b322bd4e4d241b15e043738d50289b00d414bebf231ef4458333bf1160",
+  "suite-auth-materializer-targeted-correction.txt": "b9bee689a241ca82034fb198fb2cfdc4d2fc0c2301fe203e555822d662704a3d",
+  "suite-auth-materializer-targeted-correction2.txt": "efac918f90b8d72d109096325cf27b0188a4dc219522523f69f3a07ee4d3e4f6",
+  "suite-auth-materializer-targeted-original.txt": "024c0def2c6cf42e293f547da4172eeee7312c5b27a8dd807ff1940bd44a2f44"
+}

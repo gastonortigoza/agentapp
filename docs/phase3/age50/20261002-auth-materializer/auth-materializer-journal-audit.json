@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-02T18:56:54.603488+00:00",
+  "suite": "a429efdfdb9bb2dea01d1fce1415d641f77548596fcca6737a452239742765bb",
+  "model_calls": 0,
+  "plan_runs": {
+    "reviewed_contract_section": 42,
+    "blocked_evidence": 7,
+    "evaluated_fixture": 12,
+    "reviewed_plan": 10,
+    "blocked_budget": 1,
+    "uncertain_operation": 1,
+    "reviewed_application_file": 17
+  },
+  "uncertain": [
+    "age50-handoff-r5-api-20261001"
+  ],
+  "phase3_workflows": {
+    "awaiting_discrepancy": 5,
+    "completed_slice": 1
+  },
+  "profile_used": {
+    "active_ms": 920515,
+    "calls": 26,
+    "executions": 3,
+    "input_tokens": 129180,
+    "output_tokens": 15326
+  },
+  "auth_executions": 0,
+  "base_images": {
+    "node": {
+      "id": "sha256:0d130e2ee18e88e1561375276daced6bff032539200173f2daf48c2e33f38ff5",
+      "env": [
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "NODE_VERSION=22.18.0",
+        "YARN_VERSION=1.22.22"
+      ],
+      "pin": "node@sha256:0d130e2ee18e88e1561375276daced6bff032539200173f2daf48c2e33f38ff5"
+    },
+    "postgres": {
+      "id": "sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722",
+      "env": [
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/18/bin",
+        "GOSU_VERSION=1.19",
+        "LANG=en_US.utf8",
+        "PG_MAJOR=18",
+        "PG_VERSION=18.6-1.pgdg13+2",
+        "PGDATA=/var/lib/postgresql/18/docker"
+      ],
+      "pin": "postgres@sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722"
+    },
+    "browser": {
+      "id": "sha256:42f02d323c310069b4d54c94bd91a608966a486c3492c48ae0b1cea747ec5ca2",
+      "env": [
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LANG=C.UTF-8",
+        "LC_ALL=C.UTF-8",
+        "PLAYWRIGHT_BROWSERS_PATH=/ms-playwright"
+      ],
+      "pin": "mcr.microsoft.com/playwright@sha256:42f02d323c310069b4d54c94bd91a608966a486c3492c48ae0b1cea747ec5ca2"
+    }
+  }
+}

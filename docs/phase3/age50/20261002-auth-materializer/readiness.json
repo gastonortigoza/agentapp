@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-02T19:36:50.684902+00:00",
+  "state": "controller_protocol_and_resource_factory_composition_qualified",
+  "suite_identity": "d73ee20609db3d425ffece9932d23426ebd510b3e0f6492afba5e0e6548e8e4b",
+  "controller_summary": "692 passed, 1 skipped, 547 warnings in 113.38s (0:01:53)",
+  "new_protocol_tests": 23,
+  "infrastructure_checks": 6,
+  "infrastructure_used": {
+    "active_ms": 28660,
+    "operations": 48
+  },
+  "infrastructure_cleanup_confirmed_resources": 8,
+  "auth_modules_present": false,
+  "auth_product_tests_executed": false,
+  "real_auth_execution_rows": 0,
+  "model_calls": 0,
+  "new_agent_rounds": 0,
+  "new_three_round_audit_due": false,
+  "prior_budget_reset": false,
+  "active_controller_modified": false,
+  "preview_local_http": 200,
+  "pending": [
+    "durable queue across six supported increments",
+    "original local auth proposals and current reviews",
+    "real original-module compile and nine PG/API plus five strict-TLS Chromium product tests",
+    "LAN HTTPS and client-IP/rate-limit readiness before auth preview activation"
+  ],
+  "known_discrepancy": "public-profile retry unchanged; historical exhausted budget retained"
+}
