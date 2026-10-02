@@ -1,0 +1,10 @@
+{
+  "controller/phase3_geography_revalidation.py": "3b623063f277ddebbf27d26ba5214549db9b7c6983fd8210a909c647357345a6",
+  "controller/phase3_source_revalidations.py": "9fdf9e27709487c0ed5da42e8271244d2acfee1c8a0661df695672b7c1237e7f",
+  "controller/phase3_source.py": "0a9e41999a2b20697c539efffac631fbd419c1842236b6cec35c7cdff7408975",
+  "controller/phase3_review.py": "e716bcdbf2bc3ad691aee9a08530e96514311e6f6c8d3b7a5a73a2997723ebf9",
+  "controller/phase3_handoff.py": "e2a91f103584df973aeee9f7902dff36e0fcea41029867bbac815bdcd8810456",
+  "controller/phase3_queued_sources.py": "8a8e7be9e6936de6b90ea1f8edd3a44bf167a2dfec61166ae67e307f725589eb",
+  "controller/tests/test_phase3_source_revalidations.py": "40387656e233b418a9d8f17d2140413e1bb28eecd1580b34aba1f7d550757640",
+  "controller/PHASE3-REVALIDACION-GEOGRAFIA.md": "62f725367b005fe4a1cf07b877b0ddc7474b1291be087022ba5e4b5e1d21083a"
+}

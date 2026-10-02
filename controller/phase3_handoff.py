@@ -59,6 +59,9 @@ def verify_chain(row,ops,lock,documents):
 
 def consume(journal,run_id,kind):
     row=journal.get(run_id)
+    if row['binding'].get('source_origin'):
+        import phase3_geography_revalidation as geo_v2
+        geo_v2.verify_original(journal,row['binding']['source_origin'],row['binding']['source_origin_seed'])
     feedback=row['binding'].get('source_feedback')
     if feedback:
         original=journal.get(feedback['original_id'])

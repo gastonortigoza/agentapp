@@ -13,7 +13,7 @@ import manifest
 import phase3_prepare as preparation
 from worker_lock import worker_lock
 
-SOURCE_SECTIONS = ('application', 'public_api', 'public_profile', 'auth_api', 'auth_pages', 'geography_api', 'geography_correction')
+SOURCE_SECTIONS = ('application', 'public_api', 'public_profile', 'auth_api', 'auth_pages', 'geography_api', 'geography_correction', 'geography_revalidation')
 
 ROOT = Path(__file__).resolve().parent
 DATABASE = ROOT/'.state/phase3/review.sqlite'
@@ -229,7 +229,7 @@ class Journal:
             self.save(db,row,{'kind':'state.changed','reason':reason})
         return row
 
-    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None,product_feedback=None,review_recovery=None,initial_proposal=False,source_feedback=None):
+    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None,product_feedback=None,review_recovery=None,initial_proposal=False,source_feedback=None,source_origin=None):
         if not re.fullmatch('[a-z0-9-]{1,100}',run_id):raise ValueError('Bad run ID')
         if len(manifest.canonical(candidate).encode())>24000:raise ValueError('Candidate too large')
         suite=controller_gate.require_green()
@@ -254,7 +254,7 @@ class Journal:
              'rules':rules,'seed_sha256':manifest.identity(candidate)}
         if section is not None:cfg['section']=section
         import phase3_auth_source as auth
-        if section in (*auth.SECTIONS,'geography_api','geography_correction'):
+        if section in (*auth.SECTIONS,'geography_api','geography_correction','geography_revalidation'):
             from phase3_transport import PROTOCOL
             cfg['transport_protocol']=PROTOCOL
         if section=='geography_correction' or source_feedback is not None:
@@ -262,6 +262,12 @@ class Journal:
             if (section!=geo_fix.SECTION or initial_proposal or any(v is not None for v in (expected_checks,product_feedback,review_recovery))):raise ValueError('Source correction cannot alter product/fixture controls')
             cfg['source_feedback']=geo_fix.validate_feedback(source_feedback,candidate)
             cfg['source_feedback_seed']=candidate
+        if section=='geography_revalidation' or source_origin is not None:
+            import phase3_geography_revalidation as geo_v2
+            if section!=geo_v2.SECTION or initial_proposal or any(v is not None for v in (expected_checks,product_feedback,review_recovery,source_feedback)):raise ValueError('Revalidation cannot alter product/fixture controls')
+            cfg['source_origin']=geo_v2.validate_origin(source_origin,candidate)
+            geo_v2.verify_original(self,source_origin,candidate)
+            cfg['source_origin_seed']=candidate
         if type(initial_proposal) is not bool:raise ValueError('Invalid initial source proposal')
         if initial_proposal:
             import phase3_auth_source as auth
@@ -308,7 +314,7 @@ class Journal:
             if row['state']!='active':raise ValueError('Run is stopped')
             limits=row['binding']['limits']
             tokens=5000 if row['role']=='developer' else 2000
-            if row['binding'].get('section') in ('geography_api','geography_correction'):tokens=1800 if row['role']=='developer' else 1000
+            if row['binding'].get('section') in ('geography_api','geography_correction','geography_revalidation'):tokens=1800 if row['role']=='developer' else 1000
             if (row['calls']>=limits['calls'] or row['input_tokens']+limits['context_tokens']>limits['input_tokens']
                 or row['output_tokens']+tokens>limits['output_tokens'] or row['active_ms']>=1000*limits['active_seconds']
                 or (row['role']=='developer' and row['corrections']>=limits['corrections'])):
@@ -397,10 +403,16 @@ def verify_binding(row):
         if (cfg.get('section')!=geo_fix.SECTION or any(k in cfg for k in ('initial_proposal','expected_checks','product_feedback','review_recovery'))
             or manifest.identity(cfg.get('source_feedback_seed'))!=cfg['seed_sha256']):raise ValueError('Source feedback binding invalid')
         geo_fix.validate_feedback(cfg['source_feedback'],cfg['source_feedback_seed'])
+    if row['binding'].get('section')=='geography_revalidation' or 'source_origin' in row['binding']:
+        import phase3_geography_revalidation as geo_v2
+        cfg=row['binding']
+        if (cfg.get('section')!=geo_v2.SECTION or any(k in cfg for k in ('initial_proposal','expected_checks','product_feedback','review_recovery','source_feedback'))
+            or manifest.identity(cfg.get('source_origin_seed'))!=cfg['seed_sha256']):raise ValueError('Source origin binding invalid')
+        geo_v2.validate_origin(cfg['source_origin'],cfg['source_origin_seed'])
     if 'transport_protocol' in row['binding']:
         import phase3_auth_source as auth
         from phase3_transport import PROTOCOL
-        if row['binding'].get('section') not in (*auth.SECTIONS,'geography_api','geography_correction') or row['binding']['transport_protocol']!=PROTOCOL:
+        if row['binding'].get('section') not in (*auth.SECTIONS,'geography_api','geography_correction','geography_revalidation') or row['binding']['transport_protocol']!=PROTOCOL:
             raise ValueError('Durable transport binding invalid')
     if 'initial_proposal' in row['binding']:
         import phase3_auth_source as auth
@@ -456,7 +468,11 @@ def run(journal,run_id,caller=None,observer=None):
                 row=journal.change(run_id,'uncertain_operation','Interrupted in-flight inference; never resend automatically')
                 observe(journal,row,observer)
                 return row
-            try:lock,documents=verify_binding(row)
+            try:
+                lock,documents=verify_binding(row)
+                if row['binding'].get('source_origin'):
+                    import phase3_geography_revalidation as geo_v2
+                    geo_v2.verify_original(journal,row['binding']['source_origin'],row['binding']['source_origin_seed'])
             except (ValueError,OSError):
                 row=journal.change(run_id,'blocked_evidence','Source, input, policy, runtime or candidate drift')
                 observe(journal,row,observer)
@@ -477,7 +493,11 @@ def run(journal,run_id,caller=None,observer=None):
             except Exception:
                 result={'ok':False,'sent':True,'error_type':'unverified_transport'}
             # Recheck after dispatch. A changed controller/input invalidates acceptance.
-            try:verify_binding(journal.get(run_id))
+            try:
+                current=journal.get(run_id);verify_binding(current)
+                if current['binding'].get('source_origin'):
+                    import phase3_geography_revalidation as geo_v2
+                    geo_v2.verify_original(journal,current['binding']['source_origin'],current['binding']['source_origin_seed'])
             except (ValueError,OSError):result={**result,'ok':False,'sent':True,'error_type':'drift_after_dispatch'}
             row=journal.finish(run_id,op['seq'],result,round((time.monotonic()-started)*1000),lock,documents)
             observe(journal,row,observer)

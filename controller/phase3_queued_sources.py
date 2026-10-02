@@ -130,6 +130,8 @@ def aggregate(db,parent):
         for k in used:used[k]+=spent[k]
     from phase3_source_corrections import add_usage
     used=add_usage(db,parent,used)
+    from phase3_source_revalidations import add_usage as revalidation_usage
+    used=revalidation_usage(db,parent,used)
     if any(v>queue.LIMITS[k] for k,v in used.items()):raise ValueError('Shared queue aggregate exceeded')
     return used
 
