@@ -1,0 +1,8 @@
+{
+  "operation": "current-controller consume historical public reviews",
+  "state": "confirmed_failure",
+  "reason": "Controller drift; original review suite differs from current suite",
+  "no_rebinding": true,
+  "model_calls": 0,
+  "correction": "Public files remain exact historical frozen inputs, not fresh source approvals; auth modules require current-controller original reviews."
+}

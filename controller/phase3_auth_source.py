@@ -83,6 +83,8 @@ def prompt(row,op,documents):
       'routes':[r for r in contract['api']['routes'] if r['path'] in ('/api/auth/register','/api/auth/login','/api/auth/refresh','/api/auth/logout')],
       'tables':{k:contract['data']['tables'][k] for k in ('users','sessions')},
       'integration':'Node22.18.0 TypeScript, Fastify5.6.1, pg8.16.3; injected Pool, no tools. Qualified pins @node-rs/argon2=2.2.1 jose=6.2.12 @fastify/cookie=11.1.2; React19.2 hooks. App installs registerAuth explicitly; requireOwner is reused by private route scaffold. No automatic registration or hook overriding unrelated public routes. Schema agentapp; no cookie plugin already installed unless this module registers it. now defaults new Date and supports fixed test civil dates. Header errors no private data. API source implement only declared exports; frontend provider/integration comes from frozen scaffold. Signing key is injected reference, never process.env or fixture key.'}
+    from phase3_auth_pins import FILES
+    context['fixed_product_acceptance']={'api_sha256':FILES['auth-acceptance.test.mjs'],'ui_sha256':FILES['frontend/e2e/auth-session.spec.ts'],'ui_controls':'Label email as Correo or Email, password as Contraseña or Password, birth date as Fecha de nacimiento. Register submit Registrar/Crear cuenta; login Ingresar/Iniciar sesión. Keyboard order email,password,birth_date. Real statuses/API/DB/HttpOnly cookie required; tests cannot be replaced. AuthShell owns navigation, memory session and logout; your module supplies only labelled forms and onSession.'}
     feedback=row['binding'].get('product_feedback')
     if feedback:
         from phase3_source import validate_feedback

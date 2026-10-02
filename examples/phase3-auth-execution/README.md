@@ -1,0 +1,5 @@
+Entradas congeladas para el ejecutor auth separado. inputs/ contiene solamente los 21 archivos confiables ligados en controller/phase3_auth_pins.py. No ejecutar scripts de package como etapa genérica: la política usa argv explícito, index.html/session-main.tsx y session-server.ts.
+
+Faltan los dos originales de agentes auth.ts/AuthPages.tsx. El manifiesto exige revisión actual verificable y nunca admite fixtures en sus paths. App/PublicProfile son snapshots históricos exactos para la UI auxiliar; su discrepancia previa no queda resuelta por esta entrega. No se compone todavía backend público con backend de sesiones.
+
+No contiene certificados/keys/cache/node_modules ni archivos FixturePages. La nueva configuración TS cubre entradas completas; todavía no fue compilada con los módulos ausentes. Los9API/5Chromium son tests de producto pendientes. El ledger está probado; el materializador y la cola de incrementos faltan. No publicar puertos ni activar auth en preview hasta completar ese recorrido y resolver HTTPS/cliente-IP para LAN.

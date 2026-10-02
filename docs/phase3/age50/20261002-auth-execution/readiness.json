@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-02T18:50:16.335917+00:00",
+  "state": "immutable_auth_manifest_and_operation_ledger_qualified",
+  "suite_identity": "a429efdfdb9bb2dea01d1fce1415d641f77548596fcca6737a452239742765bb",
+  "controller_summary": "669 passed, 1 skipped, 547 warnings in 106.80s (0:01:46)",
+  "new_protocol_tests": 51,
+  "targeted_tests": 77,
+  "seed_files": 21,
+  "root_lock_sha256": "e4c4b4ad25631363aa7518383e1fe337d85b75fe726b622bac0ed9e1c5a756a6",
+  "cache_tarballs_reused_read_only": 101,
+  "historical_public_inputs_rechecked": {
+    "application": {
+      "id": "age50-autonomous-r4-20261002-r0-application",
+      "row_sha256": "9ada1c8a599d228ff5d1f72fecef719eaa361485d4b076dad0368577c574f405",
+      "ops_sha256": "81f37f8983e4523bbaacb48fd339cf8a545fe299d7c014a0b14654d528a0fc95",
+      "suite_identity": "a77ae35fdedaf4583cfcaea21f1d82a94588b51000f4d459e95fd5b206c7e594",
+      "path": "frontend/src/App.tsx",
+      "file_sha256": "ffb2c1183e917d6555247e98b211cdc37f872bbc0966198e712510dec88b18ea"
+    },
+    "public_profile": {
+      "id": "age50-autonomous-r4-20261002-r0-public-profile",
+      "row_sha256": "87ad809750d9e18151633935906b6e093132a3efc42dfeff9bab40e22e1169ea",
+      "ops_sha256": "78879c2a61e25de0b571ec264334c0749146fb516cb0f93b6050c05233383866",
+      "suite_identity": "a77ae35fdedaf4583cfcaea21f1d82a94588b51000f4d459e95fd5b206c7e594",
+      "path": "frontend/src/PublicProfile.tsx",
+      "file_sha256": "737dd13fb1c83ceb75fbeb667fb5ef3131a7aad697f3a11b49e6c6b73f38282c"
+    }
+  },
+  "preview_local_status": 200,
+  "model_calls": 0,
+  "new_agent_rounds": 0,
+  "new_flow_audit_due": false,
+  "prior_budget_reset": false,
+  "auth_product_modules_present": false,
+  "product_tests_executed": false,
+  "runtime_ready": false,
+  "pending": [
+    "PG/app/API-test/gateway/browser resource materializer",
+    "Real TLS key/cert validation before runtime binding",
+    "Real compile,9 PG/API and5 Chromium acceptance",
+    "Durable queue across increments",
+    "Original local auth proposals/reviews"
+  ],
+  "auth_future_scope_limits": {
+    "executions": 3,
+    "operations": 240,
+    "active_ms": 2700000
+  },
+  "real_auth_execution_rows_created": 0,
+  "existing_profile_budget_unchanged": true,
+  "active_controller_modified": false
+}

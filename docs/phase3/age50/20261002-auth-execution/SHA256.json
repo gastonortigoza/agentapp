@@ -1,0 +1,16 @@
+{
+  ".gitattributes": "48747480eddba024928d03be9bf83dc579e5515768647507a767e8187a85c9ab",
+  "auth-execution-controller-qualification.json": "08aa1d892707616f9d0e0f7526b51efe9e1d46aeeb90e77fcad8aaf6f2d40df5",
+  "auth-execution-journal-audit.json": "728f35bdf8eedf1bee602045aaecd3752b42b03f6b44800a33872a650953a4f6",
+  "input-SHA256.json": "30999a08ee21240a3d6ff40f8eb23d57a44d8b116edb8f6b9732480a6ee7b6c9",
+  "journal-after.json": "3c741420c72590292c37393c39409a44464831e33ca55868d9e602c5d83e8e80",
+  "original-phase3_auth_execution.py": "4d2b7ad25bbb3ea503627319260b84ac7842418eb48dcc5b9871755752b18468",
+  "original-phase3_auth_sandbox.py": "c18917aedc0dbc4e2dcf48fac0977674a1d04c4326af27b6ca0d8133fa514264",
+  "original-test_phase3_auth_execution.py": "fca05446a02b35b16b73afe9d81180c3441d3c5b01af8089e6c5705d3ca99a05",
+  "preparation-original-failure.json": "93b9904a06446f67b835b4c99c0bee07fc8b3c06268ff155414e4320003f3645",
+  "readiness.json": "fe9c4ec88228b6a4a58449699bb01e05984ae7916b46d4109af9234fd9b908a1",
+  "RESULTADO.md": "5ba1c8ff0878d1548a3fdae891cc47985ac85616140b5bbb957cfa89081765e2",
+  "sandbox-test-permissions-original.json": "57ee3dea33191eed8f3eb4bdc54deb08c9eb801acde0d5a583bb3cb0f3ef3d46",
+  "suite-auth-execution-full.txt": "4c907c7740e7053f85a02a130c82314982f7b6b7958c2dd731d50fccee99eb99",
+  "suite-auth-execution-targeted.txt": "87b6577e813bb1aa5270a6cbd2248068a4009e20522b8c4f93cfbe542d4e264d"
+}
