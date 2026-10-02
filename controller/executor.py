@@ -20,6 +20,10 @@ def run_phase3(journal,preflight_id,reviews,workspace):
     from phase3_handoff import preflight
     return preflight(journal,preflight_id,reviews,workspace)
 
+def run_phase3_sandbox(journal,run_id,reviews,code_review,workspace,candidate,bound_digest,cache,observer=None):
+    from phase3_execution import run
+    return run(journal,run_id,reviews,code_review,workspace,candidate,bound_digest,cache,observer)
+
 def within_workspace(path):
     path=Path(path).resolve(strict=True)
     if not path.is_relative_to(WORKSPACE) or path==WORKSPACE:

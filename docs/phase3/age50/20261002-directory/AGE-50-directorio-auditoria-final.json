@@ -1,0 +1,70 @@
+{
+  "suite_identity": "79038c9511aabc56b04bc81a0080fd87a99c113a5abd153bc4931d2d086336fe",
+  "scope": "read-only audit; no additional model calls or product dispatch",
+  "holdout": [
+    {
+      "id": "age50-holdout-r9-photo-date-and-owner-route-20261001",
+      "model_passed": false,
+      "deterministic_findings": [
+        {
+          "fix": "Restore the field required by the accepted DTO.",
+          "issue": "required_dto_field",
+          "pointer": "/dtos/Photo/created_at",
+          "rule": "API01",
+          "rule_quote": "DTO references resolve, including nullable and arrays; public DTOs exclude private fields.",
+          "source": "accepted-contract/1"
+        },
+        {
+          "fix": "Restore accepted auth and success status for this route.",
+          "issue": "route_access_status",
+          "pointer": "/routes/16",
+          "rule": "API02",
+          "rule_quote": "Routes have unique method/path and match accepted acceptance cases, owner access and status.",
+          "source": "accepted-contract/1"
+        }
+      ],
+      "execution_gate_rejection": "review_not_accepted:api"
+    },
+    {
+      "id": "age50-holdout-r9-existing-nonunique-currency-fk-20261001",
+      "model_passed": false,
+      "deterministic_findings": [
+        {
+          "fix": "Match existing local/target columns and a PK/unique target in the exact composite order.",
+          "issue": "invalid_fk",
+          "pointer": "/tables/subscriptions/foreign_keys/1",
+          "rule": "DATA01",
+          "rule_quote": "PK, unique and foreign-key columns exist; composite FK order and target uniqueness are consistent.",
+          "source": "accepted-contract/1"
+        },
+        {
+          "fix": "Restore every accepted relationship, including its composite column mapping.",
+          "issue": "accepted_fk_missing",
+          "pointer": "/tables/subscriptions/foreign_keys",
+          "rule": "DATA01",
+          "rule_quote": "PK, unique and foreign-key columns exist; composite FK order and target uniqueness are consistent.",
+          "source": "accepted-contract/1"
+        }
+      ],
+      "execution_gate_rejection": "review_not_accepted:data"
+    },
+    {
+      "id": "age50-holdout-r9-descriptive-whatsapp-url-alias-20261001",
+      "model_passed": true,
+      "deterministic_findings": [],
+      "execution_gate_rejection": "review_not_accepted:api"
+    },
+    {
+      "id": "age50-holdout-r9-equivalent-json-integer-spelling-20261001",
+      "model_passed": true,
+      "deterministic_findings": [],
+      "execution_gate_rejection": "review_not_accepted:manifest"
+    }
+  ],
+  "current_code_review": "age50-directory-r9d-application-20261001",
+  "app_source_sha256": "48ce94b2249212c9e98875f713a66c02c27c985cf4d47a71d0eddc527be60bfe",
+  "execution_binding_sha256": "9e1f6f3449cea67966d024a769364640879ca78c7f471189206fd78b388ef3e7",
+  "cache_archive_sha256": "e7dc26045c6604ab5b70353965e51a13750f271f0e3ca77d66f205d02b80ad69",
+  "all_owned_cleanup_passed": true,
+  "no_general_model_qualification": true
+}

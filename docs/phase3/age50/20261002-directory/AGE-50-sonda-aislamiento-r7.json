@@ -1,0 +1,87 @@
+{
+  "scope": "trusted_infrastructure_probe_not_product_execution",
+  "commands": [
+    {
+      "argv": [
+        "docker",
+        "create",
+        "-i",
+        "--pull",
+        "never",
+        "--name",
+        "age50-infra-b5023a566acd",
+        "--network",
+        "none",
+        "--read-only",
+        "--cap-drop",
+        "ALL",
+        "--security-opt",
+        "no-new-privileges",
+        "--user",
+        "1000:1000",
+        "--cpus",
+        "0.8",
+        "--memory",
+        "1024m",
+        "--memory-swap",
+        "1024m",
+        "--pids-limit",
+        "128",
+        "--shm-size",
+        "128m",
+        "--log-driver",
+        "none",
+        "--ulimit",
+        "fsize=16777216:16777216",
+        "--tmpfs",
+        "/tmp:rw,nosuid,nodev,size=128m,uid=1000,gid=1000,mode=0700",
+        "--tmpfs",
+        "/work/node_modules:rw,nosuid,nodev,size=512m,uid=1000,gid=1000,mode=0700",
+        "--tmpfs",
+        "/work/frontend/dist:rw,nosuid,nodev,size=64m,uid=1000,gid=1000,mode=0700",
+        "--workdir",
+        "/work",
+        "--env",
+        "HOME=/tmp",
+        "--env",
+        "NPM_CONFIG_USERCONFIG=/tmp/empty-npmrc",
+        "--env",
+        "NPM_CONFIG_LOGS_DIR=/tmp/npm-logs",
+        "--env",
+        "CI=1",
+        "--env",
+        "FORCE_COLOR=0",
+        "--env",
+        "PATH=/cache/npm/bin:/usr/local/bin:/usr/bin:/bin",
+        "node@sha256:0d130e2ee18e88e1561375276daced6bff032539200173f2daf48c2e33f38ff5",
+        "sleep",
+        "900"
+      ],
+      "exit_code": 0,
+      "stdout": "19964385302f5acc0a4b649e6ecf0a13440c073b1dfe60644b356251ad5710cf\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "cp",
+        "-",
+        "age50-infra-b5023a566acd:/work"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Error response from daemon: container rootfs is marked read-only\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "rm",
+        "-f",
+        "age50-infra-b5023a566acd"
+      ],
+      "exit_code": 0,
+      "stdout": "age50-infra-b5023a566acd\n",
+      "stderr": ""
+    }
+  ]
+}

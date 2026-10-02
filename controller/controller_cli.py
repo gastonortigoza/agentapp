@@ -14,7 +14,7 @@ DATABASE = ROOT/'.state/controller.sqlite'
 
 
 def tracked_inputs(root=ROOT):
-    paths = {*root.glob('*.py'), *root.glob('*.cmd'), *(root/'tests').glob('*.py'),
+    paths = {*root.glob('*.py'), *root.glob('*.cmd'), *root.glob('*.sql'), *(root/'tests').glob('*.py'),
              *(root/'schemas').glob('*.json'), root/'pyproject.toml', root/'uv.lock',
              root/'config/agents.yaml',root/'config/pilot-manifest.json',root/'config/phase3-input-lock.json',
              *(root/'fixtures/phase3-contract-v1').glob('*.json')}
@@ -32,12 +32,27 @@ def main(argv):
     review.add_argument('--run-id',required=True)
     review.add_argument('--seed',type=Path,help='New run only: original typed candidate, possibly defective')
     review.add_argument('--export',type=Path)
-    review.add_argument('--section',choices=['api','data','subscriptions','manifest'],help='New run only: review a typed documentary section against the frozen contract')
+    review.add_argument('--section',choices=['api','data','subscriptions','manifest','application'],help='New run only: review a typed documentary section or bounded source file against the frozen rules')
     execute=sub.add_parser('phase3-check-execution',help='Consume original plan/section reviews at the executor boundary; documentary policy blocks dispatch')
     execute.add_argument('--preflight-id',required=True)
     execute.add_argument('--reviews',type=Path,required=True,help='JSON object with original plan/api/data/subscriptions/manifest review IDs')
     execute.add_argument('--workspace',type=Path,required=True)
     execute.add_argument('--export',type=Path)
+    concrete=sub.add_parser('phase3-build-manifest',help='Bind concrete local-only sandbox, scripts, locks, images and input hashes')
+    concrete.add_argument('--plan',type=Path,required=True)
+    concrete.add_argument('--workspace',type=Path,required=True)
+    concrete.add_argument('--export',type=Path,required=True)
+    sandbox=sub.add_parser('phase3-run-sandbox',help='Execute a narrow local synthetic slice; immutable documentary policy stays disabled')
+    sandbox.add_argument('--run-id',required=True)
+    sandbox.add_argument('--reviews',type=Path,required=True)
+    sandbox.add_argument('--code-review',required=True)
+    sandbox.add_argument('--workspace',type=Path,required=True)
+    sandbox.add_argument('--manifest',type=Path,required=True)
+    sandbox.add_argument('--bound-digest',required=True)
+    sandbox.add_argument('--cache',type=Path,required=True)
+    sandbox.add_argument('--export',type=Path,required=True)
+    stop=sub.add_parser('phase3-cleanup-sandbox',help='Stop only containers identified by this durable run; never resend execution')
+    stop.add_argument('--run-id',required=True)
     check = sub.add_parser('manifest-check')
     check.add_argument('manifest',nargs='?',default=str(ROOT/'config/pilot-manifest.json'))
     run = sub.add_parser('run-stub')
@@ -76,7 +91,29 @@ def main(argv):
     ci.add_argument('job_id')
     args = parser.parse_args(argv)
     try:
-        if args.command=='phase3-check-execution':
+        if args.command=='phase3-cleanup-sandbox':
+            import phase3_execution,phase3_review
+            journal=phase3_review.Journal();row=phase3_execution.get(journal,args.run_id)
+            if row is None:raise ValueError('Unknown sandbox run')
+            result=phase3_execution.cleanup(journal,row)
+        elif args.command in {'phase3-build-manifest','phase3-run-sandbox'}:
+            controller_gate.require_green()
+            import phase3_sandbox,phase3_review,executor
+            if args.command=='phase3-build-manifest':
+                result=phase3_sandbox.build_manifest(args.workspace,phase3_review.preparation.read_json(args.plan))
+            else:
+                result=executor.run_phase3_sandbox(phase3_review.Journal(),args.run_id,
+                    phase3_review.preparation.read_json(args.reviews),args.code_review,args.workspace,
+                    phase3_review.preparation.read_json(args.manifest),args.bound_digest,args.cache)
+            content=manifest.canonical(result)+'\n'
+            args.export.parent.mkdir(parents=True,exist_ok=True)
+            try:
+                with args.export.open('x',encoding='utf-8',newline='\n') as output:output.write(content)
+            except FileExistsError:
+                if args.export.read_text(encoding='utf-8')!=content:raise ValueError('Existing sandbox export differs; preserve original evidence')
+            print(json.dumps(result,ensure_ascii=False,indent=2))
+            return 0 if args.command=='phase3-build-manifest' or result['state']=='completed' else 2
+        elif args.command=='phase3-check-execution':
             import executor,phase3_review
             result=executor.run_phase3(phase3_review.Journal(),args.preflight_id,
                                       phase3_review.preparation.read_json(args.reviews),args.workspace)
@@ -99,7 +136,7 @@ def main(argv):
             result=phase3_review.run(journal,args.run_id)
             if args.export:phase3_review.export(journal,args.run_id,args.export)
             print(json.dumps(result,ensure_ascii=False,indent=2))
-            return 0 if result['state'] in {'reviewed_plan','reviewed_contract_section'} else 2
+            return 0 if result['state'] in {'reviewed_plan','reviewed_contract_section','reviewed_application_file'} else 2
         elif args.command=='phase3-prepare':
             controller_gate.require_green()
             import phase3_prepare

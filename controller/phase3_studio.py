@@ -24,6 +24,32 @@ class PreflightObserver:
             'evidence_key':'phase3-execution-preflight','task':rec['result'],'agent':None,'ms':0})
 
 
+class ExecutionObserver:
+    """Faithful dispatcher evidence; no duplicate model-call/token attribution."""
+    def __init__(self,store):self.store=store
+
+    def __call__(self,row):
+        rec=self.store.get_run(row['id']);identity=row['binding_sha256'];at=now()
+        if rec and rec.get('inputs',{}).get('binding_sha256')!=identity:raise ValueError('Studio execution identity drift')
+        if not rec:
+            rec={'id':row['id'],'workspace_id':'','spec_name':'AGE-32/50 · ejecución local del directorio',
+                 'started_at':at,'finished_at':None,'dry_run':False,'trigger':'external:isolated_directory_slice',
+                 'tokens':0,'cost':None,'status':'observando','hitl':None,'error':None,
+                 'inputs':{'scope':'isolated_directory_slice','binding_sha256':identity},'result':None}
+            self.store.create_run(rec)
+        terminal=row['state']!='active';rec['status']='succeeded' if row['state']=='completed' else 'failed' if terminal else 'observando'
+        rec['finished_at']=at if terminal else None
+        rec['result']='Estado: '+row['state']+'. Etapas: '+', '.join(s['name'] for s in row['stages'])+'. '+row['reason']+' Cero inferencias en este ejecutor; pruebas limitadas al directorio sintético.'
+        self.store.update_run(rec)
+        events=self.store.get_events(row['id'],0);known={e.get('evidence_key') for e in events};seq=max((e['seq'] for e in events),default=-1)+1
+        for stage in row['stages']:
+            key='phase3-execution-stage-'+stage['name']
+            if key in known:continue
+            self.store.append_event(row['id'],{'seq':seq,'ts':at,'kind':'tool.execution.completed','evidence_key':key,
+                'agent':None,'task':stage['name']+' · código '+str(stage['exit_code'])+' · pruebas '+str(stage.get('tests','no aplica')),
+                'ms':stage['duration_ms']});seq+=1
+
+
 class StudioObserver:
     def __init__(self,store):self.store=store
 
@@ -33,7 +59,7 @@ class StudioObserver:
         if rec and rec.get('inputs',{}).get('binding_sha256')!=identity:
             raise ValueError('Studio run ID belongs to another identity')
         if not rec:
-            label=(('evaluación de fixture ' if row['scope']=='contract_fixture_evaluation' else 'sección contractual ')+row['binding']['section'] if row['binding'].get('section') else 'estructura de plan')
+            label=('archivo de interfaz' if row['scope']=='application_file_review' else ('evaluación de fixture ' if row['scope']=='contract_fixture_evaluation' else 'sección contractual ')+row['binding']['section'] if row['binding'].get('section') else 'estructura de plan')
             rec={'id':row['id'],'workspace_id':'','spec_name':'AGE-32/50 · '+label,
                  'started_at':row['created_at'],'finished_at':None,'dry_run':False,
                  'trigger':'external:'+row['scope'],'tokens':0,'cost':None,
@@ -41,14 +67,14 @@ class StudioObserver:
                  'hitl':None,'result':None,'error':None,'status':'observando'}
             self.store.create_run(rec)
         terminal=row['state']!='active'
-        rec['status']='succeeded' if row['state'] in {'reviewed_plan','reviewed_contract_section'} or (row['state']=='evaluated_fixture' and row.get('fixture_passed')) else 'failed' if terminal else 'observando'
+        rec['status']='succeeded' if row['state'] in {'reviewed_plan','reviewed_contract_section','reviewed_application_file'} or (row['state']=='evaluated_fixture' and row.get('fixture_passed')) else 'failed' if terminal else 'observando'
         rec['finished_at']=row['updated_at'] if terminal else None
         ops=journal.records(row['id'],'plan_ops')
         rec['tokens']=sum((op.get('result',{}).get('input_tokens') or 0)+(op.get('result',{}).get('output_tokens') or 0)
                           for op in ops if op['state']=='confirmed'
                           and type(op.get('result',{}).get('input_tokens')) is int
                           and type(op.get('result',{}).get('output_tokens')) is int)
-        label=(('evaluación de fixture ' if row['scope']=='contract_fixture_evaluation' else 'sección contractual ')+row['binding']['section'] if row['binding'].get('section') else 'estructura de plan')
+        label=('archivo de interfaz' if row['scope']=='application_file_review' else ('evaluación de fixture ' if row['scope']=='contract_fixture_evaluation' else 'sección contractual ')+row['binding']['section'] if row['binding'].get('section') else 'estructura de plan')
         rec['result']=(f"Estado: {row['state']}. {row['calls']} llamadas, {row['corrections']} correcciones. "
                        'Sólo '+label+'. Producto y comandos no ejecutados. '+row['reason']) if terminal else None
         self.store.update_run(rec)

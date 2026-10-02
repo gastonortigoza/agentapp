@@ -5,6 +5,9 @@ from phase3_review import RULES, output_schema as schema_for, contract_mode
 
 
 def prompt(row,op,lock,documents):
+    if row['binding'].get('section')=='application':
+        from phase3_application import prompt as code_prompt
+        return code_prompt(row,op,documents)
     if contract_mode(row):
         from phase3_contract import prompt as contract_prompt
         return contract_prompt(row,op,lock,documents)
@@ -66,7 +69,7 @@ def call_role(row,op,lock,documents):
             return result.get('text') or 'Blocked; no retry permitted.'
     llm=JournaledOllama(model=row['binding']['model'],context=limits['context_tokens'],think=False)
     cfg=lab.CONFIG['agents'][op['role']]
-    scope='documentary contract section' if contract_mode(row) else 'structural file plan'
+    scope='application source file' if row['binding'].get('section')=='application' else 'documentary contract section' if contract_mode(row) else 'structural file plan'
     agent=lab.Agent(role=cfg['role']+' · '+scope,goal='Correct or review only the supplied frozen rules and their related evidence.',
         backstory='You separate structural planning from product execution and business decisions.',
         llm=llm,tools=[],allow_delegation=False,reasoning=False,verbose=False,max_iter=1,

@@ -1,0 +1,114 @@
+{
+  "source_identity": "d558cbd14699b57f7839ad020cfba8259290d44e9cfa30b9a217706a78ab9022",
+  "review_runs": [
+    {
+      "id": "age50-directory-r8-plan-20261001",
+      "state": "reviewed_plan",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 2055,
+      "output_tokens": 670,
+      "active_ms": 68203,
+      "reason": "Structural plan accepted; no product execution"
+    },
+    {
+      "id": "age50-directory-r8-api-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 6566,
+      "output_tokens": 226,
+      "active_ms": 13766,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-directory-r8-data-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5886,
+      "output_tokens": 234,
+      "active_ms": 13343,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-directory-r8-subscriptions-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5998,
+      "output_tokens": 227,
+      "active_ms": 13219,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-directory-r8-manifest-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5994,
+      "output_tokens": 230,
+      "active_ms": 13203,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-directory-r8-application-20261001",
+      "state": "reviewed_application_file",
+      "calls": 3,
+      "corrections": 1,
+      "input_tokens": 8888,
+      "output_tokens": 2742,
+      "active_ms": 85219,
+      "reason": "Scoped source file accepted; sandbox tests pending"
+    }
+  ],
+  "product_tests_executed": false,
+  "full_product_acceptance": false,
+  "state": "failed",
+  "execution_id": "age50-directory-execution-r8-20261001",
+  "manifest_sha256": "b16137e71ce433be51d7479b477b17a3dbc65719ce1fdb0ff6d2a0d5a4d601b4",
+  "cli_exit_code": 2,
+  "workspace": "E:\\IA\\workspace\\age50-directory-r8-20261001",
+  "stages": [
+    {
+      "duration_ms": 422,
+      "exit_code": 0,
+      "name": "migrate",
+      "operation": 6
+    },
+    {
+      "duration_ms": 3703,
+      "exit_code": 0,
+      "name": "install",
+      "operation": 14
+    }
+  ],
+  "reason": "Check or infrastructure command failed: 2",
+  "cleanup": [
+    {
+      "container": "age50-4fbc8eb85c574c3aa642-browser",
+      "exit_code": 0
+    },
+    {
+      "container": "age50-4fbc8eb85c574c3aa642-node",
+      "exit_code": 0
+    },
+    {
+      "container": "age50-4fbc8eb85c574c3aa642-postgres",
+      "exit_code": 0
+    },
+    {
+      "exit_code": 0,
+      "image": "age50-4fbc8eb85c574c3aa642-node-image"
+    },
+    {
+      "exit_code": 0,
+      "image": "age50-4fbc8eb85c574c3aa642-browser-image"
+    }
+  ],
+  "confirmed_calls": 8,
+  "input_tokens": 35387,
+  "output_tokens": 4329,
+  "attempted_operations": 8,
+  "elapsed_model_ms": 206953
+}

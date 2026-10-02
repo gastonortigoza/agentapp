@@ -106,6 +106,9 @@ def contract_mode(row):return row['binding'].get('section') is not None
 
 
 def output_schema(row,op,lock,documents):
+    if row['binding'].get('section')=='application':
+        import phase3_application as application
+        return application.writer_schema() if op['role']=='developer' else application.review_schema()
     if contract_mode(row):
         import phase3_contract as contract
         section=row['binding']['section']
@@ -115,6 +118,9 @@ def output_schema(row,op,lock,documents):
 
 
 def candidate_defects(row,lock,documents):
+    if row['binding'].get('section')=='application':
+        import phase3_application as application
+        return application.defects(row['candidate'])
     if contract_mode(row):
         import phase3_contract as contract
         return contract.defects(row['candidate'],row['binding']['section'],documents)
@@ -122,6 +128,9 @@ def candidate_defects(row,lock,documents):
 
 
 def checked_review(row,value,documents):
+    if row['binding'].get('section')=='application':
+        import phase3_application as application
+        return application.validate_review(value,row['candidate'])
     if contract_mode(row):
         import phase3_contract as contract
         return contract.validate_review(value,row['candidate'],row['binding']['section'],documents)
@@ -190,9 +199,13 @@ class Journal:
         snapshot=preparation.snapshot(bundle,folder)
         limits,rules=LIMITS,RULES
         if section is not None:
-            import phase3_contract as contract
-            if section not in contract.SECTIONS:raise ValueError('Unsupported contract section')
-            limits,rules=contract.LIMITS,contract.rules(section)
+            if section=='application':
+                import phase3_application as application
+                limits,rules=application.LIMITS,application.RULES
+            else:
+                import phase3_contract as contract
+                if section not in contract.SECTIONS:raise ValueError('Unsupported contract section')
+                limits,rules=contract.LIMITS,contract.rules(section)
         cfg={'suite_identity':suite,'input_identity':snapshot['input_identity'],
              'model':documents['policy.json']['local_model'],
              'digest':documents['policy.json']['local_model_digest'],'limits':limits,
@@ -208,7 +221,7 @@ class Journal:
              'binding':cfg,'binding_sha256':manifest.identity(cfg),
              'snapshot_directory':snapshot['snapshot_directory'], 'execution_authorized':False,
              'product_tests_executed':False,'scope':'contract_fixture_evaluation' if expected_checks is not None else
-             'contract_section_document_review' if section else 'file_plan_structural_review'}
+             'application_file_review' if section=='application' else 'contract_section_document_review' if section else 'file_plan_structural_review'}
         with self.transaction() as db:
             db.execute('INSERT INTO plan_runs VALUES(?,?)',(run_id,manifest.canonical(row)))
             self.save(db,row,{'kind':'run.created','seed_sha256':cfg['seed_sha256']})
@@ -282,8 +295,8 @@ class Journal:
                                 row.update(state='evaluated_fixture',fixture_passed=actual==row['binding']['expected_checks'],
                                            reason='Fixture evaluation only; not contract or product acceptance')
                             elif row['findings']:row['role']='developer'
-                            else:row.update(state='reviewed_contract_section' if contract_mode(row) else 'reviewed_plan',
-                                            reason='Documentary section accepted; no product execution' if contract_mode(row) else 'Structural plan accepted; no product execution')
+                            else:row.update(state='reviewed_application_file' if row['binding'].get('section')=='application' else 'reviewed_contract_section' if contract_mode(row) else 'reviewed_plan',
+                                            reason='Scoped source file accepted; sandbox tests pending' if row['binding'].get('section')=='application' else 'Documentary section accepted; no product execution' if contract_mode(row) else 'Structural plan accepted; no product execution')
                         else:
                             Draft202012Validator(output_schema(row,op,lock,documents)).validate(parsed)
                             row.update(candidate=parsed,candidate_sha256=manifest.identity(parsed),role='reviewer')
@@ -304,8 +317,12 @@ def verify_binding(row):
     if manifest.identity(row['binding'])!=row['binding_sha256']:raise ValueError('Binding changed')
     limits,rules=LIMITS,RULES
     if contract_mode(row):
-        import phase3_contract as contract
-        limits,rules=contract.LIMITS,contract.rules(row['binding']['section'])
+        if row['binding']['section']=='application':
+            import phase3_application as application
+            limits,rules=application.LIMITS,application.RULES
+        else:
+            import phase3_contract as contract
+            limits,rules=contract.LIMITS,contract.rules(row['binding']['section'])
     if row['binding']['limits']!=limits or row['binding']['rules']!=rules:raise ValueError('Policy drift')
     if controller_gate.require_green()!=row['binding']['suite_identity']:raise ValueError('Controller drift')
     lock,documents,_=preparation.load_bundle(Path(row['snapshot_directory']))

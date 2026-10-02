@@ -1,0 +1,81 @@
+{
+  "source_identity": "79038c9511aabc56b04bc81a0080fd87a99c113a5abd153bc4931d2d086336fe",
+  "revision": "r9c",
+  "state": "failed",
+  "reason": "Check or infrastructure command failed: 1",
+  "execution_id": "age50-directory-execution-r9c-20261001",
+  "workspace": "E:\\IA\\workspace\\age50-directory-r9c-20261001",
+  "manifest_sha256": "a927cad98ed6853389a5e0bdd0a209553831830dff5230fac15c69f58f2bcfb0",
+  "stages": [
+    {
+      "duration_ms": 313,
+      "exit_code": 0,
+      "name": "migrate",
+      "operation": 6
+    },
+    {
+      "duration_ms": 3718,
+      "exit_code": 0,
+      "name": "install",
+      "operation": 14
+    },
+    {
+      "duration_ms": 4297,
+      "exit_code": 0,
+      "name": "be_build",
+      "operation": 23
+    },
+    {
+      "duration_ms": 5907,
+      "exit_code": 0,
+      "name": "fe_build",
+      "operation": 24
+    },
+    {
+      "duration_ms": 1875,
+      "exit_code": 0,
+      "name": "unit",
+      "operation": 25,
+      "tests": 5
+    },
+    {
+      "duration_ms": 234,
+      "exit_code": 0,
+      "name": "be",
+      "operation": 26
+    },
+    {
+      "duration_ms": 250,
+      "exit_code": 0,
+      "name": "fe",
+      "operation": 29
+    }
+  ],
+  "cleanup": [
+    {
+      "container": "age50-5f609bb34b994deebb96-browser",
+      "exit_code": 0
+    },
+    {
+      "container": "age50-5f609bb34b994deebb96-node",
+      "exit_code": 0
+    },
+    {
+      "container": "age50-5f609bb34b994deebb96-postgres",
+      "exit_code": 0
+    },
+    {
+      "exit_code": 0,
+      "image": "age50-5f609bb34b994deebb96-node-image"
+    },
+    {
+      "exit_code": 0,
+      "image": "age50-5f609bb34b994deebb96-browser-image"
+    }
+  ],
+  "product_tests_executed": true,
+  "full_product_acceptance": false,
+  "cli_exit_code": 2,
+  "model_calls": 0,
+  "current_original_reviews_reused": true
+}

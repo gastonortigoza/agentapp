@@ -14,7 +14,7 @@ RECEIPT = ROOT/'.state/controller-suite.json'
 
 def source_identity(root=ROOT):
     root = Path(root)
-    paths = sorted({*root.glob('*.py'), *root.glob('*.cmd'),
+    paths = sorted({*root.glob('*.py'), *root.glob('*.cmd'), *root.glob('*.sql'),
                     *(root/'tests').glob('*.py'), *(root/'schemas').glob('*.json'),
                     root/'pyproject.toml', root/'uv.lock',
                     *(p for p in (root/'config').glob('*') if p.name in {'agents.yaml','pilot-manifest.json','local-pilot.json','ci-policy.json','github-app.json','phase2.json','phase3-input-lock.json'}),

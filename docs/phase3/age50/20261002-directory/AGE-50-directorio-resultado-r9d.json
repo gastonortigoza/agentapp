@@ -1,0 +1,91 @@
+{
+  "source_identity": "79038c9511aabc56b04bc81a0080fd87a99c113a5abd153bc4931d2d086336fe",
+  "revision": "r9d",
+  "state": "completed",
+  "reason": "Bounded directory slice passed; all other SaaS criteria remain pending",
+  "execution_id": "age50-directory-execution-r9d-20261001",
+  "workspace": "E:\\IA\\workspace\\age50-directory-r9d-20261001",
+  "manifest_sha256": "4cd10ce6a3619d244cdaf930f255b4c2d53d7614b6da779e9b04e2a261b11868",
+  "stages": [
+    {
+      "duration_ms": 360,
+      "exit_code": 0,
+      "name": "migrate",
+      "operation": 6
+    },
+    {
+      "duration_ms": 3718,
+      "exit_code": 0,
+      "name": "install",
+      "operation": 14
+    },
+    {
+      "duration_ms": 4360,
+      "exit_code": 0,
+      "name": "be_build",
+      "operation": 23
+    },
+    {
+      "duration_ms": 6094,
+      "exit_code": 0,
+      "name": "fe_build",
+      "operation": 24
+    },
+    {
+      "duration_ms": 1953,
+      "exit_code": 0,
+      "name": "unit",
+      "operation": 25,
+      "tests": 5
+    },
+    {
+      "duration_ms": 234,
+      "exit_code": 0,
+      "name": "be",
+      "operation": 26
+    },
+    {
+      "duration_ms": 250,
+      "exit_code": 0,
+      "name": "fe",
+      "operation": 29
+    },
+    {
+      "duration_ms": 6188,
+      "exit_code": 0,
+      "name": "e2e",
+      "operation": 31,
+      "tests": 4
+    }
+  ],
+  "cleanup": [
+    {
+      "container": "age50-e7d646637fd84b0596fb-browser",
+      "exit_code": 0
+    },
+    {
+      "container": "age50-e7d646637fd84b0596fb-node",
+      "exit_code": 0
+    },
+    {
+      "container": "age50-e7d646637fd84b0596fb-postgres",
+      "exit_code": 0
+    },
+    {
+      "exit_code": 0,
+      "image": "age50-e7d646637fd84b0596fb-node-image"
+    },
+    {
+      "exit_code": 0,
+      "image": "age50-e7d646637fd84b0596fb-browser-image"
+    }
+  ],
+  "product_tests_executed": true,
+  "full_product_acceptance": false,
+  "cli_exit_code": 0,
+  "model_calls": 0,
+  "current_original_reviews_reused": true,
+  "resume_identical_no_operations": true,
+  "lock_drift_rejected": "Component lock drift",
+  "original_execution_preserved": true
+}
