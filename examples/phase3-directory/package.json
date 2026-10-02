@@ -1,0 +1,17 @@
+{
+  "name": "agentapp-directory-slice",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.18.0",
+    "npm": "10.9.3"
+  },
+  "scripts": {
+    "test:unit": "npm run test:unit --workspace backend && npm run test:unit --workspace frontend"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
+}

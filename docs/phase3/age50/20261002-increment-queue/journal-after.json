@@ -1,0 +1,24 @@
+{
+  "plan_runs": {
+    "reviewed_contract_section": 42,
+    "blocked_evidence": 7,
+    "evaluated_fixture": 12,
+    "reviewed_plan": 10,
+    "blocked_budget": 1,
+    "uncertain_operation": 1,
+    "reviewed_application_file": 17
+  },
+  "phase3_workflows": {
+    "awaiting_discrepancy": 5,
+    "completed_slice": 1
+  },
+  "auth_executions": 0,
+  "increment_queues": 0,
+  "profile_used": {
+    "active_ms": 920515,
+    "calls": 26,
+    "executions": 3,
+    "input_tokens": 129180,
+    "output_tokens": 15326
+  }
+}

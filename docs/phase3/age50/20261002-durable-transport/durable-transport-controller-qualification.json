@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-02T21:43:29.822648+00:00",
+  "state": "qualified_prospective_durable_transport_protocol",
+  "suite_identity": "dbc2a0d3dfb068f6429adf0fd8610d82f1ad50eb1c4c21add6ddde8d8f6faa27",
+  "summary": "758 passed, 2 skipped, 553 warnings in 138.54s (0:02:18)",
+  "model_calls": 0,
+  "auth_product_tests_executed": false,
+  "full_product_acceptance": false,
+  "targeted_result": "27 passed /1 skipped before added bounds/ownership tests; one assertion fixture corrected for existing prompt_sha256",
+  "no_model_budget_increase": true,
+  "old_uncertain_call_not_recovered_or_resent": true
+}

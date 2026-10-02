@@ -1,0 +1,1020 @@
+{
+  "run": {
+    "active_ms": 188,
+    "binding": {
+      "digest": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+      "input_identity": "5604df75833ae3f960561e59d8f618d02b1a1d4342db86f194066e756b3d66e6",
+      "limits": {
+        "active_seconds": 600,
+        "calls": 5,
+        "context_tokens": 32768,
+        "corrections": 2,
+        "input_tokens": 163840,
+        "output_tokens": 20000,
+        "timeout_seconds": 150
+      },
+      "model": "qwen3.8:27b-q4_K_M",
+      "rules": {
+        "API01": "DTO references resolve, including nullable and arrays; public DTOs exclude private fields.",
+        "API02": "Routes have unique method/path and match accepted acceptance cases, owner access and status.",
+        "API03": "Apply the same geography filters and eligibility to basic and promoted; expiry preserves owner management."
+      },
+      "section": "api",
+      "seed_sha256": "130b27276b951b45bc5cf78922ebcb71b74ea9751dd8a9d1fabbbca01d1cee93",
+      "suite_identity": "2ba065a2f21cd3eab79d30b349ff51f0887f389f53b59120b81cbbf18d1fa457"
+    },
+    "binding_sha256": "b7f9c24fe75c0c2e1a3950257f2b0cf81c4fcbeb416e69f61ae4aa9865145b31",
+    "calls": 1,
+    "candidate": {
+      "dtos": {
+        "OwnProfile": {
+          "complete": "boolean: server computed",
+          "country_id": "uuid",
+          "created_at": "UTC ISO8601",
+          "description": "plain text <=2000 chars",
+          "display_name": "string",
+          "gender": "string",
+          "id": "uuid",
+          "phone_e164": "AR MOBILE E.164",
+          "photos": "$Photo[]",
+          "province_id": "uuid",
+          "published": "boolean: requested publication",
+          "updated_at": "UTC ISO8601",
+          "zone_id": "uuid"
+        },
+        "Photo": {
+          "created_at": "UTC ISO8601",
+          "id": "uuid",
+          "is_main": "boolean",
+          "url": "string: published reencoded image"
+        },
+        "PublicCard": {
+          "age": "integer: computed >=18",
+          "country_id": "uuid",
+          "description": "plain text <=2000 chars",
+          "display_name": "string",
+          "gender": "string",
+          "id": "uuid",
+          "main_photo": "$Photo",
+          "plan": "basic|promoted",
+          "province_id": "uuid",
+          "whatsapp_url": "https://wa.me/{digits_without_plus}",
+          "zone_id": "uuid",
+          "zone_label": "string"
+        },
+        "PublicProfile": {
+          "age": "integer",
+          "country_id": "uuid",
+          "description": "plain text <=2000 chars",
+          "display_name": "string",
+          "gender": "string",
+          "id": "uuid",
+          "photos": "$Photo[]",
+          "plan": "basic|promoted",
+          "province_id": "uuid",
+          "whatsapp_url": "https://wa.me/{digits_without_plus}",
+          "zone_id": "uuid",
+          "zone_label": "string"
+        },
+        "Session": {
+          "access_token": "JWT string",
+          "expires_in": "integer seconds =900",
+          "user_id": "uuid: authenticated owner"
+        },
+        "Subscription": {
+          "amount_minor": "integer: ARS centavos snapshot",
+          "currency": "ARS",
+          "ends_at": "UTC ISO8601",
+          "id": "uuid",
+          "notice": "string: Sin cobro — activación de prueba",
+          "origin": "simulated|rebill",
+          "plan_id": "basic|promoted",
+          "starts_at": "UTC ISO8601",
+          "status": "active|expired: derived from dates"
+        }
+      },
+      "error_shape": "All errors JSON {error:{code:string,message:string,fields?:object<string,string>},request_id:string}.400 malformed/extra fields,401 invalid_session,403 simulation_disabled or CSRF,404 missing/not-visible/nonowner,409 conflict,413 bytes,415 media,422 semantic invalid,429 rate limit,503 service/transaction. No SQL, stack, secrets or account enumeration.",
+      "listing": {
+        "deduplication": "Exactly one profile per user UNIQUE(user_id); one listing row per profile using EXISTS and current plan resolved under no-overlap writer invariant. Promoted appears once, ahead of basic in same page stream.",
+        "eligibility": "profiles.published AND server complete (all required fields+valid mobile+main photo) AND EXISTS subscription starts_at<=now AND ends_at>now. Both basic/promoted must satisfy same filters and eligibility. Detail uses identical rule. Whole AR geography hierarchy validated.",
+        "filters": [
+          "country_id",
+          "province_id",
+          "zone_id"
+        ],
+        "order": [
+          "plan promoted DESC",
+          "profiles.created_at DESC",
+          "profiles.id DESC"
+        ],
+        "pagination": "Keyset cursor opaque encoding last ordering tuple plus hash normalized filters. limit1..50 default20; changed filter or invalid cursor400. One EXISTS active subscription per profile avoids duplicate joins."
+      },
+      "routes": [
+        {
+          "auth": "public",
+          "errors": [
+            400,
+            422,
+            503
+          ],
+          "method": "GET",
+          "path": "/api/profiles",
+          "request": {
+            "country_id": "optional uuid",
+            "cursor": "optional opaque string",
+            "limit": "integer 1..50 default20",
+            "province_id": "optional uuid",
+            "zone_id": "optional uuid"
+          },
+          "response": {
+            "items": "$PublicCard[]",
+            "next_cursor": "string|null"
+          },
+          "rule": "Apply hierarchy filters to basic AND promoted; public eligibility; promoted DESC, created_at DESC, id DESC; keyset cursor bound to filter hash; one row per profile.",
+          "status": 200
+        },
+        {
+          "auth": "public",
+          "errors": [
+            400,
+            404,
+            503
+          ],
+          "method": "GET",
+          "path": "/api/profiles/:profile_id",
+          "request": {},
+          "response": {
+            "profile": "$PublicProfile"
+          },
+          "rule": "Same public eligibility as listing; expired, unpublished, incomplete or absent =404. No owner private fields.",
+          "status": 200
+        },
+        {
+          "auth": "public",
+          "errors": [
+            400,
+            422,
+            503
+          ],
+          "method": "GET",
+          "path": "/api/catalog/geography",
+          "request": {
+            "country_id": "optional uuid",
+            "province_id": "optional uuid"
+          },
+          "response": {
+            "countries": "array<{id:uuid,code:AR,name:string}>",
+            "provinces": "array<{id:uuid,country_id:uuid,name:string}>",
+            "zones": "array<{id:uuid,country_id:uuid,province_id:uuid,name:string}>"
+          },
+          "rule": "Only loaded official AR catalog, parent filters validated. No catalog invented in this contract; unloaded catalog=503 catalog_unavailable.",
+          "status": 200
+        },
+        {
+          "auth": "public",
+          "errors": [
+            503
+          ],
+          "method": "GET",
+          "path": "/api/plans",
+          "request": {},
+          "response": {
+            "plans": "array<{id:basic|promoted,amount_minor:integer,currency:ARS,billing_period:monthly}>"
+          },
+          "rule": "Server catalog basic1500000/promoted3000000 centavos, monthly real billing. No client price accepted.",
+          "status": 200
+        },
+        {
+          "auth": "public",
+          "errors": [
+            400,
+            409,
+            422,
+            429,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/auth/register",
+          "request": {
+            "birth_date": "YYYY-MM-DD private",
+            "email": "string email",
+            "password": "string 12..128 chars"
+          },
+          "response": {
+            "session": "$Session"
+          },
+          "rule": "Adult age >=18 civil date America/Argentina/Buenos_Aires, no future date. One email case-insensitive. Set refresh cookie. Self-declared DOB, no identity verification claim.",
+          "status": 201
+        },
+        {
+          "auth": "public",
+          "errors": [
+            400,
+            401,
+            429,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/auth/login",
+          "request": {
+            "email": "string",
+            "password": "string"
+          },
+          "response": {
+            "session": "$Session"
+          },
+          "rule": "Generic invalid_credentials for wrong user/password; new hashed refresh session and cookie.",
+          "status": 200
+        },
+        {
+          "auth": "public",
+          "errors": [
+            401,
+            429,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/auth/refresh",
+          "request": {},
+          "response": {
+            "session": "$Session"
+          },
+          "rule": "Authenticate via refresh cookie, rotate transactionally, single use; reused revoked token revokes its family; CSRF same-origin rule.",
+          "status": 200
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            401,
+            403,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/auth/logout",
+          "request": {},
+          "response": {},
+          "rule": "Revoke refresh family and associated access sessions; clear cookie. Bearer required; no caller user_id.",
+          "status": 204
+        },
+        {
+          "auth": "public",
+          "errors": [
+            400,
+            429,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/auth/forgot-password",
+          "request": {
+            "email": "string"
+          },
+          "response": {
+            "message": "string: Si la cuenta existe, recibirás instrucciones"
+          },
+          "rule": "Same status/body for known/unknown email. Persist reset hash only; delivery via Mailpit in dev/staging.",
+          "status": 202
+        },
+        {
+          "auth": "public",
+          "errors": [
+            400,
+            422,
+            429,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/auth/reset-password",
+          "request": {
+            "password": "string 12..128 chars",
+            "token": "string base64url"
+          },
+          "response": {
+            "message": "string: Contraseña actualizada"
+          },
+          "rule": "Token random32bytes hash SHA256, expires1h, once; transaction changes password, consumes token, revokes all sessions.",
+          "status": 200
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            401,
+            404,
+            503
+          ],
+          "method": "GET",
+          "path": "/api/me/profile",
+          "request": {},
+          "response": {
+            "profile": "$OwnProfile"
+          },
+          "rule": "Owner from validated session; expired subscription does not block profile management.",
+          "status": 200
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            400,
+            401,
+            409,
+            422,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/me/profile",
+          "request": {
+            "country_id": "uuid: AR",
+            "description": "plain text 1..2000",
+            "display_name": "string 1..80",
+            "gender": "string 1..80: any gender",
+            "phone_e164": "AR MOBILE E.164",
+            "province_id": "uuid",
+            "published": "boolean",
+            "zone_id": "uuid"
+          },
+          "response": {
+            "profile": "$OwnProfile"
+          },
+          "rule": "One profile per user; geography composite FK; MOBILE only; published=true requires complete profile with main photo or422 incomplete_profile. Create initially published=false.",
+          "status": 201
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            400,
+            401,
+            404,
+            422,
+            503
+          ],
+          "method": "PATCH",
+          "path": "/api/me/profile",
+          "request": {
+            "country_id": "optional uuid: AR",
+            "description": "optional plain text 1..2000",
+            "display_name": "optional string 1..80",
+            "gender": "optional string 1..80: any gender",
+            "phone_e164": "optional AR MOBILE E.164",
+            "province_id": "optional uuid",
+            "published": "optional boolean",
+            "zone_id": "optional uuid"
+          },
+          "response": {
+            "profile": "$OwnProfile"
+          },
+          "rule": "No user_id/profile_id from body. Lock owned profile; atomic validation; explicit publication requires completeness. Subscription expiry still200 for valid own edits.",
+          "status": 200
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            400,
+            401,
+            404,
+            409,
+            413,
+            415,
+            422,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/me/photos",
+          "request": {
+            "file": "multipart binary JPEG/PNG/WebP <=5242880 bytes"
+          },
+          "response": {
+            "photo": "$Photo"
+          },
+          "rule": "Prevalidate bytes/decode/reencode in quarantine; lock owned profile; max5; first photo main; persist only safe object ref. Reject forged image415, huge decoded image422.",
+          "status": 201
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            400,
+            401,
+            404,
+            503
+          ],
+          "method": "PUT",
+          "path": "/api/me/photos/:photo_id/main",
+          "request": {},
+          "response": {
+            "photo": "$Photo"
+          },
+          "rule": "Photo ownership join via session; other owner404. Lock profiles row, unset old main then set new within transaction.",
+          "status": 200
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            400,
+            401,
+            404,
+            503
+          ],
+          "method": "DELETE",
+          "path": "/api/me/photos/:photo_id",
+          "request": {},
+          "response": {},
+          "rule": "Lock profiles; delete owned photo; if main pick earliest remaining created_at,id; if no photos complete=false and published=false. Object cleanup after DB commit via reconciliation.",
+          "status": 204
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            401,
+            503
+          ],
+          "method": "GET",
+          "path": "/api/me/subscription",
+          "request": {},
+          "response": {
+            "subscription": "$Subscription|null"
+          },
+          "rule": "Derive expiry at server now; dates never regenerated at read or restart; owner can read while expired.",
+          "status": 200
+        },
+        {
+          "auth": "owner",
+          "errors": [
+            400,
+            401,
+            403,
+            409,
+            422,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/subscriptions/activate",
+          "request": {
+            "plan_id": "basic|promoted"
+          },
+          "response": {
+            "subscription": "$Subscription"
+          },
+          "rule": "Idempotency-Key header required 1..128 ASCII chars. Body exactly plan_id; extra fields400. Production ALWAYS403 simulation_disabled before auth/body processing, even malformed/absent body. Replay within24h preserves original201 AND body. Server fixes owner/origin/price.",
+          "status": 201
+        },
+        {
+          "auth": "public",
+          "errors": [
+            503
+          ],
+          "method": "GET",
+          "path": "/api/health",
+          "request": {},
+          "response": {
+            "status": "string: ok"
+          },
+          "rule": "DB SELECT1 and validated config; no secrets, no simulated mutation.",
+          "status": 200
+        },
+        {
+          "auth": "public",
+          "errors": [
+            401,
+            429,
+            503
+          ],
+          "method": "POST",
+          "path": "/api/auth/refresh",
+          "request": {},
+          "response": {
+            "session": "$Session"
+          },
+          "rule": "Authenticate via refresh cookie, rotate transactionally, single use; reused revoked token revokes its family; CSRF same-origin rule.",
+          "status": 200
+        }
+      ]
+    },
+    "candidate_sha256": "130b27276b951b45bc5cf78922ebcb71b74ea9751dd8a9d1fabbbca01d1cee93",
+    "corrections": 0,
+    "created_at": "2026-10-01T19:40:44.007107+00:00",
+    "execution_authorized": false,
+    "findings": [],
+    "id": "age50-section-eval-novel-duplicate-empty-refresh-20261001",
+    "input_tokens": 32768,
+    "output_tokens": 2000,
+    "product_tests_executed": false,
+    "reason": "Transport did not return a complete verified result",
+    "role": "reviewer",
+    "scope": "contract_section_document_review",
+    "snapshot_directory": "C:\\Users\\gasto\\Documents\\Codex\\2026-10-01\\ejec\\work\\age50\\controller\\.state\\p3r\\38bcaeb0da863037\\de48b6532ec2e4452d42d386112cf486c7864c7f406403eda99772fcd2fc0a24",
+    "state": "blocked_evidence",
+    "updated_at": "2026-10-01T19:40:44.403838+00:00"
+  },
+  "operations": [
+    {
+      "candidate": {
+        "dtos": {
+          "OwnProfile": {
+            "complete": "boolean: server computed",
+            "country_id": "uuid",
+            "created_at": "UTC ISO8601",
+            "description": "plain text <=2000 chars",
+            "display_name": "string",
+            "gender": "string",
+            "id": "uuid",
+            "phone_e164": "AR MOBILE E.164",
+            "photos": "$Photo[]",
+            "province_id": "uuid",
+            "published": "boolean: requested publication",
+            "updated_at": "UTC ISO8601",
+            "zone_id": "uuid"
+          },
+          "Photo": {
+            "created_at": "UTC ISO8601",
+            "id": "uuid",
+            "is_main": "boolean",
+            "url": "string: published reencoded image"
+          },
+          "PublicCard": {
+            "age": "integer: computed >=18",
+            "country_id": "uuid",
+            "description": "plain text <=2000 chars",
+            "display_name": "string",
+            "gender": "string",
+            "id": "uuid",
+            "main_photo": "$Photo",
+            "plan": "basic|promoted",
+            "province_id": "uuid",
+            "whatsapp_url": "https://wa.me/{digits_without_plus}",
+            "zone_id": "uuid",
+            "zone_label": "string"
+          },
+          "PublicProfile": {
+            "age": "integer",
+            "country_id": "uuid",
+            "description": "plain text <=2000 chars",
+            "display_name": "string",
+            "gender": "string",
+            "id": "uuid",
+            "photos": "$Photo[]",
+            "plan": "basic|promoted",
+            "province_id": "uuid",
+            "whatsapp_url": "https://wa.me/{digits_without_plus}",
+            "zone_id": "uuid",
+            "zone_label": "string"
+          },
+          "Session": {
+            "access_token": "JWT string",
+            "expires_in": "integer seconds =900",
+            "user_id": "uuid: authenticated owner"
+          },
+          "Subscription": {
+            "amount_minor": "integer: ARS centavos snapshot",
+            "currency": "ARS",
+            "ends_at": "UTC ISO8601",
+            "id": "uuid",
+            "notice": "string: Sin cobro — activación de prueba",
+            "origin": "simulated|rebill",
+            "plan_id": "basic|promoted",
+            "starts_at": "UTC ISO8601",
+            "status": "active|expired: derived from dates"
+          }
+        },
+        "error_shape": "All errors JSON {error:{code:string,message:string,fields?:object<string,string>},request_id:string}.400 malformed/extra fields,401 invalid_session,403 simulation_disabled or CSRF,404 missing/not-visible/nonowner,409 conflict,413 bytes,415 media,422 semantic invalid,429 rate limit,503 service/transaction. No SQL, stack, secrets or account enumeration.",
+        "listing": {
+          "deduplication": "Exactly one profile per user UNIQUE(user_id); one listing row per profile using EXISTS and current plan resolved under no-overlap writer invariant. Promoted appears once, ahead of basic in same page stream.",
+          "eligibility": "profiles.published AND server complete (all required fields+valid mobile+main photo) AND EXISTS subscription starts_at<=now AND ends_at>now. Both basic/promoted must satisfy same filters and eligibility. Detail uses identical rule. Whole AR geography hierarchy validated.",
+          "filters": [
+            "country_id",
+            "province_id",
+            "zone_id"
+          ],
+          "order": [
+            "plan promoted DESC",
+            "profiles.created_at DESC",
+            "profiles.id DESC"
+          ],
+          "pagination": "Keyset cursor opaque encoding last ordering tuple plus hash normalized filters. limit1..50 default20; changed filter or invalid cursor400. One EXISTS active subscription per profile avoids duplicate joins."
+        },
+        "routes": [
+          {
+            "auth": "public",
+            "errors": [
+              400,
+              422,
+              503
+            ],
+            "method": "GET",
+            "path": "/api/profiles",
+            "request": {
+              "country_id": "optional uuid",
+              "cursor": "optional opaque string",
+              "limit": "integer 1..50 default20",
+              "province_id": "optional uuid",
+              "zone_id": "optional uuid"
+            },
+            "response": {
+              "items": "$PublicCard[]",
+              "next_cursor": "string|null"
+            },
+            "rule": "Apply hierarchy filters to basic AND promoted; public eligibility; promoted DESC, created_at DESC, id DESC; keyset cursor bound to filter hash; one row per profile.",
+            "status": 200
+          },
+          {
+            "auth": "public",
+            "errors": [
+              400,
+              404,
+              503
+            ],
+            "method": "GET",
+            "path": "/api/profiles/:profile_id",
+            "request": {},
+            "response": {
+              "profile": "$PublicProfile"
+            },
+            "rule": "Same public eligibility as listing; expired, unpublished, incomplete or absent =404. No owner private fields.",
+            "status": 200
+          },
+          {
+            "auth": "public",
+            "errors": [
+              400,
+              422,
+              503
+            ],
+            "method": "GET",
+            "path": "/api/catalog/geography",
+            "request": {
+              "country_id": "optional uuid",
+              "province_id": "optional uuid"
+            },
+            "response": {
+              "countries": "array<{id:uuid,code:AR,name:string}>",
+              "provinces": "array<{id:uuid,country_id:uuid,name:string}>",
+              "zones": "array<{id:uuid,country_id:uuid,province_id:uuid,name:string}>"
+            },
+            "rule": "Only loaded official AR catalog, parent filters validated. No catalog invented in this contract; unloaded catalog=503 catalog_unavailable.",
+            "status": 200
+          },
+          {
+            "auth": "public",
+            "errors": [
+              503
+            ],
+            "method": "GET",
+            "path": "/api/plans",
+            "request": {},
+            "response": {
+              "plans": "array<{id:basic|promoted,amount_minor:integer,currency:ARS,billing_period:monthly}>"
+            },
+            "rule": "Server catalog basic1500000/promoted3000000 centavos, monthly real billing. No client price accepted.",
+            "status": 200
+          },
+          {
+            "auth": "public",
+            "errors": [
+              400,
+              409,
+              422,
+              429,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/auth/register",
+            "request": {
+              "birth_date": "YYYY-MM-DD private",
+              "email": "string email",
+              "password": "string 12..128 chars"
+            },
+            "response": {
+              "session": "$Session"
+            },
+            "rule": "Adult age >=18 civil date America/Argentina/Buenos_Aires, no future date. One email case-insensitive. Set refresh cookie. Self-declared DOB, no identity verification claim.",
+            "status": 201
+          },
+          {
+            "auth": "public",
+            "errors": [
+              400,
+              401,
+              429,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/auth/login",
+            "request": {
+              "email": "string",
+              "password": "string"
+            },
+            "response": {
+              "session": "$Session"
+            },
+            "rule": "Generic invalid_credentials for wrong user/password; new hashed refresh session and cookie.",
+            "status": 200
+          },
+          {
+            "auth": "public",
+            "errors": [
+              401,
+              429,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/auth/refresh",
+            "request": {},
+            "response": {
+              "session": "$Session"
+            },
+            "rule": "Authenticate via refresh cookie, rotate transactionally, single use; reused revoked token revokes its family; CSRF same-origin rule.",
+            "status": 200
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              401,
+              403,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/auth/logout",
+            "request": {},
+            "response": {},
+            "rule": "Revoke refresh family and associated access sessions; clear cookie. Bearer required; no caller user_id.",
+            "status": 204
+          },
+          {
+            "auth": "public",
+            "errors": [
+              400,
+              429,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/auth/forgot-password",
+            "request": {
+              "email": "string"
+            },
+            "response": {
+              "message": "string: Si la cuenta existe, recibirás instrucciones"
+            },
+            "rule": "Same status/body for known/unknown email. Persist reset hash only; delivery via Mailpit in dev/staging.",
+            "status": 202
+          },
+          {
+            "auth": "public",
+            "errors": [
+              400,
+              422,
+              429,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/auth/reset-password",
+            "request": {
+              "password": "string 12..128 chars",
+              "token": "string base64url"
+            },
+            "response": {
+              "message": "string: Contraseña actualizada"
+            },
+            "rule": "Token random32bytes hash SHA256, expires1h, once; transaction changes password, consumes token, revokes all sessions.",
+            "status": 200
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              401,
+              404,
+              503
+            ],
+            "method": "GET",
+            "path": "/api/me/profile",
+            "request": {},
+            "response": {
+              "profile": "$OwnProfile"
+            },
+            "rule": "Owner from validated session; expired subscription does not block profile management.",
+            "status": 200
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              400,
+              401,
+              409,
+              422,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/me/profile",
+            "request": {
+              "country_id": "uuid: AR",
+              "description": "plain text 1..2000",
+              "display_name": "string 1..80",
+              "gender": "string 1..80: any gender",
+              "phone_e164": "AR MOBILE E.164",
+              "province_id": "uuid",
+              "published": "boolean",
+              "zone_id": "uuid"
+            },
+            "response": {
+              "profile": "$OwnProfile"
+            },
+            "rule": "One profile per user; geography composite FK; MOBILE only; published=true requires complete profile with main photo or422 incomplete_profile. Create initially published=false.",
+            "status": 201
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              400,
+              401,
+              404,
+              422,
+              503
+            ],
+            "method": "PATCH",
+            "path": "/api/me/profile",
+            "request": {
+              "country_id": "optional uuid: AR",
+              "description": "optional plain text 1..2000",
+              "display_name": "optional string 1..80",
+              "gender": "optional string 1..80: any gender",
+              "phone_e164": "optional AR MOBILE E.164",
+              "province_id": "optional uuid",
+              "published": "optional boolean",
+              "zone_id": "optional uuid"
+            },
+            "response": {
+              "profile": "$OwnProfile"
+            },
+            "rule": "No user_id/profile_id from body. Lock owned profile; atomic validation; explicit publication requires completeness. Subscription expiry still200 for valid own edits.",
+            "status": 200
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              400,
+              401,
+              404,
+              409,
+              413,
+              415,
+              422,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/me/photos",
+            "request": {
+              "file": "multipart binary JPEG/PNG/WebP <=5242880 bytes"
+            },
+            "response": {
+              "photo": "$Photo"
+            },
+            "rule": "Prevalidate bytes/decode/reencode in quarantine; lock owned profile; max5; first photo main; persist only safe object ref. Reject forged image415, huge decoded image422.",
+            "status": 201
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              400,
+              401,
+              404,
+              503
+            ],
+            "method": "PUT",
+            "path": "/api/me/photos/:photo_id/main",
+            "request": {},
+            "response": {
+              "photo": "$Photo"
+            },
+            "rule": "Photo ownership join via session; other owner404. Lock profiles row, unset old main then set new within transaction.",
+            "status": 200
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              400,
+              401,
+              404,
+              503
+            ],
+            "method": "DELETE",
+            "path": "/api/me/photos/:photo_id",
+            "request": {},
+            "response": {},
+            "rule": "Lock profiles; delete owned photo; if main pick earliest remaining created_at,id; if no photos complete=false and published=false. Object cleanup after DB commit via reconciliation.",
+            "status": 204
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              401,
+              503
+            ],
+            "method": "GET",
+            "path": "/api/me/subscription",
+            "request": {},
+            "response": {
+              "subscription": "$Subscription|null"
+            },
+            "rule": "Derive expiry at server now; dates never regenerated at read or restart; owner can read while expired.",
+            "status": 200
+          },
+          {
+            "auth": "owner",
+            "errors": [
+              400,
+              401,
+              403,
+              409,
+              422,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/subscriptions/activate",
+            "request": {
+              "plan_id": "basic|promoted"
+            },
+            "response": {
+              "subscription": "$Subscription"
+            },
+            "rule": "Idempotency-Key header required 1..128 ASCII chars. Body exactly plan_id; extra fields400. Production ALWAYS403 simulation_disabled before auth/body processing, even malformed/absent body. Replay within24h preserves original201 AND body. Server fixes owner/origin/price.",
+            "status": 201
+          },
+          {
+            "auth": "public",
+            "errors": [
+              503
+            ],
+            "method": "GET",
+            "path": "/api/health",
+            "request": {},
+            "response": {
+              "status": "string: ok"
+            },
+            "rule": "DB SELECT1 and validated config; no secrets, no simulated mutation.",
+            "status": 200
+          },
+          {
+            "auth": "public",
+            "errors": [
+              401,
+              429,
+              503
+            ],
+            "method": "POST",
+            "path": "/api/auth/refresh",
+            "request": {},
+            "response": {
+              "session": "$Session"
+            },
+            "rule": "Authenticate via refresh cookie, rotate transactionally, single use; reused revoked token revokes its family; CSRF same-origin rule.",
+            "status": 200
+          }
+        ]
+      },
+      "candidate_sha256": "130b27276b951b45bc5cf78922ebcb71b74ea9751dd8a9d1fabbbca01d1cee93",
+      "elapsed_ms": 188,
+      "reserve_input": 32768,
+      "reserve_output": 2000,
+      "result": {
+        "error_type": "prompt_exceeds_conservative_context",
+        "ok": false,
+        "sent": false
+      },
+      "role": "reviewer",
+      "seq": 0,
+      "started_at": "2026-10-01T19:40:44.192519+00:00",
+      "state": "confirmed",
+      "timeout_seconds": 150
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-10-01T19:40:44.009106+00:00",
+      "calls": 0,
+      "corrections": 0,
+      "kind": "run.created",
+      "seed_sha256": "130b27276b951b45bc5cf78922ebcb71b74ea9751dd8a9d1fabbbca01d1cee93",
+      "seq": 0,
+      "state": "active"
+    },
+    {
+      "agent": "reviewer",
+      "at": "2026-10-01T19:40:44.192519+00:00",
+      "calls": 1,
+      "corrections": 0,
+      "kind": "agent.started",
+      "seq": 1,
+      "state": "active"
+    },
+    {
+      "agent": "reviewer",
+      "at": "2026-10-01T19:40:44.403838+00:00",
+      "calls": 1,
+      "candidate_sha256": "130b27276b951b45bc5cf78922ebcb71b74ea9751dd8a9d1fabbbca01d1cee93",
+      "corrections": 0,
+      "elapsed_ms": 188,
+      "input_tokens": null,
+      "kind": "agent.finished",
+      "output_tokens": null,
+      "reason": "Transport did not return a complete verified result",
+      "seq": 2,
+      "state": "blocked_evidence"
+    }
+  ]
+}

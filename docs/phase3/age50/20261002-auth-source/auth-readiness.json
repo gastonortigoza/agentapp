@@ -1,0 +1,32 @@
+{
+  "schema": "agentapp.auth-readiness/1",
+  "status": "review_registry_ready_runtime_pending",
+  "dispatch_enabled": false,
+  "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+  "suite_identity": "f4062caaac1cad2d185b544e6383eac80e18bb5f087393024718b656d7510555",
+  "registered_modules": {
+    "auth_api": "backend/src/auth.ts",
+    "auth_pages": "frontend/src/AuthPages.tsx"
+  },
+  "prepared": {
+    "typed_review_rules": true,
+    "review_original_and_quote_gates_tested": true,
+    "tls_validated_local_probe": true,
+    "pg_acceptance_harness_cases": 9,
+    "pg_schema_and_roles_specified": true
+  },
+  "pending": [
+    "Exact auth FE/BE workspace dependencies/locks/offline tarballs",
+    "Source proposals/reviews from local agents under new bounded increment",
+    "Qualified isolated PostgreSQL driver/transactions/bootstrap",
+    "Frozen auth UI/provider wiring and Chromium acceptance",
+    "Browser trusted TLS chain and actual Secure/HttpOnly cookie behavior",
+    "New auth execution manifest consuming original reviews",
+    "Durable cross-increment queue"
+  ],
+  "product_acceptance": false,
+  "local_model_calls": 0,
+  "prior_budget_reset": false,
+  "source_author": "Codex controller/harness only; no auth product implementation",
+  "historical_profile_discrepancy_unchanged": true
+}

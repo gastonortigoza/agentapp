@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.18.0",
+    "npm": "10.9.3"
+  },
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "build": "tsc --noEmit",
+    "test:unit": "tsx --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "fastify": "5.6.1",
+    "pg": "8.16.3"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "tsx": "4.20.6",
+    "@types/node": "22.18.0",
+    "@types/pg": "8.15.5"
+  }
+}

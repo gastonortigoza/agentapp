@@ -1,0 +1,240 @@
+{
+  "tables": {
+    "users": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "email": "text NOT NULL: normalized lowercase",
+        "password_hash": "text NOT NULL Argon2id",
+        "birth_date": "date NOT NULL private",
+        "role": "text NOT NULL default member CHECK role=member",
+        "created_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "email"
+        ]
+      ],
+      "foreign_keys": []
+    },
+    "countries": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "code": "text NOT NULL CHECK code=AR",
+        "name": "text NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "code"
+        ]
+      ],
+      "foreign_keys": []
+    },
+    "provinces": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "country_id": "uuid NOT NULL",
+        "name": "text NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "id",
+          "country_id"
+        ],
+        [
+          "country_id",
+          "name"
+        ]
+      ],
+      "foreign_keys": [
+        "country_id REFERENCES countries(id)"
+      ]
+    },
+    "zones": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "country_id": "uuid NOT NULL",
+        "province_id": "uuid NOT NULL",
+        "name": "text NOT NULL: municipality / barrio label"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "id",
+          "province_id",
+          "country_id"
+        ],
+        [
+          "province_id",
+          "name"
+        ]
+      ],
+      "foreign_keys": [
+        "(province_id,country_id) REFERENCES provinces(id,missing_country)"
+      ]
+    },
+    "profiles": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "user_id": "uuid NOT NULL",
+        "display_name": "text NOT NULL",
+        "gender": "text NOT NULL",
+        "country_id": "uuid NOT NULL",
+        "province_id": "uuid NOT NULL",
+        "zone_id": "uuid NOT NULL",
+        "description": "text NOT NULL length1..2000",
+        "phone_e164": "text NOT NULL validated AR MOBILE",
+        "published": "boolean NOT NULL default false",
+        "created_at": "timestamptz NOT NULL",
+        "updated_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "user_id"
+        ]
+      ],
+      "foreign_keys": [
+        "user_id REFERENCES users(id)",
+        "(zone_id,province_id,country_id) REFERENCES zones(id,province_id,country_id)"
+      ]
+    },
+    "photos": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "profile_id": "uuid NOT NULL",
+        "object_key": "text NOT NULL",
+        "is_main": "boolean NOT NULL default false",
+        "created_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "object_key"
+        ]
+      ],
+      "foreign_keys": [
+        "profile_id REFERENCES profiles(id) ON DELETE CASCADE"
+      ]
+    },
+    "plans": {
+      "columns": {
+        "id": "text NOT NULL CHECK basic|promoted",
+        "amount_minor": "integer NOT NULL >0: basic1500000/promoted3000000",
+        "currency": "text NOT NULL CHECK ARS",
+        "billing_period": "text NOT NULL CHECK monthly",
+        "enabled": "boolean NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": []
+    },
+    "subscriptions": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "user_id": "uuid NOT NULL",
+        "plan_id": "text NOT NULL",
+        "origin": "text NOT NULL CHECK simulated|rebill",
+        "amount_minor": "integer NOT NULL >0",
+        "currency": "text NOT NULL CHECK ARS",
+        "starts_at": "timestamptz NOT NULL",
+        "ends_at": "timestamptz NOT NULL CHECK ends_at>starts_at",
+        "created_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        "user_id REFERENCES users(id)",
+        "plan_id REFERENCES plans(id)"
+      ]
+    },
+    "idempotency": {
+      "columns": {
+        "user_id": "uuid NOT NULL",
+        "key": "text NOT NULL",
+        "payload_hash": "text NOT NULL SHA256: NOT UNIQUE",
+        "response_status": "integer NOT NULL",
+        "response_body": "jsonb NOT NULL immutable snapshot",
+        "expires_at": "timestamptz NOT NULL",
+        "created_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "user_id",
+        "key"
+      ],
+      "unique": [
+        [
+          "payload_hash"
+        ]
+      ],
+      "foreign_keys": [
+        "user_id REFERENCES users(id) ON DELETE CASCADE"
+      ]
+    },
+    "sessions": {
+      "columns": {
+        "id": "uuid NOT NULL: JWT sid",
+        "user_id": "uuid NOT NULL",
+        "family_id": "uuid NOT NULL",
+        "refresh_hash": "text NOT NULL SHA256",
+        "expires_at": "timestamptz NOT NULL",
+        "revoked_at": "timestamptz nullable",
+        "created_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "refresh_hash"
+        ]
+      ],
+      "foreign_keys": [
+        "user_id REFERENCES users(id) ON DELETE CASCADE"
+      ]
+    },
+    "password_resets": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "user_id": "uuid NOT NULL",
+        "token_hash": "text NOT NULL SHA256",
+        "expires_at": "timestamptz NOT NULL",
+        "used_at": "timestamptz nullable",
+        "created_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "token_hash"
+        ]
+      ],
+      "foreign_keys": [
+        "user_id REFERENCES users(id) ON DELETE CASCADE"
+      ]
+    }
+  },
+  "geography_consistency": "UUID identifiers everywhere. profiles FK(zone_id,province_id,country_id) REFERENCES zones(id,province_id,country_id); zones FK(province_id,country_id) REFERENCES provinces(id,country_id); UNIQUE referenced composites. AR-only countries.code. Official province/municipality/barrio catalog is NOT fabricated; AGE-34/37 load source with identity. Test geography explicitly synthetic.",
+  "main_photo_constraint": "Add the missing main-photo partial unique index and profile lock.",
+  "transaction_lock": "Subscription activation BEGIN SELECT users(id) FOR UPDATE before checking current subscription or key. All future subscription writers same lock; no overlapping current interval. Idempotency PK(user_id,key), payload_hash NOT UNIQUE. Other-account same plan can have equal hashes.",
+  "restart": "Persist all users/profiles/photos/plan snapshots/subscription starts_at/ends_at/idempotency response/sessions/reset hashes. API restart does not re-seed users or renew dates. Migrations explicit, never implicit startup resets. Public expiry derived at query time, no timer required."
+}

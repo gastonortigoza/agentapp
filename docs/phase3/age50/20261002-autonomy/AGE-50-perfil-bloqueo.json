@@ -1,0 +1,12 @@
+[
+  {
+    "id": "age50-public-profile-plan-20261002",
+    "state": "blocked_evidence",
+    "calls": 3,
+    "corrections": 1,
+    "reason": "Invalid structured result or evidence citation: ValueError",
+    "input_tokens": 6542,
+    "output_tokens": 3855,
+    "active_ms": 165156
+  }
+]

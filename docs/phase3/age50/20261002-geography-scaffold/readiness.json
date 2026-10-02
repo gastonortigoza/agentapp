@@ -1,0 +1,46 @@
+{
+  "at": "2026-10-02T23:50:52.522702+00:00",
+  "suite_identity": "9e9359f6fac91dc48d3c19ebcf50af300447b821f259fd6cd2973889cadb890f",
+  "controller_tests": "838 passed, 3 skipped, 553 warnings in 180.79s (0:03:00)",
+  "receipt_sha256": "a56c099c62f672ae24c0f83c645fd8247b504ec940eb2bee2bc66cc4433f9c6f",
+  "prepared_files": 7,
+  "frozen_api_cases": 14,
+  "verified_cached_tarballs": 101,
+  "lock_sha256": "e4c4b4ad25631363aa7518383e1fe337d85b75fe726b622bac0ed9e1c5a756a6",
+  "source_barriers": [
+    {
+      "id": "age50-saas-queue-20261002-geo-source-r0",
+      "state": "blocked_evidence",
+      "reason": "review_not_accepted:geography_api"
+    },
+    {
+      "id": "age50-saas-queue-20261002-geo-correction-r0",
+      "state": "blocked_evidence",
+      "reason": "review_not_accepted:geography_correction"
+    },
+    {
+      "id": "age50-saas-queue-20261002-geo-revalidation-r0",
+      "state": "blocked_budget",
+      "reason": "review_not_accepted:geography_revalidation"
+    }
+  ],
+  "all_five_originals_preserved": true,
+  "shared_used": {
+    "active_ms": 1541001,
+    "calls": 18,
+    "executions": 0,
+    "input_tokens": 347951,
+    "output_tokens": 46520
+  },
+  "global_closed_attempts": 4,
+  "formal_audited_through": 3,
+  "node_syntax_checked": true,
+  "postgres_readonly_metadata_verified": true,
+  "new_model_calls": 0,
+  "generated_source_executed": false,
+  "product_tests_executed": false,
+  "materializer_implemented": false,
+  "execution_authorized": false,
+  "full_product_acceptance": false,
+  "official_catalogue_loaded": false
+}

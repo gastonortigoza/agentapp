@@ -1,0 +1,174 @@
+.........s.............................................................. [ 11%]
+........................................................................ [ 23%]
+........................................................................ [ 34%]
+........................................................................ [ 46%]
+......................................................................FF [ 58%]
+.......................F................................................ [ 69%]
+........................................................................ [ 81%]
+........................................................................ [ 93%]
+...........................................                              [100%]
+================================== FAILURES ===================================
+_ test_auth_registered_source_corrects_seed_keeps_original_and_never_authorizes_product[auth_api] _
+
+tmp_path = WindowsPath('C:/Users/gasto/AppData/Local/Temp/pytest-of-gasto/pytest-121/test_auth_registered_source_co0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000191C65B1370>
+section = 'auth_api'
+
+    @pytest.mark.parametrize('section',auth.SECTIONS)
+    def test_auth_registered_source_corrects_seed_keeps_original_and_never_authorizes_product(tmp_path,monkeypatch,section):
+        monkeypatch.setattr(controller_gate,'require_green',lambda:'qualified-controller')
+        monkeypatch.setattr(review,'ROOT',tmp_path)
+        journal=review.Journal(tmp_path/'review.sqlite')
+        seed={'path':auth.PATHS[section],'content':'incomplete original'}
+        gold={'path':auth.PATHS[section],'content':markers(section)}
+        journal.create('auth-review',seed,section=section)
+        lock,docs,_=preparation.load_bundle()
+        def call(row,op,*args):
+            instruction=roles.prompt(row,op,lock,docs)
+            assert auth.CONTRACT_SHA in instruction and 'SOURCE' in instruction
+            request={'model':row['binding']['model'],'digest':row['binding']['digest'],
+              'messages':[{'role':'user','content':instruction}],'format':review.output_schema(row,op,lock,docs)}
+            op['_record_request'](request)
+            body=gold if op['role']=='developer' else accepted(row['candidate'],section)
+            return result(body,prompt_sha256=manifest.identity(request['messages']))
+        final=review.run(journal,'auth-review',call)
+>       assert final['state']=='reviewed_application_file' and final['candidate']==gold
+E       AssertionError: assert ('uncertain_operation' == 'reviewed_application_file'
+E         
+E         - reviewed_application_file
+E         + uncertain_operation)
+
+tests\test_phase3_auth_source.py:46: AssertionError
+_ test_auth_registered_source_corrects_seed_keeps_original_and_never_authorizes_product[auth_pages] _
+
+tmp_path = WindowsPath('C:/Users/gasto/AppData/Local/Temp/pytest-of-gasto/pytest-121/test_auth_registered_source_co1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000191C537F560>
+section = 'auth_pages'
+
+    @pytest.mark.parametrize('section',auth.SECTIONS)
+    def test_auth_registered_source_corrects_seed_keeps_original_and_never_authorizes_product(tmp_path,monkeypatch,section):
+        monkeypatch.setattr(controller_gate,'require_green',lambda:'qualified-controller')
+        monkeypatch.setattr(review,'ROOT',tmp_path)
+        journal=review.Journal(tmp_path/'review.sqlite')
+        seed={'path':auth.PATHS[section],'content':'incomplete original'}
+        gold={'path':auth.PATHS[section],'content':markers(section)}
+        journal.create('auth-review',seed,section=section)
+        lock,docs,_=preparation.load_bundle()
+        def call(row,op,*args):
+            instruction=roles.prompt(row,op,lock,docs)
+            assert auth.CONTRACT_SHA in instruction and 'SOURCE' in instruction
+            request={'model':row['binding']['model'],'digest':row['binding']['digest'],
+              'messages':[{'role':'user','content':instruction}],'format':review.output_schema(row,op,lock,docs)}
+            op['_record_request'](request)
+            body=gold if op['role']=='developer' else accepted(row['candidate'],section)
+            return result(body,prompt_sha256=manifest.identity(request['messages']))
+        final=review.run(journal,'auth-review',call)
+>       assert final['state']=='reviewed_application_file' and final['candidate']==gold
+E       AssertionError: assert ('uncertain_operation' == 'reviewed_application_file'
+E         
+E         - reviewed_application_file
+E         + uncertain_operation)
+
+tests\test_phase3_auth_source.py:46: AssertionError
+_ test_product_feedback_reaches_auth_writer_and_reviewer_with_fixed_test_constraint _
+
+    def test_product_feedback_reaches_auth_writer_and_reviewer_with_fixed_test_constraint():
+        _,docs,_=preparation.load_bundle()
+        feedback={'execution_id':'auth-failure','execution_sha256':'0'*64,'stage':'unit','output':'Concurrent reuse left a live session'}
+        row={'binding':{'section':'auth_api','product_feedback':feedback},'candidate':{'path':auth.PATHS['auth_api'],'content':markers('auth_api')},'findings':[]}
+        for role in ('developer','reviewer'):
+>           prompt=source.prompt(row,{'role':role},docs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_phase3_auth_source.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+phase3_source.py:91: in prompt
+    if section in auth.SECTIONS:return auth.prompt(row,op,documents)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+row = {'binding': {'section': 'auth_api', 'product_feedback': {'execution_id': 'auth-failure', 'execution_sha256': '00000000...ed_at expires_at randomBytes sha256 family_id setCookie clearCookie BEGIN COMMIT ROLLBACK FOR UPDATE'}, 'findings': []}
+op = {'role': 'developer'}
+documents = {'contract.json': {'architecture': 'Contrato técnico documental v1 consolidado por Codex con decisiones de negocio del...ent-contract-policy', 'revision': 1, 'scope': 'contract_preparation_and_local_document_review', 'tools': [], ...}, ...}
+
+    def prompt(row,op,documents):
+        section=row['binding']['section'];rules(section)
+        contract=documents['contract.json']
+        instruction=('Replace the COMPLETE module in {path,content}; preserve contract and tests. ' if op['role']=='developer' else
+          'Review each rule independently; exact contiguous quote <=160characters for every pass, /content pointer. Failures require entire exact rule_quote, source=public-source-rules/1 and actionable fix. Static markers alone do not prove correct transactions, security or UI behavior. ')
+        context={'candidate':row['candidate'],'required_corrections':row['findings'],'contract_sha256':CONTRACT_SHA,
+>         'session_dto':contract['api']['dtos']['Session'],'auth_rule':contract['api']['auth_rule'],
+                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          'routes':[r for r in contract['api']['routes'] if r['path'] in ('/api/auth/register','/api/auth/login','/api/auth/refresh','/api/auth/logout')],
+          'tables':{k:contract['data']['tables'][k] for k in ('users','sessions')},
+          'integration':'Node22.18.0 TypeScript, Fastify5.6.1, pg8.16.3; injected Pool, no tools. Qualified pins @node-rs/argon2=2.2.1 jose=6.2.12 @fastify/cookie=11.1.2; React19.2 hooks. App installs registerAuth explicitly; requireOwner is reused by private route scaffold. No automatic registration or hook overriding unrelated public routes. Schema agentapp; no cookie plugin already installed unless this module registers it. now defaults new Date and supports fixed test civil dates. Header errors no private data. API source implement only declared exports; frontend provider/integration comes from frozen scaffold. Signing key is injected reference, never process.env or fixture key.'}
+E       KeyError: 'auth_rule'
+
+phase3_auth_source.py:82: KeyError
+============================== warnings summary ===============================
+E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\pydantic_settings\sources\utils.py:47
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\pydantic_settings\sources\utils.py:47: IncompleteFieldDefinitionWarning: Field 'lifespan' has an incomplete definition: its annotation contains an unresolved forward reference, so settings sources may fail to correctly resolve its value. Call `model_rebuild()` on the model where the field is defined, once all the referenced types are defined.
+    warnings.warn(
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\agent\core.py:405: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    if self.function_calling_llm and not isinstance(
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\agent\core.py:413: DeprecationWarning: deprecated
+    if self.allow_code_execution:
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\agent\core.py:424: DeprecationWarning: deprecated
+    if self.reasoning and self.planning_config is None:
+
+tests/test_controller_delivery.py: 36 warnings
+tests/test_local_agents.py: 90 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crew.py:650: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    if self.function_calling_llm and not isinstance(self.function_calling_llm, LLM):
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crews\utils.py:372: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    crew.function_calling_llm,
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crews\utils.py:87: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    if not agent.function_calling_llm:  # type: ignore[attr-defined]
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\agent\core.py:1201: DeprecationWarning: function_calling_llm is deprecated and will be removed in a future release.
+    function_calling_llm=self.function_calling_llm,
+
+tests/test_controller_delivery.py: 24 warnings
+tests/test_local_agents.py: 60 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crew.py:1675: DeprecationWarning: deprecated
+    if hasattr(agent, "allow_code_execution") and getattr(
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crew.py:1682: DeprecationWarning: deprecated
+    and hasattr(agent, "multimodal")
+
+tests/test_controller_delivery.py: 12 warnings
+tests/test_local_agents.py: 30 warnings
+  E:\IA\projects\local-ai-lab\.venv\Lib\site-packages\crewai\crew.py:1683: DeprecationWarning: deprecated
+    and getattr(agent, "multimodal", False)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_phase3_auth_source.py::test_auth_registered_source_corrects_seed_keeps_original_and_never_authorizes_product[auth_api]
+FAILED tests/test_phase3_auth_source.py::test_auth_registered_source_corrects_seed_keeps_original_and_never_authorizes_product[auth_pages]
+FAILED tests/test_phase3_auth_source.py::test_product_feedback_reaches_auth_writer_and_reviewer_with_fixed_test_constraint
+3 failed, 615 passed, 1 skipped, 547 warnings in 82.92s (0:01:22)
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\gasto\Documents\Codex\2026-10-01\ejec\work\age50\controller\controller_gate.py", line 47, in self_test
+    raise ValueError('Suite fallida o revisión modificada durante validación')
+ValueError: Suite fallida o revisión modificada durante validación
+

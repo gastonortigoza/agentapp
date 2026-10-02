@@ -32,3 +32,15 @@ def test_failed_self_test_removes_old_green(tmp_path,monkeypatch):
     monkeypatch.setattr(gate.subprocess,'run',lambda *a,**k:Result())
     with pytest.raises(ValueError):gate.self_test(tmp_path,receipt)
     assert not receipt.exists()
+
+
+def test_timeout_preserves_partial_diagnostics_and_invalidates_old_green(tmp_path,monkeypatch,capsys):
+    receipt=tmp_path/'receipt.json';receipt.write_text('{}')
+    monkeypatch.setattr(gate,'source_identity',lambda root:'same')
+    def timeout(*a,**kwargs):
+        raise gate.subprocess.TimeoutExpired(a[0],kwargs['timeout'],output=b'completed partial tests',stderr=b'partial diagnostic')
+    monkeypatch.setattr(gate.subprocess,'run',timeout)
+    with pytest.raises(gate.subprocess.TimeoutExpired):gate.self_test(tmp_path,receipt)
+    assert not receipt.exists()
+    output=capsys.readouterr().out
+    assert 'completed partial tests' in output and 'partial diagnostic' in output

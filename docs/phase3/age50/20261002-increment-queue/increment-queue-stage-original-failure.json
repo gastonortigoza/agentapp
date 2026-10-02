@@ -1,0 +1,6 @@
+{
+  "state": "confirmed_precommit_byte_check_failure",
+  "file": "controller/agent.py",
+  "reason": "Git auto-normalized preexisting CRLF/mixed file while controller receipt hashes working bytes",
+  "correction": "Scoped controller/.gitattributes agent.py -text preserves exact qualified bytes; no source/test/receipt changed; commit not yet attempted"
+}

@@ -1,0 +1,121 @@
+{
+  "at": "2026-10-02T22:50:23.320171+00:00",
+  "suite_identity": "31a7318452293c924f679712f3dca6fa1252ed47c86dfe552e4b678e975083d7",
+  "controller_tests": "791 passed, 2 skipped, 553 warnings in 148.07s (0:02:28)",
+  "model_dispatch_suite_identity": "420f096675660ce14734978c4353c76999cb038143d8a7047ea2bc673160a2c9",
+  "dispatch_controller_tests": "790 passed /2 skipped",
+  "rejection_detail": "Complete4347char proposal exceeds original4000char output schema; no reviewer dispatched; not accepted retroactively.",
+  "post_audit_controller_repair": "A preceding joint-selector branch now prevents a false ignored-selector finding; 1 added regression, zero additional real calls.",
+  "queue_id": "age50-saas-queue-20261002",
+  "parent_sha256": "1443688a18fee0c30625710a5e467468f5c785e695b39da68ebb4e52f41f7562",
+  "previous_source_sha256": "36d0657c05d9c11b04cbd5449205a39fe8343c29e6cb26c660d61d1946ae0f6c",
+  "correction_sha256": "a50f923e82262805af7d1b01b8e5dda5d98959bfb6d81a14f5f5aa30c1dcf214",
+  "child_sha256": "e69da375f943880e86ab03afa57f3cdef883563db758f0af05fa1c05d0187014",
+  "source_state": "awaiting_discrepancy",
+  "source_review_accepted": false,
+  "new_model_calls": 1,
+  "shared_used": {
+    "active_ms": 1371469,
+    "calls": 13,
+    "executions": 0,
+    "input_tokens": 333020,
+    "output_tokens": 42570
+  },
+  "formal_three_round_audit": {
+    "decision": "continue",
+    "notes": "Reviewed all three completed attempts and original hashes/ops/events: auth empty-seed reviewer was truncated and remains rejected/full-reserved; original geography reviewer used noncontiguous quotes and missed combined/empty selectors; new developer returned complete4347char proposal with explicit joint-selector branch and supplied-value type/UUID guards, but frozen4000char schema rejected it before reviewer. Read-only inspection also found recognizer false positive: it flags later cid/else-pid branches even when an earlier joint branch handles both. Correct that technical classifier prospectively with a regression test; do not infer PG behavior. New call done=stop/pin/usage verified, actual1call2209in1343out86250ms. Shared13calls333020in42570out1371469ms0exec. Old uncertain auth is NOT counted/resubmitted/refunded. No PostgreSQL/product/catalogue/UI approval. Exact-choice review simulated green but not reached in real correction. Continue bounded complete-output/schema feedback or prospective character cap within unchanged token/time/aggregate limits; preserve original rejection, do not trim/accept retroactively or create new budget. Next dispatch needs tested supported lineage/current green. No deployment/merge/permissions/billing.",
+    "packet": {
+      "binding_sha256": "867b869646b6763b50743f9b77a1c261ae9b860d08a37ea6e469c14b6be46554",
+      "from_round": 1,
+      "full_product_acceptance": false,
+      "originals": [
+        {
+          "id": "age50-saas-queue-20261002-r0-auth-api",
+          "sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d",
+          "state": "blocked_evidence"
+        },
+        {
+          "id": "age50-saas-queue-20261002-geo-source-r0",
+          "sha256": "3f159ee716af61b0cb256880f12c7b72a77f771f61d878005eaae1b50b55d479",
+          "state": "blocked_evidence"
+        },
+        {
+          "id": "age50-saas-queue-20261002-geo-correction-r0",
+          "sha256": "e69da375f943880e86ab03afa57f3cdef883563db758f0af05fa1c05d0187014",
+          "state": "blocked_evidence"
+        }
+      ],
+      "preserved_parent_children": {
+        "age50-saas-queue-20261002-r0-auth-api": {
+          "events_sha256": "2bbe8a91e40d4a054b30a96d2e9c2fff1904595e8debd556a65bebaca0abbbfa",
+          "ops_sha256": "69c197dcc399f0ff5332d9b859ee090c55e2f7b331fcce53b98206438720e640",
+          "run_sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d"
+        },
+        "age50-saas-queue-20261002-v1-r0-auth-api": {
+          "events_sha256": "fe654e3d93988d7cc309065680308b67af1cefef09ba23b549b673def986e983",
+          "ops_sha256": "326b44a64d3f8c600a2dc67a84bafccbfaa748009e7d6446832044efa69bebfc",
+          "run_sha256": "6a949edd2ba6181281b0a2fd24682039611d38304dac50cd91e6371a0c2e1e27"
+        }
+      },
+      "product_tests_executed": false,
+      "queue_id": "age50-saas-queue-20261002",
+      "schema": "agentapp.phase3-source-correction-audit/1",
+      "through_round": 3,
+      "used": {
+        "active_ms": 1371469,
+        "calls": 13,
+        "executions": 0,
+        "input_tokens": 333020,
+        "output_tokens": 42570
+      }
+    },
+    "sha256": "f4a9850c61ddf9a71da515883ba78d803af18eaedeb7e50fcf102de24ce072c0"
+  },
+  "transport_artifacts": [
+    {
+      "sequence": 0,
+      "ok": true,
+      "done": true,
+      "done_reason": "stop",
+      "text_chars": 4499,
+      "partial_chars": 0,
+      "files": {
+        "after.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "before.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "dispatch.json": {
+          "sha256": "852214cd0da16456d806c332d2a8aa5b0c7a34a280b24e05369203d49ba3d0b4",
+          "bytes": 85
+        },
+        "frames.ndjson": {
+          "sha256": "950039be67986aa4cca73b9e29f4db0da1593b9d1ffdb730b88a3c9b29f8c294",
+          "bytes": 170138
+        },
+        "request.json": {
+          "sha256": "7d78aa40b6f521a6ffc3cf7ea88cf1ab974cb4611ebb287e4c3d17d928af0f22",
+          "bytes": 10014
+        },
+        "result.json": {
+          "sha256": "1e87f0cfdbd008c40c741cef9829d2a866d772612925748f076602a2d57d6e09",
+          "bytes": 5061
+        },
+        "started.json": {
+          "sha256": "852214cd0da16456d806c332d2a8aa5b0c7a34a280b24e05369203d49ba3d0b4",
+          "bytes": 85
+        }
+      }
+    }
+  ],
+  "product_tests_executed": false,
+  "official_catalogue_loaded": false,
+  "full_product_acceptance": false,
+  "preview_http": 200,
+  "auth_enabled": false,
+  "old_auth_not_resent": true,
+  "author": "Codex grounded source feedback/protocol/tests; CrewAI/Ollama correction and review originals"
+}

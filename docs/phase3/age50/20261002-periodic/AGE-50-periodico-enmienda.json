@@ -1,0 +1,1 @@
+{"parent_fingerprint_sha256":"6e09eccc44e23032817d41c78ac7d9f7316fcad7a53a7408a2f59d9ea3080afa","paths":["frontend/e2e/profile-race.spec.ts"],"reason":"Operator test correction: ID0002 is Básico A. Only the two expected labels changed; all product sources and other25 files remain exact."}

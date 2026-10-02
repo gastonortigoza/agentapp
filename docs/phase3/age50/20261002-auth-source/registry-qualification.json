@@ -1,0 +1,63 @@
+{
+  "state": "controller_suite_qualified",
+  "scope": "proposed_controller_auth_source_review",
+  "active_controller_modified": false,
+  "models_dispatched": 0,
+  "prior_budgets_reset": false,
+  "historical_uncertain_preserved": [
+    {
+      "id": "age50-handoff-r5-api-20261001",
+      "state": "uncertain_operation",
+      "action": "preserve original; no retry or consumption"
+    }
+  ],
+  "changes": {
+    "phase3_source.py": {
+      "before": "c2d81d25ba574a3abda96d236b543f23076b474a5a059bec6eccc6bd4730f5eb",
+      "after": "ba15653b15380460550a9f923383161660e8f48e71a26a5a407dd8b13d04ac21"
+    },
+    "phase3_review.py": {
+      "before": "a3ef428f60fc2ca446ebc9632b55e80470dcbec0bfee68c9b2d1f94738f02d62",
+      "after": "032e604bfb59d56bd27b4e3bee65f31b9459476603df2b0b727490ea1f4a50a4"
+    },
+    "phase3_roles.py": {
+      "before": "4e04ed3e134259421001f61554e9ae074795f5ef88ec57e8c1efb519c9a6b9fe",
+      "after": "73c1124ee615634cf984bc9ad1de9a31555d4ba88b639db1a291579ce8370f50"
+    },
+    "controller_cli.py": {
+      "before": "d9166198f8348b4a967292adb348e070973eb4614493475376beba8817361b54",
+      "after": "5b587623e28fde829640cfeddca06850accb711769d78d46344fa78eb03f1128"
+    },
+    "phase3_auth_source.py": {
+      "before": null,
+      "after": "b989e8cd6badb96b14b6f72d02182c39580d2232412af56366859b32570fcb86"
+    },
+    "tests/test_phase3_auth_source.py": {
+      "before": null,
+      "after": "587b9fb61fc91312709989f9a9cc81cf149efaa9947618f1b2072bddb775049f"
+    }
+  },
+  "applied": [
+    "phase3_source.py",
+    "phase3_review.py",
+    "phase3_roles.py",
+    "controller_cli.py",
+    "phase3_auth_source.py",
+    "tests/test_phase3_auth_source.py"
+  ],
+  "repairs": [
+    {
+      "path": "phase3_auth_source.py",
+      "before": "b989e8cd6badb96b14b6f72d02182c39580d2232412af56366859b32570fcb86",
+      "after": "34b33c12b1b0a8d4dd45691253139bb331a2729445006e94f8180d2acbef82f2",
+      "reason": "Frozen auth clause is top-level /auth, not /api/auth_rule; fixture simulation caught missing prompt key."
+    }
+  ],
+  "suite_identity": "f4062caaac1cad2d185b544e6383eac80e18bb5f087393024718b656d7510555",
+  "suite_result": {
+    "passed": 618,
+    "skipped": 1,
+    "new_tests": 26
+  },
+  "known_windows_output_failure": "Initial cp1252 print failed with UnicodeEncodeError; no green receipt. UTF-8 run preserved three prompt-path failures; repaired exact /auth reference."
+}

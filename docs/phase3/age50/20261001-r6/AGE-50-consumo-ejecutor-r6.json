@@ -1,0 +1,74 @@
+{
+  "scope": "bounded_document_correction_and_executor_boundary_regression_not_holdout_qualification",
+  "source_identity": "2a391fb67aa2355627edb04398875f54582ba72ff4deb1b34cc927ce976840da",
+  "seed_sha256": "30f8a7afd7ed31d8972f99960b839d2e09c05a43772c60509506500b2603246f",
+  "review_runs": [
+    {
+      "id": "age50-handoff-r6-plan-20261001",
+      "state": "reviewed_plan",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 1797,
+      "output_tokens": 670,
+      "active_ms": 21937,
+      "reason": "Structural plan accepted; no product execution"
+    },
+    {
+      "id": "age50-handoff-r6-api-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 3,
+      "corrections": 1,
+      "input_tokens": 16250,
+      "output_tokens": 4256,
+      "active_ms": 127688,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-handoff-r6-data-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5886,
+      "output_tokens": 234,
+      "active_ms": 7359,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-handoff-r6-subscriptions-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5998,
+      "output_tokens": 227,
+      "active_ms": 7078,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-handoff-r6-manifest-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5994,
+      "output_tokens": 230,
+      "active_ms": 7156,
+      "reason": "Documentary section accepted; no product execution"
+    }
+  ],
+  "calls": 7,
+  "corrections": 1,
+  "input_tokens": 35925,
+  "output_tokens": 5617,
+  "active_ms": 171218,
+  "product_tests_executed": false,
+  "execution_authorized": false,
+  "state": "blocked_execution_policy",
+  "preflight_id": "age50-executor-preflight-r6-20261001",
+  "cli_exit_code": 2,
+  "preflight_sha256": "2dde88eef129b54a799700bccbf391da367f072349b94da99a381ba0b55d3d19",
+  "replay_identical": true,
+  "dependency_lock_drift_rejected": true,
+  "drift_reason": "Preflight drift: preserve original evidence and repeat affected checks in a new run",
+  "original_preflight_preserved": true,
+  "missing_files": 11,
+  "reason": "Frozen documentary policy denies generated code execution; no supported phase3 sandbox manifest."
+}

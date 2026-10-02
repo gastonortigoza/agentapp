@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'./e2e',testMatch:'auth-session.spec.ts',workers:1,retries:0,timeout:45000,outputDir:'/tmp/auth-product-results',reporter:[['json',{outputFile:'/tmp/auth-product-results/results.json'}]],use:{baseURL:'https://localhost:9443',browserName:'chromium',headless:true,ignoreHTTPSErrors:false,trace:'off',screenshot:'off',video:'off',launchOptions:{args:['--disable-dev-shm-usage']}}});

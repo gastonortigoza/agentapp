@@ -1,0 +1,17 @@
+{
+  "scope": "confirmed_model_usage_only",
+  "attempted_operations": 6,
+  "confirmed_model_calls": 5,
+  "input_tokens": 26299,
+  "output_tokens": 1583,
+  "unknown_operations": [
+    {
+      "seq": 1,
+      "role": "developer",
+      "error_type": "HTTPError",
+      "reserve_input": 32768,
+      "reserve_output": 5000
+    }
+  ],
+  "note": "Original r5 report fields aggregate controller accounting including reservations; these are not verified consumed tokens. No automatic resend of uncertain operation."
+}

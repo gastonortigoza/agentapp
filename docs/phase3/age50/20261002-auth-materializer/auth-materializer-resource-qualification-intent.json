@@ -1,0 +1,1051 @@
+{
+  "state": "qualified_resource_factory_composition",
+  "scope": "trusted_materializer_resource_composition_only",
+  "nonce": "323eebcf9dd81ee566b809c32e4de1eb",
+  "suite_identity": "d73ee20609db3d425ffece9932d23426ebd510b3e0f6492afba5e0e6548e8e4b",
+  "max_active_ms": 360000,
+  "model_calls": 0,
+  "auth_product_tests_executed": false,
+  "auth_modules_written": false,
+  "real_auth_budget_changed": false,
+  "reused_pure_js_browser_packages": [
+    "playwright",
+    "playwright-core"
+  ],
+  "checks": [
+    {
+      "name": "owned_disposable_pg_final_tcp_atomic_schema",
+      "passed": true
+    },
+    {
+      "name": "actual_pinned_nss_zstd_extracted_without_hooks",
+      "passed": true
+    },
+    {
+      "name": "separate_app_gateway_actual_key_ca_hostname_readiness",
+      "passed": true
+    },
+    {
+      "name": "private_stdin_credentials_only_test_worker",
+      "passed": true
+    },
+    {
+      "name": "browser_separate_strict_tls_ephemeral_nss_no_fixture_or_key",
+      "passed": true
+    },
+    {
+      "name": "no_auth_module_or_product_tests_executed",
+      "passed": true
+    }
+  ],
+  "started_at": "2026-10-02T19:35:11.062952+00:00",
+  "cleanup": [
+    {
+      "confirmed": true,
+      "kind": "container",
+      "name": "age50-auth-323eebcf9dd81ee566b8-gateway"
+    },
+    {
+      "confirmed": true,
+      "kind": "image",
+      "name": "age50-auth-323eebcf9dd81ee566b8-gateway-image"
+    },
+    {
+      "confirmed": true,
+      "kind": "container",
+      "name": "age50-auth-323eebcf9dd81ee566b8-browser"
+    },
+    {
+      "confirmed": true,
+      "kind": "image",
+      "name": "age50-auth-323eebcf9dd81ee566b8-browser-image"
+    },
+    {
+      "confirmed": true,
+      "kind": "container",
+      "name": "age50-auth-323eebcf9dd81ee566b8-api-test"
+    },
+    {
+      "confirmed": true,
+      "kind": "container",
+      "name": "age50-auth-323eebcf9dd81ee566b8-app"
+    },
+    {
+      "confirmed": true,
+      "kind": "image",
+      "name": "age50-auth-323eebcf9dd81ee566b8-app-image"
+    },
+    {
+      "confirmed": true,
+      "kind": "container",
+      "name": "age50-auth-323eebcf9dd81ee566b8-postgres"
+    }
+  ],
+  "operations": [
+    {
+      "charged_ms": 297,
+      "key": "create-postgres",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 297,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "4cf58df14119fe04cb6f093d448db3f1d4886031a90388cb23bc9508a85fbedc",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "create-postgres",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-postgres"
+      },
+      "reserve_ms": 15000,
+      "seq": 0,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 375,
+      "key": "start-postgres",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 375,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "8dfa793ea782996d164a43fdf0771736556dc60af7ad7ce6e48a374f74ee9a92",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "start-postgres",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-postgres"
+      },
+      "reserve_ms": 15000,
+      "seq": 1,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 219,
+      "key": "inspect-postgres",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 219,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "3b4479f18db9a33c63c6d2462a0613b8613cb18e0dc60dfb4c5ca5c596912b29",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-postgres"
+      },
+      "reserve_ms": 5000,
+      "seq": 2,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 281,
+      "key": "private-pg-password",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 281,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inject-pg-password",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-postgres"
+      },
+      "reserve_ms": 15000,
+      "seq": 3,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 3094,
+      "key": "pg-final-ready",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 3094,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "wait-final-tcp-pg",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-postgres"
+      },
+      "reserve_ms": 40000,
+      "seq": 4,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 375,
+      "key": "auth-schema",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 375,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "atomic-auth-schema",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-postgres"
+      },
+      "reserve_ms": 30000,
+      "seq": 5,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 3219,
+      "key": "build-app",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 3219,
+        "exit_code": 0,
+        "stderr_sha256": "701406c14504f32b9a33da7b3c1e86a654a3a6fdb23d70471ac77b77deee2b1b",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "build-copy-only-app",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app-image"
+      },
+      "reserve_ms": 90000,
+      "seq": 6,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 234,
+      "key": "inspect-image-app",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 234,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "9eb85e60045e12f059c67060de6e310cd70169aa428caef396ae3d5804af1996",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app-image"
+      },
+      "reserve_ms": 5000,
+      "seq": 7,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 375,
+      "key": "create-app",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 375,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "7fc80c247e6bb8559bcaef6771f05874f2ab3ad64c4e99bb89cd0dbb0b5c78dc",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "create-app",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app"
+      },
+      "reserve_ms": 15000,
+      "seq": 8,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 360,
+      "key": "start-app",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 360,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "4a4be44e89df59555080d0f725f983ec63bf371a7c74f6049b2fd94e2075de2e",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "start-app",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app"
+      },
+      "reserve_ms": 15000,
+      "seq": 9,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 203,
+      "key": "inspect-app",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 203,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "eb1864411aa35b3b5b492f14be1bdd650dfcf281f8b84742ce660d2c78c04b47",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app"
+      },
+      "reserve_ms": 5000,
+      "seq": 10,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 516,
+      "key": "create-api_test",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 516,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "3f5f42cdacd694ab9cc35b2813476ad97f4bc1352dbc18e287eab0d97a0729d7",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "create-api-test",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-api-test"
+      },
+      "reserve_ms": 15000,
+      "seq": 11,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 359,
+      "key": "start-api_test",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 359,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "ea05488c2ea1c7eeb273a64d245ec0fc30e57e809d1daed2e993858ea7e2c2c5",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "start-api-test",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-api-test"
+      },
+      "reserve_ms": 15000,
+      "seq": 12,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 203,
+      "key": "inspect-api_test",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 203,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "b207e95caef0ff3d7076f0a55a9b5cd2e8783639ff8a237c886cd6a4382d4337",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-api-test"
+      },
+      "reserve_ms": 5000,
+      "seq": 13,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 297,
+      "key": "pinned-nss-extract",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 297,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "16d8ca7bfb673af03540c5303107bb4d11ecae8bdebe91b6e121faa2641ed806",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "extract-pinned-nss-inert",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app"
+      },
+      "reserve_ms": 30000,
+      "seq": 14,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 6953,
+      "key": "build-browser",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 6953,
+        "exit_code": 0,
+        "stderr_sha256": "7cc48feeafc301700794950b2e12b2a7eb3f522472fb9d0c0bd345f5adae26e8",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "build-copy-only-browser",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser-image"
+      },
+      "reserve_ms": 90000,
+      "seq": 15,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 234,
+      "key": "inspect-image-browser",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 234,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "eef790c0809fdc281985f2666e36da7936b0b1b1f4809f5461bfe217dd3aa74a",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser-image"
+      },
+      "reserve_ms": 5000,
+      "seq": 16,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 328,
+      "key": "create-browser",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 328,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "7390fae093cc4e0ce8fe948189f05b5482a3735bf6f0ac172b27355e5c9aaa14",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "create-browser",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser"
+      },
+      "reserve_ms": 15000,
+      "seq": 17,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 343,
+      "key": "start-browser",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 343,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "cc31ae8aff57085b984f8a360107a5e87deb15debd75f2e8ef1a9165bc3064c0",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "start-browser",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser"
+      },
+      "reserve_ms": 15000,
+      "seq": 18,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 203,
+      "key": "inspect-browser",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 203,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "ccb211c85f1c9fd4e5830e806a1805c3f5184902bd72ed7b5e9bf2ef7b30b72e",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser"
+      },
+      "reserve_ms": 5000,
+      "seq": 19,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 328,
+      "key": "ephemeral-nss",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 328,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "initialize-ephemeral-nss",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser"
+      },
+      "reserve_ms": 15000,
+      "seq": 20,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 922,
+      "key": "build-gateway",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 922,
+        "exit_code": 0,
+        "stderr_sha256": "a05ea2cf21e10cb8ed005071ce63e79cb486740180c1814a30687b1fa4181bcf",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "build-copy-only-gateway",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway-image"
+      },
+      "reserve_ms": 90000,
+      "seq": 21,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 266,
+      "key": "inspect-image-gateway",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 266,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "74503e70cb0b56b768cd1ba17fbede084f77b1b6d61d191f570ac6efd89854d3",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway-image"
+      },
+      "reserve_ms": 5000,
+      "seq": 22,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 266,
+      "key": "create-gateway",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 266,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "00bfd9425b5db7b17533d7dc7d3de5b35dbbfe32d6f7b3813e1e0100dda9b54b",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "create-gateway",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway"
+      },
+      "reserve_ms": 15000,
+      "seq": 23,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 391,
+      "key": "start-gateway",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 391,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "f3b81745b8ff606729260a9505d22ffca2c0df6d9e4fe3b6cadf36f54f7d965d",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "start-gateway",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway"
+      },
+      "reserve_ms": 15000,
+      "seq": 24,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 234,
+      "key": "inspect-gateway",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 234,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "9560b0c41269c8016b7d7142a6d34759cec27a435b88bcc825bce747cf2b3105",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway"
+      },
+      "reserve_ms": 5000,
+      "seq": 25,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 360,
+      "key": "private-tls-key",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 360,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inject-gateway-tls",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway"
+      },
+      "reserve_ms": 15000,
+      "seq": 26,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 313,
+      "key": "serve-app",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 313,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "03494afd4248c42f5fa1237bf2eeebe751ab8d9c977d55405fcb17469dbd91f8",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "start-private-app",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app"
+      },
+      "reserve_ms": 15000,
+      "seq": 27,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 531,
+      "key": "serve-gateway",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 531,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "03494afd4248c42f5fa1237bf2eeebe751ab8d9c977d55405fcb17469dbd91f8",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "start-private-gateway",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway"
+      },
+      "reserve_ms": 15000,
+      "seq": 28,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 687,
+      "key": "actual-services-ready",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 687,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "2ca39d22b0f373e42f782ce844b2edef658d5dafaadb69f1e4c04020caca3ac3",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "strict-service-readiness",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app"
+      },
+      "reserve_ms": 50000,
+      "seq": 29,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 344,
+      "key": "fixture-worker-channel",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 344,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "feb2ff231adb934400f963864e09a03d3fc3a9163dcfcce48fd1d4ba58bb1c7e",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "verify-test-worker-channel",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-api-test"
+      },
+      "reserve_ms": 15000,
+      "seq": 30,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 1484,
+      "key": "actual-browser-readiness",
+      "kind": "setup",
+      "outcome": {
+        "duration_ms": 1484,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "ae16724d0a73e5ea9c938efef530871e2de8b216acd91428004eac25bc60b4c4",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "strict-isolated-browser",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser"
+      },
+      "reserve_ms": 45000,
+      "seq": 31,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 203,
+      "key": "cleanup-7-inspect",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 203,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "9560b0c41269c8016b7d7142a6d34759cec27a435b88bcc825bce747cf2b3105",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway"
+      },
+      "reserve_ms": 5000,
+      "seq": 32,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 297,
+      "key": "cleanup-7-remove",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 297,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "f3b81745b8ff606729260a9505d22ffca2c0df6d9e4fe3b6cadf36f54f7d965d",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "remove-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway"
+      },
+      "reserve_ms": 10000,
+      "seq": 33,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 235,
+      "key": "cleanup-6-inspect",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 235,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "74503e70cb0b56b768cd1ba17fbede084f77b1b6d61d191f570ac6efd89854d3",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway-image"
+      },
+      "reserve_ms": 5000,
+      "seq": 34,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 235,
+      "key": "cleanup-6-remove",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 235,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "175445629a71ba9d5579724385568222ceaed0f08aef8d34d45ac0f6685eebdc",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "remove-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-gateway-image"
+      },
+      "reserve_ms": 10000,
+      "seq": 35,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 203,
+      "key": "cleanup-5-inspect",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 203,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "ccb211c85f1c9fd4e5830e806a1805c3f5184902bd72ed7b5e9bf2ef7b30b72e",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser"
+      },
+      "reserve_ms": 5000,
+      "seq": 36,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 344,
+      "key": "cleanup-5-remove",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 344,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "cc31ae8aff57085b984f8a360107a5e87deb15debd75f2e8ef1a9165bc3064c0",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "remove-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser"
+      },
+      "reserve_ms": 10000,
+      "seq": 37,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 250,
+      "key": "cleanup-4-inspect",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 250,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "eef790c0809fdc281985f2666e36da7936b0b1b1f4809f5461bfe217dd3aa74a",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser-image"
+      },
+      "reserve_ms": 5000,
+      "seq": 38,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 250,
+      "key": "cleanup-4-remove",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 250,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "03306f5ab796cc0fb4a3b4bf986df419d23ebac247b965c6be79c48626f8dcee",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "remove-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-browser-image"
+      },
+      "reserve_ms": 10000,
+      "seq": 39,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 203,
+      "key": "cleanup-3-inspect",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 203,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "b207e95caef0ff3d7076f0a55a9b5cd2e8783639ff8a237c886cd6a4382d4337",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-api-test"
+      },
+      "reserve_ms": 5000,
+      "seq": 40,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 313,
+      "key": "cleanup-3-remove",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 313,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "ea05488c2ea1c7eeb273a64d245ec0fc30e57e809d1daed2e993858ea7e2c2c5",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "remove-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-api-test"
+      },
+      "reserve_ms": 10000,
+      "seq": 41,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 235,
+      "key": "cleanup-2-inspect",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 235,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "eb1864411aa35b3b5b492f14be1bdd650dfcf281f8b84742ce660d2c78c04b47",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app"
+      },
+      "reserve_ms": 5000,
+      "seq": 42,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 297,
+      "key": "cleanup-2-remove",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 297,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "4a4be44e89df59555080d0f725f983ec63bf371a7c74f6049b2fd94e2075de2e",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "remove-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app"
+      },
+      "reserve_ms": 10000,
+      "seq": 43,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 250,
+      "key": "cleanup-1-inspect",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 250,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "9eb85e60045e12f059c67060de6e310cd70169aa428caef396ae3d5804af1996",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app-image"
+      },
+      "reserve_ms": 5000,
+      "seq": 44,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 219,
+      "key": "cleanup-1-remove",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 219,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "070569d1c458d576a2e273f758943dcb2470a5419653d76e1671cbe32418e245",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "remove-owned-image",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-app-image"
+      },
+      "reserve_ms": 10000,
+      "seq": 45,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 188,
+      "key": "cleanup-0-inspect",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 188,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "3b4479f18db9a33c63c6d2462a0613b8613cb18e0dc60dfb4c5ca5c596912b29",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "inspect-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-postgres"
+      },
+      "reserve_ms": 5000,
+      "seq": 46,
+      "state": "confirmed"
+    },
+    {
+      "charged_ms": 344,
+      "key": "cleanup-0-remove",
+      "kind": "cleanup",
+      "outcome": {
+        "duration_ms": 344,
+        "exit_code": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "8dfa793ea782996d164a43fdf0771736556dc60af7ad7ce6e48a374f74ee9a92",
+        "timed_out": false,
+        "truncated": false
+      },
+      "public_request": {
+        "action": "remove-owned-container",
+        "resource": "age50-auth-323eebcf9dd81ee566b8-postgres"
+      },
+      "reserve_ms": 10000,
+      "seq": 47,
+      "state": "confirmed"
+    }
+  ],
+  "used": {
+    "active_ms": 28660,
+    "operations": 48
+  },
+  "duration_ms": 30735
+}

@@ -1,0 +1,135 @@
+{
+  "at": "2026-10-02T22:18:10.300415+00:00",
+  "suite_identity": "b37e117775328582fe23fd460b188b699489c8bad0c63deab7afcb68377e012c",
+  "controller_tests": "774 passed, 2 skipped, 553 warnings in 139.83s (0:02:19)",
+  "scope": "independent geography source only",
+  "queue_id": "age50-saas-queue-20261002",
+  "parent_sha256": "1443688a18fee0c30625710a5e467468f5c785e695b39da68ebb4e52f41f7562",
+  "parent_originals": {
+    "age50-saas-queue-20261002-r0-auth-api": {
+      "run_sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d",
+      "ops_sha256": "69c197dcc399f0ff5332d9b859ee090c55e2f7b331fcce53b98206438720e640",
+      "events_sha256": "2bbe8a91e40d4a054b30a96d2e9c2fff1904595e8debd556a65bebaca0abbbfa"
+    },
+    "age50-saas-queue-20261002-v1-r0-auth-api": {
+      "run_sha256": "6a949edd2ba6181281b0a2fd24682039611d38304dac50cd91e6371a0c2e1e27",
+      "ops_sha256": "326b44a64d3f8c600a2dc67a84bafccbfaa748009e7d6446832044efa69bebfc",
+      "events_sha256": "fe654e3d93988d7cc309065680308b67af1cefef09ba23b549b673def986e983"
+    }
+  },
+  "source_state": "awaiting_discrepancy",
+  "source_binding_sha256": "75569ca4b0789b01525eb35e7f6f4bf4afe1bc280914b12dd9d24c74089fe9b7",
+  "child_sha256": "3f159ee716af61b0cb256880f12c7b72a77f771f61d878005eaae1b50b55d479",
+  "new_model_calls": 2,
+  "completed_agent_attempts": 2,
+  "periodic_three_round_audit_due": false,
+  "shared_used": {
+    "active_ms": 1285219,
+    "calls": 12,
+    "executions": 0,
+    "input_tokens": 330811,
+    "output_tokens": 41227
+  },
+  "product_tests_executed": false,
+  "full_product_acceptance": false,
+  "source_review_accepted": false,
+  "official_catalogue_loaded": false,
+  "auth_enabled": false,
+  "preview_http": 200,
+  "old_uncertain_inference_not_resent": true,
+  "transport_artifacts": [
+    {
+      "sequence": 0,
+      "files": {
+        "after.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "before.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "dispatch.json": {
+          "sha256": "77f32b20d827bd0246064cf872470ba74841c76e24969dacbefd0087789286d5",
+          "bytes": 85
+        },
+        "frames.ndjson": {
+          "sha256": "744d5442012eda1584ed71b79c6cd7ed47f77f00d3b13200b63be0d3d0edfbee",
+          "bytes": 124686
+        },
+        "request.json": {
+          "sha256": "2528724da7e729cf82bc6d058d407d98edabb043beaaa5f3ec47ce5029c08920",
+          "bytes": 5846
+        },
+        "result.json": {
+          "sha256": "d83f7d0e87252bdd94d7d1e882a5397dd8b9dbfdbca12f72687ef7850aad174d",
+          "bytes": 3778
+        },
+        "started.json": {
+          "sha256": "77f32b20d827bd0246064cf872470ba74841c76e24969dacbefd0087789286d5",
+          "bytes": 85
+        }
+      },
+      "ok": true,
+      "done": true,
+      "done_reason": "stop",
+      "partial_chars": 0,
+      "original_text_chars": 3250,
+      "error_type": null
+    },
+    {
+      "sequence": 1,
+      "files": {
+        "after.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "before.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "dispatch.json": {
+          "sha256": "031563cbe7b676c2b70e2ca28c00134c2725b1008bd065ccbba3bd0c7b0ea494",
+          "bytes": 85
+        },
+        "frames.ndjson": {
+          "sha256": "fc91399991bc3b880b5414eb0b70a1903668e5c18f3b6af069c2fafe956491a0",
+          "bytes": 29639
+        },
+        "request.json": {
+          "sha256": "147509803b4b7f8f359ccf2deabef091e91897bbdc2605a1c721cf138d1bc730",
+          "bytes": 10341
+        },
+        "result.json": {
+          "sha256": "132a5844f22927db1b15e7f7514c714971419b2c861d828ec9a6737bf0730cf7",
+          "bytes": 1254
+        },
+        "started.json": {
+          "sha256": "031563cbe7b676c2b70e2ca28c00134c2725b1008bd065ccbba3bd0c7b0ea494",
+          "bytes": 85
+        }
+      },
+      "ok": true,
+      "done": true,
+      "done_reason": "stop",
+      "partial_chars": 0,
+      "original_text_chars": 748,
+      "error_type": null
+    }
+  ],
+  "source_inspection_findings": [
+    {
+      "rule": "G02",
+      "source": "Codex read-only inspection of original proposal",
+      "quote": "if (cid) {",
+      "detail": "The country branch does not inspect pid, while province processing is only else if(pid); combined country_id/province_id ignores province and does not reject inconsistent parents. Not product-tested."
+    },
+    {
+      "rule": "G02",
+      "source": "Codex read-only inspection of original proposal",
+      "quote": "if ((cid && !UUID_RE.test(cid)) || (pid && !UUID_RE.test(pid)))",
+      "detail": "Falsy empty selector strings bypass UUID validation; malformed empty query values are not rejected400. Not product-tested."
+    }
+  ],
+  "author": "Codex controller/acceptance specification/simulated tests; CrewAI/Ollama original geography proposal/review as journaled"
+}

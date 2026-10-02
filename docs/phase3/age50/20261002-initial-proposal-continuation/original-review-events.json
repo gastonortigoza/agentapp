@@ -1,0 +1,88 @@
+{
+  "age50-saas-queue-20261002-r0-auth-api": [
+    {
+      "at": "2026-10-02T20:04:37.959147+00:00",
+      "calls": 0,
+      "corrections": 0,
+      "kind": "run.created",
+      "seed_sha256": "e52e36caed822f0ed38b949f363e3ba68e77db414669ca440e16266471cc1d2a",
+      "seq": 0,
+      "state": "active"
+    },
+    {
+      "agent": "reviewer",
+      "at": "2026-10-02T20:04:38.041948+00:00",
+      "calls": 1,
+      "corrections": 0,
+      "kind": "agent.started",
+      "seq": 1,
+      "state": "active"
+    },
+    {
+      "at": "2026-10-02T20:04:38.052176+00:00",
+      "calls": 1,
+      "corrections": 0,
+      "error_type": "OperationalError",
+      "kind": "observer.failed",
+      "seq": 2,
+      "state": "active"
+    },
+    {
+      "agent": "reviewer",
+      "at": "2026-10-02T20:06:36.958397+00:00",
+      "calls": 1,
+      "candidate_sha256": "e52e36caed822f0ed38b949f363e3ba68e77db414669ca440e16266471cc1d2a",
+      "corrections": 0,
+      "elapsed_ms": 118906,
+      "input_tokens": 2427,
+      "kind": "agent.finished",
+      "output_tokens": 2000,
+      "reason": "Truncated result, unverifiable usage or model identity",
+      "seq": 3,
+      "state": "blocked_evidence"
+    },
+    {
+      "at": "2026-10-02T20:06:36.971417+00:00",
+      "calls": 1,
+      "corrections": 0,
+      "error_type": "OperationalError",
+      "kind": "observer.failed",
+      "seq": 4,
+      "state": "blocked_evidence"
+    }
+  ],
+  "age50-saas-queue-20261002-v1-r0-auth-api": [
+    {
+      "at": "2026-10-02T21:21:38.696691+00:00",
+      "calls": 0,
+      "corrections": 0,
+      "kind": "run.created",
+      "seed_sha256": "e52e36caed822f0ed38b949f363e3ba68e77db414669ca440e16266471cc1d2a",
+      "seq": 0,
+      "state": "active"
+    },
+    {
+      "agent": "developer",
+      "at": "2026-10-02T21:21:38.768149+00:00",
+      "calls": 1,
+      "corrections": 1,
+      "kind": "agent.started",
+      "seq": 1,
+      "state": "active"
+    },
+    {
+      "agent": "developer",
+      "at": "2026-10-02T21:24:12.304596+00:00",
+      "calls": 1,
+      "candidate_sha256": "e52e36caed822f0ed38b949f363e3ba68e77db414669ca440e16266471cc1d2a",
+      "corrections": 1,
+      "elapsed_ms": 153516,
+      "input_tokens": null,
+      "kind": "agent.finished",
+      "output_tokens": null,
+      "reason": "Transport did not return a complete verified result",
+      "seq": 2,
+      "state": "uncertain_operation"
+    }
+  ]
+}

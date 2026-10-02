@@ -11,6 +11,19 @@ IMAGE='python@sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e
 MAX_INPUT_BYTES=1024*1024
 TEST_ARGV=['python','-I','-c',"import sys,unittest; sys.path.insert(0,'/work'); s=unittest.defaultTestLoader.discover('/work',pattern='test_solution.py'); r=unittest.TextTestRunner(verbosity=2).run(s); sys.exit(0 if r.wasSuccessful() and r.testsRun>0 else 1)"]
 
+def run_phase3(journal,preflight_id,reviews,workspace):
+    """Actual executor entry: consume durable reviews, then deny unsupported policy.
+
+    Never route proposed npm commands through the Python pilot dispatcher.
+    Documentary approval cannot grant a subprocess or Docker capability.
+    """
+    from phase3_handoff import preflight
+    return preflight(journal,preflight_id,reviews,workspace)
+
+def run_phase3_sandbox(journal,run_id,reviews,code_review,workspace,candidate,bound_digest,cache,observer=None):
+    from phase3_execution import run
+    return run(journal,run_id,reviews,code_review,workspace,candidate,bound_digest,cache,observer)
+
 def within_workspace(path):
     path=Path(path).resolve(strict=True)
     if not path.is_relative_to(WORKSPACE) or path==WORKSPACE:

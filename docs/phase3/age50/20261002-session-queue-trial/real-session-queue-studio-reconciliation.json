@@ -1,0 +1,10 @@
+{
+  "state": "existing_studio_projection_reconciled",
+  "source_review_id": "age50-saas-queue-20261002-r0-auth-api",
+  "original_row_sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d",
+  "original_source_changed": false,
+  "new_model_calls": 0,
+  "original_observer_failures_retained": true,
+  "reason": "Explicit existing CREW_AI_STUDIO_DB instead of uninitialized default database",
+  "studio_status": "failed"
+}

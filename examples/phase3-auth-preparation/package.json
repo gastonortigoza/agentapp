@@ -1,0 +1,20 @@
+{
+  "name": "agentapp-auth-library-qualification",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.18.0",
+    "npm": "10.9.3"
+  },
+  "scripts": {
+    "test:qualification": "node --test qualification.test.mjs"
+  },
+  "dependencies": {
+    "@node-rs/argon2": "2.2.1",
+    "jose": "6.2.12",
+    "libphonenumber-js": "1.13.14",
+    "@fastify/cookie": "11.1.2",
+    "fastify": "5.6.1"
+  }
+}

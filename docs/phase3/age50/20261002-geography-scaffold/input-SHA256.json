@@ -1,0 +1,12 @@
+{
+  "controller/phase3_geography_scaffold.py": "4320beeb2a78878eda7cca36600ad383912083c71eae71025d24ebf23ca7f3d0",
+  "controller/tests/test_phase3_geography_scaffold.py": "04b654e2bf7498417d8ed2f53531928b4b9c79adf8ea2bd14de89b323b9c16e4",
+  "controller/controller_gate.py": "a5054a7772a30994374b014ea5775230349fa3cc464b29e61e1459d5a1124231",
+  "controller/tests/test_controller_gate.py": "68f6766a584aae5719b37656c9d0bb6b8922103c304dbbff5db77273e8693a4b",
+  "controller/PHASE3-SCAFFOLD-GEOGRAFIA.md": "2a8c44edb4c87afcb3829c673b31ae587923f301d42f26816e25af7d055ad187",
+  "examples/phase3-geography-execution/inputs/.gitattributes": "48747480eddba024928d03be9bf83dc579e5515768647507a767e8187a85c9ab",
+  "examples/phase3-geography-execution/inputs/backend/geography.tsconfig.json": "32700f5087b0a6da8d911695580a34f758b83725af0c01330f7143ba51a52c86",
+  "examples/phase3-geography-execution/inputs/geography-acceptance.test.mjs": "400f3298ea3a6a4b9d6a2276e2e950f4eb5fadbaea316b1f6b22d158bb88da3f",
+  "examples/phase3-geography-execution/inputs/schema.sql": "3ece9251d44eca00f5a3973935633acd83779680d725e4bdef2aa79a3da9e8e1",
+  "controller/.gitattributes": "2eae47b0438b2065a0ab2513202f508917ad1833b75ea0892eea45d7b7ad304b"
+}

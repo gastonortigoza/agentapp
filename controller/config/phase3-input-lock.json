@@ -1,0 +1,18 @@
+{
+  "schema": "agentapp.phase3-input-lock/1",
+  "requirement_id": "agentapp-phase3-person-directory-v02",
+  "revision": "technical-contract-v1",
+  "source_pr": 7,
+  "source_commit": "970aa9085cc4df0b1ed314babf666cee6e050cd7",
+  "integrated_base": "7e20c4426663d265b2d2a70e7af0aa4bed9e5e4b",
+  "files": {
+    "contract.json": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+    "contract.schema.json": "35b44f0c37d519633ee5fe95491b29fe0039558f1484654947468646ba38846c",
+    "manifest.json": "ec20a519c6823ef931b9403af8e948ec81916fc501e0fd00d093c94adb3fac70",
+    "policy.json": "841d193f86e7fa60831746a45c9fc98c9f246f742bbb98cae31dbbb342a7bd72",
+    "business-decisions.json": "3f6b44dff20240e1ee83428eefc6b7cc49634a3bee89b73dc2c92276a5c0f048",
+    "acceptance.json": "9ee10f77e0e49a44fde84e824d2b4ccc182ecea020c6fa845643761fc5da5245",
+    "ui-contract.json": "1c6e75b2786de97fd4a268c44e9843d64b18c294304fe89bf371fbb5e250bc07",
+    "business-source.json": "5dc5b0fdb7c5bae157b18d43691e5d3d2d1108fe32070d5f333de5d3f50a94e9"
+  }
+}

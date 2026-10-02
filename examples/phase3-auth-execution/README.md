@@ -1,0 +1,5 @@
+Entradas congeladas del ejecutor auth separado. inputs/ conserva los 21 archivos confiables fijados en controller/phase3_auth_pins.py. Faltan los originales de agentes auth.ts/AuthPages.tsx; sus paths no admiten fixtures. App/PublicProfile son snapshots históricos exactos y conservan su discrepancia previa. Backend público y sesiones todavía no se componen.
+
+El ledger y materializador durable ya tienen pruebas de protocolo y una comprobación real de composición de recursos aislados, sin auth de producto. Las etapas usan argv explícito y el lock offline; no scripts genéricos. La clave TLS sólo entra por stdin al gateway; tests API/Chromium tienen workers separados y cleanup propio. runtime_ready requiere los servicios reales y qualified_session_core requiere 9 API/5 UI originales exitosos. Ninguna ejecución auth de producto está aceptada todavía.
+
+Faltan cola durable, propuestas/revisiones locales actuales, compilación y aceptación con módulos reales. No contiene certificados, claves, cachés ni node_modules. Activar auth en preview requiere además resolver HTTPS y cliente-IP/rate-limit para LAN. Ver docs/phase3/age50/20261002-auth-materializer/RESULTADO.md.

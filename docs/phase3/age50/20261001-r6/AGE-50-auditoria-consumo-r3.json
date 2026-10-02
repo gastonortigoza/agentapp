@@ -1,0 +1,25 @@
+{
+  "scope": "post_acceptance_document_audit_not_product_test",
+  "review_id": "age50-handoff-r3-api-20261001",
+  "review_source_identity": "d7746b96e2dc00dba20e2471ed42abf28f4a2507858db21ce411942c69c6e421",
+  "state": "failed",
+  "accepted_source_delta": [
+    {
+      "op": "replace",
+      "path": "/routes/2/errors/0",
+      "value": 400
+    },
+    {
+      "op": "add",
+      "path": "/routes/2/errors/1",
+      "value": 422
+    },
+    {
+      "op": "add",
+      "path": "/routes/2/errors/2",
+      "value": 503
+    }
+  ],
+  "candidate_sha256": "ea25a6e379916a57d973d4f03df53db634db53fde9c779adb955a087a4d202c6",
+  "finding": "Writer repaired undefined DTO/missing field but introduced POST /api/auth/register errors=[401] instead of [400,422,503]. Original all-true reviewer checks and old deterministic validator missed it. New deterministic route_error_contract veto; preserve r3 originals and rerun bounded cycle on new source identity. No product commands executed."
+}

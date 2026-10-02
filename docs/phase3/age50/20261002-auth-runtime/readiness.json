@@ -1,0 +1,19 @@
+{
+  "schema": "agentapp.auth-runtime-readiness/1",
+  "state": "runtime_inputs_and_database_qualified_integration_pending",
+  "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+  "root_lock_sha256": "e4c4b4ad25631363aa7518383e1fe337d85b75fe726b622bac0ed9e1c5a756a6",
+  "dispatch_enabled": false,
+  "model_calls": 0,
+  "product_tests_executed": false,
+  "full_product_acceptance": false,
+  "pending": [
+    "API/UI/provider wiring",
+    "trusted Chromium HTTPS session-cookie tests",
+    "auth-specific execution manifest consuming original agent reviews",
+    "durable cross-increment queue",
+    "original local-agent auth proposals and bounded behavioral acceptance"
+  ],
+  "profile_discrepancy_and_exhausted_budget_preserved": true,
+  "linear_update": "pending_explicit_user_authorization"
+}

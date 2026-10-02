@@ -1,0 +1,54 @@
+{
+  "scope": "four previously unqueried documentary candidates; one inference per case, no corrections or retuning",
+  "source_identity": "79038c9511aabc56b04bc81a0080fd87a99c113a5abd153bc4931d2d086336fe",
+  "seed_sha256": "66cd19b2476965db41d71357091980413bf90305a9d7e6d540ac5695a1645b45",
+  "cases": [
+    {
+      "id": "age50-holdout-r9-photo-date-and-owner-route-20261001",
+      "state": "evaluated_fixture",
+      "calls": 1,
+      "input_tokens": 6611,
+      "output_tokens": 230,
+      "active_ms": 17031,
+      "reason": "Fixture evaluation only; not contract or product acceptance",
+      "passed": false
+    },
+    {
+      "id": "age50-holdout-r9-existing-nonunique-currency-fk-20261001",
+      "state": "evaluated_fixture",
+      "calls": 1,
+      "input_tokens": 5922,
+      "output_tokens": 232,
+      "active_ms": 13375,
+      "reason": "Fixture evaluation only; not contract or product acceptance",
+      "passed": false
+    },
+    {
+      "id": "age50-holdout-r9-descriptive-whatsapp-url-alias-20261001",
+      "state": "evaluated_fixture",
+      "calls": 1,
+      "input_tokens": 6595,
+      "output_tokens": 231,
+      "active_ms": 14203,
+      "reason": "Fixture evaluation only; not contract or product acceptance",
+      "passed": true
+    },
+    {
+      "id": "age50-holdout-r9-equivalent-json-integer-spelling-20261001",
+      "state": "evaluated_fixture",
+      "calls": 1,
+      "input_tokens": 6582,
+      "output_tokens": 231,
+      "active_ms": 14172,
+      "reason": "Fixture evaluation only; not contract or product acceptance",
+      "passed": true
+    }
+  ],
+  "passed": 2,
+  "total": 4,
+  "calls": 4,
+  "input_tokens": 25710,
+  "output_tokens": 924,
+  "product_tests_executed": false,
+  "general_model_qualification": false
+}

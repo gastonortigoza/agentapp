@@ -1,0 +1,19 @@
+{
+  "controller_passed": 592,
+  "controller_skipped": 1,
+  "real_repair_resolved": false,
+  "full_product_acceptance": false,
+  "audits_completed": 7,
+  "new_audits_completed": 4,
+  "sources_unchanged": true,
+  "all_operations_confirmed": true,
+  "actual_race_reproduced_twice": true,
+  "cleanup_complete": true,
+  "workflow_usage": {
+    "active_ms": 920515,
+    "calls": 26,
+    "executions": 3,
+    "input_tokens": 129180,
+    "output_tokens": 15326
+  }
+}

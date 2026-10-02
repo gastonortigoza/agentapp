@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-02T19:43:06.272585+00:00",
+  "suite": "d73ee20609db3d425ffece9932d23426ebd510b3e0f6492afba5e0e6548e8e4b",
+  "plan_runs": {
+    "reviewed_contract_section": 42,
+    "blocked_evidence": 7,
+    "evaluated_fixture": 12,
+    "reviewed_plan": 10,
+    "blocked_budget": 1,
+    "uncertain_operation": 1,
+    "reviewed_application_file": 17
+  },
+  "uncertain": [
+    "age50-handoff-r5-api-20261001"
+  ],
+  "phase3_workflows": {
+    "awaiting_discrepancy": 5,
+    "completed_slice": 1
+  },
+  "auth_executions": 0,
+  "profile_used": {
+    "active_ms": 920515,
+    "calls": 26,
+    "executions": 3,
+    "input_tokens": 129180,
+    "output_tokens": 15326
+  }
+}

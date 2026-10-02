@@ -1,0 +1,319 @@
+{
+  "at": "2026-10-02T23:22:04.295811+00:00",
+  "suite_identity": "5065af673f398a09cd01005768b59d8330770facb162dbc1dde969aa8986be01",
+  "controller_tests": "817 passed, 2 skipped, 553 warnings in 172.42s (0:02:52)",
+  "model_dispatch_suite_identity": "656086f0291befff366f2768e708c580c55ed9223b854db39be06f19e596757d",
+  "dispatch_controller_tests": "815 passed /2 skipped",
+  "queue_id": "age50-saas-queue-20261002",
+  "parent_sha256": "1443688a18fee0c30625710a5e467468f5c785e695b39da68ebb4e52f41f7562",
+  "first_source_sha256": "36d0657c05d9c11b04cbd5449205a39fe8343c29e6cb26c660d61d1946ae0f6c",
+  "previous_correction_sha256": "a50f923e82262805af7d1b01b8e5dda5d98959bfb6d81a14f5f5aa30c1dcf214",
+  "revalidation_sha256": "230ab1b629d0318fef28c84e8ca4afa6c883759f0a9f204408c934266e8b4b3f",
+  "child_sha256": "49dfad08c21dba42f9a2689920b14af2984771f55859e8c97ba2290388762627",
+  "source_state": "awaiting_discrepancy",
+  "source_review_accepted": false,
+  "new_model_calls": 5,
+  "shared_used": {
+    "active_ms": 1541001,
+    "calls": 18,
+    "executions": 0,
+    "input_tokens": 347951,
+    "output_tokens": 46520
+  },
+  "inherited_formal_three_round_audit": {
+    "decision": "continue",
+    "notes": "Reviewed all three completed attempts and original hashes/ops/events: auth empty-seed reviewer was truncated and remains rejected/full-reserved; original geography reviewer used noncontiguous quotes and missed combined/empty selectors; new developer returned complete4347char proposal with explicit joint-selector branch and supplied-value type/UUID guards, but frozen4000char schema rejected it before reviewer. Read-only inspection also found recognizer false positive: it flags later cid/else-pid branches even when an earlier joint branch handles both. Correct that technical classifier prospectively with a regression test; do not infer PG behavior. New call done=stop/pin/usage verified, actual1call2209in1343out86250ms. Shared13calls333020in42570out1371469ms0exec. Old uncertain auth is NOT counted/resubmitted/refunded. No PostgreSQL/product/catalogue/UI approval. Exact-choice review simulated green but not reached in real correction. Continue bounded complete-output/schema feedback or prospective character cap within unchanged token/time/aggregate limits; preserve original rejection, do not trim/accept retroactively or create new budget. Next dispatch needs tested supported lineage/current green. No deployment/merge/permissions/billing.",
+    "packet": {
+      "binding_sha256": "867b869646b6763b50743f9b77a1c261ae9b860d08a37ea6e469c14b6be46554",
+      "from_round": 1,
+      "full_product_acceptance": false,
+      "originals": [
+        {
+          "id": "age50-saas-queue-20261002-r0-auth-api",
+          "sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d",
+          "state": "blocked_evidence"
+        },
+        {
+          "id": "age50-saas-queue-20261002-geo-source-r0",
+          "sha256": "3f159ee716af61b0cb256880f12c7b72a77f771f61d878005eaae1b50b55d479",
+          "state": "blocked_evidence"
+        },
+        {
+          "id": "age50-saas-queue-20261002-geo-correction-r0",
+          "sha256": "e69da375f943880e86ab03afa57f3cdef883563db758f0af05fa1c05d0187014",
+          "state": "blocked_evidence"
+        }
+      ],
+      "preserved_parent_children": {
+        "age50-saas-queue-20261002-r0-auth-api": {
+          "events_sha256": "2bbe8a91e40d4a054b30a96d2e9c2fff1904595e8debd556a65bebaca0abbbfa",
+          "ops_sha256": "69c197dcc399f0ff5332d9b859ee090c55e2f7b331fcce53b98206438720e640",
+          "run_sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d"
+        },
+        "age50-saas-queue-20261002-v1-r0-auth-api": {
+          "events_sha256": "fe654e3d93988d7cc309065680308b67af1cefef09ba23b549b673def986e983",
+          "ops_sha256": "326b44a64d3f8c600a2dc67a84bafccbfaa748009e7d6446832044efa69bebfc",
+          "run_sha256": "6a949edd2ba6181281b0a2fd24682039611d38304dac50cd91e6371a0c2e1e27"
+        }
+      },
+      "product_tests_executed": false,
+      "queue_id": "age50-saas-queue-20261002",
+      "schema": "agentapp.phase3-source-correction-audit/1",
+      "through_round": 3,
+      "used": {
+        "active_ms": 1371469,
+        "calls": 13,
+        "executions": 0,
+        "input_tokens": 333020,
+        "output_tokens": 42570
+      }
+    },
+    "sha256": "f4a9850c61ddf9a71da515883ba78d803af18eaedeb7e50fcf102de24ce072c0"
+  },
+  "global_round_packet": {
+    "schema": "agentapp.phase3-source-revalidation-audit/1",
+    "queue_id": "age50-saas-queue-20261002",
+    "binding_sha256": "f6e9e9279d35edcf9efde57b9234387a2025887fc528537e3950a5a386c96cd5",
+    "from_round": 4,
+    "through_round": 4,
+    "originals": [
+      {
+        "id": "age50-saas-queue-20261002-geo-revalidation-r0",
+        "sha256": "49dfad08c21dba42f9a2689920b14af2984771f55859e8c97ba2290388762627",
+        "state": "blocked_budget"
+      }
+    ],
+    "preserved_parent_children": {
+      "age50-saas-queue-20261002-r0-auth-api": {
+        "events_sha256": "2bbe8a91e40d4a054b30a96d2e9c2fff1904595e8debd556a65bebaca0abbbfa",
+        "ops_sha256": "69c197dcc399f0ff5332d9b859ee090c55e2f7b331fcce53b98206438720e640",
+        "run_sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d"
+      },
+      "age50-saas-queue-20261002-v1-r0-auth-api": {
+        "events_sha256": "fe654e3d93988d7cc309065680308b67af1cefef09ba23b549b673def986e983",
+        "ops_sha256": "326b44a64d3f8c600a2dc67a84bafccbfaa748009e7d6446832044efa69bebfc",
+        "run_sha256": "6a949edd2ba6181281b0a2fd24682039611d38304dac50cd91e6371a0c2e1e27"
+      }
+    },
+    "used": {
+      "calls": 18,
+      "input_tokens": 347951,
+      "output_tokens": 46520,
+      "active_ms": 1541001,
+      "executions": 0
+    },
+    "product_tests_executed": false,
+    "full_product_acceptance": false
+  },
+  "transport_artifacts": [
+    {
+      "sequence": 0,
+      "role": "reviewer",
+      "ok": true,
+      "done": true,
+      "done_reason": "stop",
+      "text_chars": 1691,
+      "partial_chars": 0,
+      "files": {
+        "after.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "before.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "dispatch.json": {
+          "sha256": "73a42ff0f1b67eb8619ece36169e08101b63e93137d521666beb4e9c68dc1e35",
+          "bytes": 85
+        },
+        "frames.ndjson": {
+          "sha256": "7e5ee62bf1a40df6c80456320679653aedac60ac71f601234d69833bdb6c5f8e",
+          "bytes": 55021
+        },
+        "request.json": {
+          "sha256": "64e9d493ebcea38f6efc57e4180451d807f34eb420eb1bd714e0ef933bbfac61",
+          "bytes": 26206
+        },
+        "result.json": {
+          "sha256": "22688f5976b6704db11e52421e830bfc04790ed2febda602f893765c758ae228",
+          "bytes": 2235
+        },
+        "started.json": {
+          "sha256": "73a42ff0f1b67eb8619ece36169e08101b63e93137d521666beb4e9c68dc1e35",
+          "bytes": 85
+        }
+      }
+    },
+    {
+      "sequence": 1,
+      "role": "developer",
+      "ok": true,
+      "done": true,
+      "done_reason": "stop",
+      "text_chars": 4295,
+      "partial_chars": 0,
+      "files": {
+        "after.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "before.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "dispatch.json": {
+          "sha256": "e448f70479ffc73e2335269d0cd0ccf8bb96fd59d1336708cb89913697c98fcd",
+          "bytes": 85
+        },
+        "frames.ndjson": {
+          "sha256": "f8fb4e3b01fd6b490f1cc56291d2f6823fa682cb86c4a65347d43fb111dd818b",
+          "bytes": 162804
+        },
+        "request.json": {
+          "sha256": "26b11990cf5ad30e9385189c818aee1fe1baee6229c0bc56e9affcbecb85ba57",
+          "bytes": 10982
+        },
+        "result.json": {
+          "sha256": "b46cd42906f8e0762656b00499b1e043da3a43b746d4f0896a0266407af089ab",
+          "bytes": 4851
+        },
+        "started.json": {
+          "sha256": "e448f70479ffc73e2335269d0cd0ccf8bb96fd59d1336708cb89913697c98fcd",
+          "bytes": 85
+        }
+      }
+    },
+    {
+      "sequence": 2,
+      "role": "reviewer",
+      "ok": true,
+      "done": true,
+      "done_reason": "stop",
+      "text_chars": 1733,
+      "partial_chars": 0,
+      "files": {
+        "after.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "before.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "dispatch.json": {
+          "sha256": "70b03e8c7f35534009525d3cae196f26bf3a3a554af5987acfafbec06d2932dd",
+          "bytes": 85
+        },
+        "frames.ndjson": {
+          "sha256": "4087d73c2564fbc6477afd84b8eaa3cbfb5ea5b4000384c4d353e2b887334a5f",
+          "bytes": 56365
+        },
+        "request.json": {
+          "sha256": "2ac4676b04878e25026c19d066cdc39d0bbb4195683e57456f8d1b660e601a7d",
+          "bytes": 25618
+        },
+        "result.json": {
+          "sha256": "3f13197be74bdfcc10faf38b753d73296a9c43d7611e7e0dd6502cf1295368ee",
+          "bytes": 2274
+        },
+        "started.json": {
+          "sha256": "70b03e8c7f35534009525d3cae196f26bf3a3a554af5987acfafbec06d2932dd",
+          "bytes": 85
+        }
+      }
+    },
+    {
+      "sequence": 3,
+      "role": "developer",
+      "ok": true,
+      "done": true,
+      "done_reason": "stop",
+      "text_chars": 4295,
+      "partial_chars": 0,
+      "files": {
+        "after.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "before.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "dispatch.json": {
+          "sha256": "74ca1f80698443531aad6d97e78368055ba2c2db772c58a9f3e8229c178eb71e",
+          "bytes": 85
+        },
+        "frames.ndjson": {
+          "sha256": "a34de592115314d6928907bbff8886188771d5582bf8066f5651af4b4a1eafd5",
+          "bytes": 162787
+        },
+        "request.json": {
+          "sha256": "8bd709019504c30fe16c9996b01b1009bda31dee673c0297ddb76e612dc0727c",
+          "bytes": 10802
+        },
+        "result.json": {
+          "sha256": "e4c55a0cde72a7900302ebae2791865ef5ebca409835bda1ac311f5512943881",
+          "bytes": 4851
+        },
+        "started.json": {
+          "sha256": "74ca1f80698443531aad6d97e78368055ba2c2db772c58a9f3e8229c178eb71e",
+          "bytes": 85
+        }
+      }
+    },
+    {
+      "sequence": 4,
+      "role": "reviewer",
+      "ok": true,
+      "done": true,
+      "done_reason": "stop",
+      "text_chars": 1733,
+      "partial_chars": 0,
+      "files": {
+        "after.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "before.json": {
+          "sha256": "13b7a0e93b07831b885cd9be2fccb68d082eec406afa3c485bd1e28300c76e12",
+          "bytes": 122
+        },
+        "dispatch.json": {
+          "sha256": "23cbd7641dc784180620ed8506a79c5d28e7dcb1cb4870657137766e3d355a93",
+          "bytes": 85
+        },
+        "frames.ndjson": {
+          "sha256": "38f2a164e90683640298d1f838c1e070115239db71bd0d012bde20e1adc7f3de",
+          "bytes": 56382
+        },
+        "request.json": {
+          "sha256": "ba925c77a417267454aaddd6390a2f421a5ba0036b3bdf996457284426d1c8cd",
+          "bytes": 25618
+        },
+        "result.json": {
+          "sha256": "e32faf19c2f4bb4df34c62e3aeb028f01cd5f7b23fd8c864f868dc3685f62e14",
+          "bytes": 2274
+        },
+        "started.json": {
+          "sha256": "23cbd7641dc784180620ed8506a79c5d28e7dcb1cb4870657137766e3d355a93",
+          "bytes": 85
+        }
+      }
+    }
+  ],
+  "new_source_char_limit": 6000,
+  "historical_source_char_limit": 4000,
+  "model_budgets_increased": false,
+  "historical_rejection_preserved": true,
+  "persistent_discrepancy": "Reviewer asked for200 empty catalogue and removal of required AR filter; both contradict frozen G02.",
+  "post_discrepancy_repair": "Narrow veto of those two exact observed corrective instructions before developer dispatch; prompt clarifies AR and503. Not general semantic validation.",
+  "post_repair_additional_model_calls": 0,
+  "product_tests_executed": false,
+  "official_catalogue_loaded": false,
+  "full_product_acceptance": false,
+  "preview_http": 200,
+  "auth_enabled": false,
+  "old_auth_not_resent": true,
+  "author": "Codex prospective protocol/lineage/tests; CrewAI/Ollama source correction/review originals"
+}

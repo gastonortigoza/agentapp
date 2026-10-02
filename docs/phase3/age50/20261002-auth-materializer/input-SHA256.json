@@ -1,0 +1,6 @@
+{
+  "controller/phase3_auth_execution.py": "626e15b454fa688f0f345e257220dc76060b39336f2f22f8433469598cde615b",
+  "controller/phase3_auth_materializer.py": "918f549d5bfc14b94d272ca957d92dbf2f5e406f6e030083fd92d6845b401332",
+  "controller/tests/test_phase3_auth_materializer.py": "3eb37aa7b74a35040cf55e7052952d95eec58a266e632d04d0d01b8a0a6d4513",
+  "examples/phase3-auth-execution/README.md": "e536acdeb02f550d50f9759fc13ca9157fddcc35499f27c49fa4a67e6dad9132"
+}

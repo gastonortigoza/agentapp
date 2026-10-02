@@ -1,0 +1,122 @@
+{
+  "at": "2026-10-02T18:33:43.825572+00:00",
+  "suite": "f4062caaac1cad2d185b544e6383eac80e18bb5f087393024718b656d7510555",
+  "models_dispatched": 0,
+  "plan_runs": {
+    "reviewed_contract_section": 42,
+    "blocked_evidence": 7,
+    "evaluated_fixture": 12,
+    "reviewed_plan": 10,
+    "blocked_budget": 1,
+    "uncertain_operation": 1,
+    "reviewed_application_file": 17
+  },
+  "uncertain": [
+    "age50-handoff-r5-api-20261001"
+  ],
+  "phase3_workflows": {
+    "awaiting_discrepancy": 5,
+    "completed_slice": 1
+  },
+  "active": [],
+  "profile": {
+    "id": "age50-periodic-r2-20261002",
+    "state": "awaiting_discrepancy",
+    "used": {
+      "active_ms": 920515,
+      "calls": 26,
+      "executions": 3,
+      "input_tokens": 129180,
+      "output_tokens": 15326
+    },
+    "round": 2,
+    "last_audited_round": 12
+  },
+  "original_sources": [
+    {
+      "id": "age50-directory-r7-application-20261001",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    },
+    {
+      "id": "age50-directory-r8-application-20261001",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    },
+    {
+      "id": "age50-directory-r9-application-20261001",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    },
+    {
+      "id": "age50-directory-r9d-application-20261001",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    },
+    {
+      "id": "age50-autonomous-r4-20261002-r0-application",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    },
+    {
+      "id": "age50-autonomous-r4-20261002-r0-public-api",
+      "section": "public_api",
+      "path": "backend/src/app.ts"
+    },
+    {
+      "id": "age50-autonomous-r4-20261002-r0-public-profile",
+      "section": "public_profile",
+      "path": "frontend/src/PublicProfile.tsx"
+    },
+    {
+      "id": "age50-periodic-20261002-r0-application",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    },
+    {
+      "id": "age50-periodic-20261002-r0-public-api",
+      "section": "public_api",
+      "path": "backend/src/app.ts"
+    },
+    {
+      "id": "age50-periodic-20261002-r0-public-profile",
+      "section": "public_profile",
+      "path": "frontend/src/PublicProfile.tsx"
+    },
+    {
+      "id": "age50-periodic-r2-20261002-r0-application",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    },
+    {
+      "id": "age50-periodic-r2-20261002-r0-public-api",
+      "section": "public_api",
+      "path": "backend/src/app.ts"
+    },
+    {
+      "id": "age50-periodic-r2-20261002-r0-public-profile",
+      "section": "public_profile",
+      "path": "frontend/src/PublicProfile.tsx"
+    },
+    {
+      "id": "age50-periodic-r2-20261002-r1-application",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    },
+    {
+      "id": "age50-periodic-r2-20261002-r1-public-api",
+      "section": "public_api",
+      "path": "backend/src/app.ts"
+    },
+    {
+      "id": "age50-periodic-r2-20261002-r1-public-profile",
+      "section": "public_profile",
+      "path": "frontend/src/PublicProfile.tsx"
+    },
+    {
+      "id": "age50-periodic-r2-20261002-r2-application",
+      "section": "application",
+      "path": "frontend/src/App.tsx"
+    }
+  ]
+}

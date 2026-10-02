@@ -1,0 +1,6 @@
+{
+  "state": "confirmed_precommit_byte_check_failure",
+  "file": "controller/controller_gate.py",
+  "reason": "Second existing CRLF/mixed controller file also normalized by Git",
+  "correction": "Explicit -text for agent.py and controller_gate.py; qualified working bytes and suite receipt unchanged; no commit attempted"
+}

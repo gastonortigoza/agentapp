@@ -1,0 +1,46 @@
+{
+  "scope": "this directory continuation only; earlier r1-r6 evidence retained separately",
+  "runs": [
+    {
+      "id": "r7",
+      "calls": 8,
+      "input_tokens": 30878,
+      "output_tokens": 4536,
+      "active_ms": 209140
+    },
+    {
+      "id": "r8",
+      "calls": 8,
+      "input_tokens": 35387,
+      "output_tokens": 4329,
+      "active_ms": 206953
+    },
+    {
+      "id": "r9",
+      "calls": 6,
+      "input_tokens": 29210,
+      "output_tokens": 1836,
+      "active_ms": 132860
+    },
+    {
+      "id": "r9d-application",
+      "calls": 1,
+      "input_tokens": 2730,
+      "output_tokens": 230,
+      "active_ms": 58390
+    },
+    {
+      "id": "holdout-r9",
+      "calls": 4,
+      "input_tokens": 25710,
+      "output_tokens": 924,
+      "active_ms": 58781
+    }
+  ],
+  "totals": {
+    "calls": 27,
+    "input_tokens": 123915,
+    "output_tokens": 11855,
+    "active_ms": 666124
+  }
+}

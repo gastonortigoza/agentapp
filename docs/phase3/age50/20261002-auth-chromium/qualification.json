@@ -1,0 +1,390 @@
+{
+  "state": "qualified_disposable_chromium_TLS",
+  "scope": "isolated_chromium_TLS_infrastructure_only",
+  "nonce": "368b615b315bb2bb60cc518f6f77d68f",
+  "operations": [
+    {
+      "argv": [
+        "docker",
+        "build",
+        "--network",
+        "none",
+        "--pull=false",
+        "--progress",
+        "plain",
+        "--tag",
+        "age50-auth-browser-368b615b315bb2bb-image",
+        "-"
+      ],
+      "state": "confirmed",
+      "input_sha256": "8a0ca1989510b3fa9255111ac3c65db0f9aee86888eb7f5664324320daeeacbf",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 3156,
+      "stdout": "",
+      "stderr": "#0 building with \"desktop-linux\" instance using docker driver\n\n#1 [internal] load remote build context\n#1 DONE 0.5s\n\n#1 [internal] load remote build context\n#1 DONE 0.5s\n\n#2 copy /context /\n#2 DONE 0.1s\n\n#3 [internal] load metadata for mcr.microsoft.com/playwright@sha256:42f02d323c310069b4d54c94bd91a608966a486c3492c48ae0b1cea747ec5ca2\n#3 DONE 0.6s\n\n#4 [1/2] FROM mcr.microsoft.com/playwright@sha256:42f02d323c310069b4d54c94bd91a608966a486c3492c48ae0b1cea747ec5ca2\n#4 resolve mcr.microsoft.com/playwright@sha256:42f02d323c310069b4d54c94bd91a608966a486c3492c48ae0b1cea747ec5ca2 0.0s done\n#4 CACHED\n\n#5 [2/2] COPY --chown=1000:1000 work/ /work/\n#5 DONE 0.3s\n\n#6 exporting to image\n#6 exporting layers\n#6 exporting layers 0.4s done\n#6 exporting manifest sha256:584373ad29a713575d375ee5e7674f414880a9a73ea07742d7fa53e98e67c0df 0.0s done\n#6 exporting config sha256:84141b663414410ee0fa1cf84e2121a6982cfd9f9b5a7e37ca1e627812890122 0.0s done\n#6 exporting attestation manifest sha256:fcc52c2461866c2d18da4bb0d4ac8ae58497871ffd82f3309f63273847914af1 0.0s done\n#6 exporting manifest list sha256:206695bb8114d0028ed161cb308fd4003c02895c12eb064d478f57248b43cf9c 0.0s done\n#6 naming to docker.io/library/age50-auth-browser-368b615b315bb2bb-image:latest done\n#6 unpacking to docker.io/library/age50-auth-browser-368b615b315bb2bb-image:latest\n#6 unpacking to docker.io/library/age50-auth-browser-368b615b315bb2bb-image:latest 0.2s done\n#6 DONE 0.7s\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "age50-auth-browser-368b615b315bb2bb-image"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 218,
+      "stdout": "[\n    {\n        \"Id\": \"sha256:206695bb8114d0028ed161cb308fd4003c02895c12eb064d478f57248b43cf9c\",\n        \"RepoTags\": [\n            \"age50-auth-browser-368b615b315bb2bb-image:latest\"\n        ],\n        \"RepoDigests\": [\n            \"age50-auth-browser-368b615b315bb2bb-image@sha256:206695bb8114d0028ed161cb308fd4003c02895c12eb064d478f57248b43cf9c\"\n        ],\n        \"Comment\": \"buildkit.dockerfile.v0\",\n        \"Created\": \"2026-10-02T17:42:41.270876811Z\",\n        \"Config\": {\n            \"Env\": [\n                \"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\n                \"LANG=C.UTF-8\",\n                \"LC_ALL=C.UTF-8\",\n                \"PLAYWRIGHT_BROWSERS_PATH=/ms-playwright\"\n            ],\n            \"Cmd\": [\n                \"/bin/bash\"\n            ],\n            \"Labels\": {\n                \"agentapp.auth-browser.nonce\": \"368b615b315bb2bb60cc518f6f77d68f\",\n                \"org.opencontainers.image.ref.name\": \"ubuntu\",\n                \"org.opencontainers.image.version\": \"24.04\"\n            }\n        },\n        \"Architecture\": \"amd64\",\n        \"Os\": \"linux\",\n        \"Size\": 924358844,\n        \"RootFS\": {\n            \"Type\": \"layers\",\n            \"Layers\": [\n                \"sha256:073ec47a8c22dcaa4d6e5758799ccefe2f9bde943685830b1bf6fd2395f5eabc\",\n                \"sha256:85570f35ae658f9cfb062a02080076c165379f5638e7d2f6d4a33cbebfa32e19\",\n                \"sha256:87e98826f381a50d07336fe52145886cb0a3fe32533e273de1402d803f4cc9ae\",\n                \"sha256:3b8c665cf5391cb5da4ea67f1eb8afe8a6532682617f2ed075a57039c7ba7205\",\n                \"sha256:628eac3d06dad1113cc3e6ad5fb9825fb8cb74a618b46e41f606647bbcf6ae8e\"\n            ]\n        },\n        \"Metadata\": {\n            \"LastTagTime\": \"2026-10-02T17:42:41.785377412Z\"\n        },\n        \"Descriptor\": {\n            \"mediaType\": \"application/vnd.oci.image.index.v1+json\",\n            \"digest\": \"sha256:206695bb8114d0028ed161cb308fd4003c02895c12eb064d478f57248b43cf9c\",\n            \"size\": 856\n        }\n    }\n]\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "container",
+        "inspect",
+        "age50-auth-browser-368b615b315bb2bb"
+      ],
+      "state": "confirmed",
+      "exit_code": 1,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 266,
+      "stdout": "[]\n",
+      "stderr": "Error response from daemon: No such container: age50-auth-browser-368b615b315bb2bb\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "create",
+        "--name",
+        "age50-auth-browser-368b615b315bb2bb",
+        "--pull",
+        "never",
+        "--network",
+        "none",
+        "--read-only",
+        "--user",
+        "1000:1000",
+        "--cap-drop",
+        "ALL",
+        "--security-opt",
+        "no-new-privileges",
+        "--cpus",
+        "0.8",
+        "--memory",
+        "1536m",
+        "--memory-swap",
+        "1536m",
+        "--pids-limit",
+        "128",
+        "--log-driver",
+        "none",
+        "--tmpfs",
+        "/tmp:rw,nosuid,nodev,noexec,size=512m,uid=1000,gid=1000",
+        "--label",
+        "agentapp.auth-browser.nonce=368b615b315bb2bb60cc518f6f77d68f",
+        "sha256:206695bb8114d0028ed161cb308fd4003c02895c12eb064d478f57248b43cf9c",
+        "node",
+        "-e",
+        "setTimeout(()=>process.exit(0),240000)"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 359,
+      "stdout": "3caa239be6622126a68b9148d05e5779e1902bcd666ef1861f29612f1b782eef\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "start",
+        "age50-auth-browser-368b615b315bb2bb"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 375,
+      "stdout": "age50-auth-browser-368b615b315bb2bb\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "container",
+        "inspect",
+        "--format",
+        "{{json .HostConfig}}",
+        "age50-auth-browser-368b615b315bb2bb"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 219,
+      "stdout": "{\"Binds\":null,\"ContainerIDFile\":\"\",\"LogConfig\":{\"Type\":\"none\",\"Config\":{}},\"NetworkMode\":\"none\",\"PortBindings\":{},\"RestartPolicy\":{\"Name\":\"no\",\"MaximumRetryCount\":0},\"AutoRemove\":false,\"VolumeDriver\":\"\",\"VolumesFrom\":null,\"ConsoleSize\":[0,0],\"CapAdd\":null,\"CapDrop\":[\"ALL\"],\"CgroupnsMode\":\"private\",\"Dns\":null,\"DnsOptions\":[],\"DnsSearch\":[],\"ExtraHosts\":null,\"GroupAdd\":null,\"IpcMode\":\"private\",\"Cgroup\":\"\",\"Links\":null,\"OomScoreAdj\":0,\"PidMode\":\"\",\"Privileged\":false,\"PublishAllPorts\":false,\"ReadonlyRootfs\":true,\"SecurityOpt\":[\"no-new-privileges\"],\"Tmpfs\":{\"/tmp\":\"rw,nosuid,nodev,noexec,size=512m,uid=1000,gid=1000\"},\"UTSMode\":\"\",\"UsernsMode\":\"\",\"ShmSize\":67108864,\"Runtime\":\"runc\",\"Isolation\":\"\",\"CpuShares\":0,\"Memory\":1610612736,\"NanoCpus\":800000000,\"CgroupParent\":\"\",\"BlkioWeight\":0,\"BlkioWeightDevice\":[],\"BlkioDeviceReadBps\":[],\"BlkioDeviceWriteBps\":[],\"BlkioDeviceReadIOps\":[],\"BlkioDeviceWriteIOps\":[],\"CpuPeriod\":0,\"CpuQuota\":0,\"CpuRealtimePeriod\":0,\"CpuRealtimeRuntime\":0,\"CpusetCpus\":\"\",\"CpusetMems\":\"\",\"Devices\":[],\"DeviceCgroupRules\":null,\"DeviceRequests\":null,\"MemoryReservation\":0,\"MemorySwap\":1610612736,\"MemorySwappiness\":null,\"OomKillDisable\":null,\"PidsLimit\":128,\"Ulimits\":[],\"CpuCount\":0,\"CpuPercent\":0,\"IOMaximumIOps\":0,\"IOMaximumBandwidth\":0,\"MaskedPaths\":[\"/proc/acpi\",\"/proc/asound\",\"/proc/interrupts\",\"/proc/kcore\",\"/proc/keys\",\"/proc/latency_stats\",\"/proc/sched_debug\",\"/proc/scsi\",\"/proc/timer_list\",\"/proc/timer_stats\",\"/sys/devices/virtual/powercap\",\"/sys/firmware\"],\"ReadonlyPaths\":[\"/proc/bus\",\"/proc/fs\",\"/proc/irq\",\"/proc/sys\",\"/proc/sysrq-trigger\"]}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "age50-auth-browser-368b615b315bb2bb",
+        "gpgv",
+        "--keyring",
+        "/usr/share/keyrings/ubuntu-archive-keyring.gpg",
+        "/work/tools/InRelease"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 297,
+      "stdout": "",
+      "stderr": "gpgv: Signature made Thu Apr 25 15:11:21 2024 UTC\ngpgv:                using RSA key F6ECB3762474EDA9D21B7022871920D1991BC93C\ngpgv: Good signature from \"Ubuntu Archive Automatic Signing Key (2018) <ftpmaster@ubuntu.com>\"\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "age50-auth-browser-368b615b315bb2bb",
+        "dpkg-deb",
+        "--fsys-tarfile",
+        "/work/tools/libnss3-tools.deb"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 312,
+      "stdout": "16d8ca7bfb673af03540c5303107bb4d11ecae8bdebe91b6e121faa2641ed806",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "build",
+        "--network",
+        "none",
+        "--pull=false",
+        "--progress",
+        "plain",
+        "--tag",
+        "age50-auth-browser-368b615b315bb2bb-tls-image",
+        "-"
+      ],
+      "state": "confirmed",
+      "input_sha256": "71c5a3e5d81dd0185fbbf44c49f5bbc0eaa947d21c538b3c73cb3ab96bd0be95",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 2453,
+      "stdout": "",
+      "stderr": "#0 building with \"desktop-linux\" instance using docker driver\n\n#1 [internal] load remote build context\n#1 DONE 0.5s\n\n#1 [internal] load remote build context\n#1 DONE 0.5s\n\n#2 copy /context /\n#2 DONE 0.1s\n\n#3 [internal] load metadata for mcr.microsoft.com/playwright@sha256:42f02d323c310069b4d54c94bd91a608966a486c3492c48ae0b1cea747ec5ca2\n#3 DONE 0.0s\n\n#4 [1/3] FROM mcr.microsoft.com/playwright@sha256:42f02d323c310069b4d54c94bd91a608966a486c3492c48ae0b1cea747ec5ca2\n#4 resolve mcr.microsoft.com/playwright@sha256:42f02d323c310069b4d54c94bd91a608966a486c3492c48ae0b1cea747ec5ca2 0.0s done\n#4 CACHED\n\n#5 [2/3] COPY --chown=1000:1000 work/ /work/\n#5 DONE 0.3s\n\n#6 [3/3] COPY --chown=1000:1000 tool/certutil /usr/bin/certutil\n#6 DONE 0.0s\n\n#7 exporting to image\n#7 exporting layers\n#7 exporting layers 0.4s done\n#7 exporting manifest sha256:41ec0e864ac74e45fc1276c3a02fa76c6b4ff577d900098f5e694bc73a715224 0.0s done\n#7 exporting config sha256:c4acf6b1f1cba7302db62decd00b85bb0d087fe3582d90592738d42ef6c23fb1 0.0s done\n#7 exporting attestation manifest sha256:b442c819bc93703292202f3174809ce3e1134f33acee5e5a927d95bfcf2ecda5 0.0s done\n#7 exporting manifest list sha256:5fdcc97fed6ea92857dda5d36c5582193703835ff7ba7052b4774dbadd426f83 0.0s done\n#7 naming to docker.io/library/age50-auth-browser-368b615b315bb2bb-tls-image:latest done\n#7 unpacking to docker.io/library/age50-auth-browser-368b615b315bb2bb-tls-image:latest\n#7 unpacking to docker.io/library/age50-auth-browser-368b615b315bb2bb-tls-image:latest 0.2s done\n#7 DONE 0.8s\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "image",
+        "inspect",
+        "age50-auth-browser-368b615b315bb2bb-tls-image"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 250,
+      "stdout": "[\n    {\n        \"Id\": \"sha256:5fdcc97fed6ea92857dda5d36c5582193703835ff7ba7052b4774dbadd426f83\",\n        \"RepoTags\": [\n            \"age50-auth-browser-368b615b315bb2bb-tls-image:latest\"\n        ],\n        \"RepoDigests\": [\n            \"age50-auth-browser-368b615b315bb2bb-tls-image@sha256:5fdcc97fed6ea92857dda5d36c5582193703835ff7ba7052b4774dbadd426f83\"\n        ],\n        \"Comment\": \"buildkit.dockerfile.v0\",\n        \"Created\": \"2026-10-02T17:42:45.836604718Z\",\n        \"Config\": {\n            \"Env\": [\n                \"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\n                \"LANG=C.UTF-8\",\n                \"LC_ALL=C.UTF-8\",\n                \"PLAYWRIGHT_BROWSERS_PATH=/ms-playwright\"\n            ],\n            \"Cmd\": [\n                \"/bin/bash\"\n            ],\n            \"Labels\": {\n                \"agentapp.auth-browser.nonce\": \"368b615b315bb2bb60cc518f6f77d68f\",\n                \"org.opencontainers.image.ref.name\": \"ubuntu\",\n                \"org.opencontainers.image.version\": \"24.04\"\n            }\n        },\n        \"Architecture\": \"amd64\",\n        \"Os\": \"linux\",\n        \"Size\": 923729442,\n        \"RootFS\": {\n            \"Type\": \"layers\",\n            \"Layers\": [\n                \"sha256:073ec47a8c22dcaa4d6e5758799ccefe2f9bde943685830b1bf6fd2395f5eabc\",\n                \"sha256:85570f35ae658f9cfb062a02080076c165379f5638e7d2f6d4a33cbebfa32e19\",\n                \"sha256:87e98826f381a50d07336fe52145886cb0a3fe32533e273de1402d803f4cc9ae\",\n                \"sha256:3b8c665cf5391cb5da4ea67f1eb8afe8a6532682617f2ed075a57039c7ba7205\",\n                \"sha256:6dda54c1b1870f69c585ff998d51aa4dfe5ff63f7b15e2d0cd67ba2c085eb026\",\n                \"sha256:b7adf4226a71b93de23837adc6b0833131a401b2dd86890ef9e7be5397ec441f\"\n            ]\n        },\n        \"Metadata\": {\n            \"LastTagTime\": \"2026-10-02T17:42:46.342075912Z\"\n        },\n        \"Descriptor\": {\n            \"mediaType\": \"application/vnd.oci.image.index.v1+json\",\n            \"digest\": \"sha256:5fdcc97fed6ea92857dda5d36c5582193703835ff7ba7052b4774dbadd426f83\",\n            \"size\": 856\n        }\n    }\n]\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "container",
+        "inspect",
+        "age50-auth-browser-368b615b315bb2bb-tls"
+      ],
+      "state": "confirmed",
+      "exit_code": 1,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 203,
+      "stdout": "[]\n",
+      "stderr": "Error response from daemon: No such container: age50-auth-browser-368b615b315bb2bb-tls\n"
+    },
+    {
+      "argv": [
+        "docker",
+        "create",
+        "--name",
+        "age50-auth-browser-368b615b315bb2bb-tls",
+        "--pull",
+        "never",
+        "--network",
+        "none",
+        "--read-only",
+        "--user",
+        "1000:1000",
+        "--cap-drop",
+        "ALL",
+        "--security-opt",
+        "no-new-privileges",
+        "--cpus",
+        "0.8",
+        "--memory",
+        "1536m",
+        "--memory-swap",
+        "1536m",
+        "--pids-limit",
+        "128",
+        "--log-driver",
+        "none",
+        "--tmpfs",
+        "/tmp:rw,nosuid,nodev,noexec,size=512m,uid=1000,gid=1000",
+        "--label",
+        "agentapp.auth-browser.nonce=368b615b315bb2bb60cc518f6f77d68f",
+        "sha256:5fdcc97fed6ea92857dda5d36c5582193703835ff7ba7052b4774dbadd426f83",
+        "node",
+        "-e",
+        "setTimeout(()=>process.exit(0),240000)"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 359,
+      "stdout": "808e9d683b532fd5bc34522b238b55cd61a810c974082122b86840e0bf6b1cd5\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "start",
+        "age50-auth-browser-368b615b315bb2bb-tls"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 375,
+      "stdout": "age50-auth-browser-368b615b315bb2bb-tls\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "container",
+        "inspect",
+        "--format",
+        "{{json .HostConfig}}",
+        "age50-auth-browser-368b615b315bb2bb-tls"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 203,
+      "stdout": "{\"Binds\":null,\"ContainerIDFile\":\"\",\"LogConfig\":{\"Type\":\"none\",\"Config\":{}},\"NetworkMode\":\"none\",\"PortBindings\":{},\"RestartPolicy\":{\"Name\":\"no\",\"MaximumRetryCount\":0},\"AutoRemove\":false,\"VolumeDriver\":\"\",\"VolumesFrom\":null,\"ConsoleSize\":[0,0],\"CapAdd\":null,\"CapDrop\":[\"ALL\"],\"CgroupnsMode\":\"private\",\"Dns\":null,\"DnsOptions\":[],\"DnsSearch\":[],\"ExtraHosts\":null,\"GroupAdd\":null,\"IpcMode\":\"private\",\"Cgroup\":\"\",\"Links\":null,\"OomScoreAdj\":0,\"PidMode\":\"\",\"Privileged\":false,\"PublishAllPorts\":false,\"ReadonlyRootfs\":true,\"SecurityOpt\":[\"no-new-privileges\"],\"Tmpfs\":{\"/tmp\":\"rw,nosuid,nodev,noexec,size=512m,uid=1000,gid=1000\"},\"UTSMode\":\"\",\"UsernsMode\":\"\",\"ShmSize\":67108864,\"Runtime\":\"runc\",\"Isolation\":\"\",\"CpuShares\":0,\"Memory\":1610612736,\"NanoCpus\":800000000,\"CgroupParent\":\"\",\"BlkioWeight\":0,\"BlkioWeightDevice\":[],\"BlkioDeviceReadBps\":[],\"BlkioDeviceWriteBps\":[],\"BlkioDeviceReadIOps\":[],\"BlkioDeviceWriteIOps\":[],\"CpuPeriod\":0,\"CpuQuota\":0,\"CpuRealtimePeriod\":0,\"CpuRealtimeRuntime\":0,\"CpusetCpus\":\"\",\"CpusetMems\":\"\",\"Devices\":[],\"DeviceCgroupRules\":null,\"DeviceRequests\":null,\"MemoryReservation\":0,\"MemorySwap\":1610612736,\"MemorySwappiness\":null,\"OomKillDisable\":null,\"PidsLimit\":128,\"Ulimits\":[],\"CpuCount\":0,\"CpuPercent\":0,\"IOMaximumIOps\":0,\"IOMaximumBandwidth\":0,\"MaskedPaths\":[\"/proc/acpi\",\"/proc/asound\",\"/proc/interrupts\",\"/proc/kcore\",\"/proc/keys\",\"/proc/latency_stats\",\"/proc/sched_debug\",\"/proc/scsi\",\"/proc/timer_list\",\"/proc/timer_stats\",\"/sys/devices/virtual/powercap\",\"/sys/firmware\"],\"ReadonlyPaths\":[\"/proc/bus\",\"/proc/fs\",\"/proc/irq\",\"/proc/sys\",\"/proc/sysrq-trigger\"]}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "-i",
+        "age50-auth-browser-368b615b315bb2bb-tls",
+        "sh",
+        "-c",
+        "umask 077; cat > /tmp/server-key.pem; chmod 400 /tmp/server-key.pem"
+      ],
+      "state": "confirmed",
+      "private_input_not_recorded": true,
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 313,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "docker",
+        "exec",
+        "--workdir",
+        "/work",
+        "--env",
+        "AUTH_TLS_FIXTURE=1",
+        "age50-auth-browser-368b615b315bb2bb-tls",
+        "node",
+        "auth-browser-tls-fixture.mjs"
+      ],
+      "state": "confirmed",
+      "exit_code": 0,
+      "timed_out": false,
+      "truncated": false,
+      "duration_ms": 3046,
+      "stdout": "{\"state\":\"qualified_disposable_chromium_TLS\",\"browser_version\":\"141.0.7390.37\",\"checks\":[\"untrusted_CA_rejected\",\"trusted_CA_HTTPS_secure_context\",\"Secure_HttpOnly_Lax_path_and_TTL\",\"HttpOnly_hidden_at_matching_path\",\"browser_sends_cookie_over_validated_TLS\",\"cookie_not_sent_outside_auth_path\",\"wrong_hostname_rejected\",\"certificate_validation_bypasses_absent\"],\"product_tests_executed\":false,\"host_trust_changed\":false,\"certificate_validation_disabled\":false,\"private_key_published\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "cleanup": [
+    {
+      "kind": "container",
+      "resource": "age50-auth-browser-368b615b315bb2bb-tls",
+      "exit_code": 0
+    },
+    {
+      "kind": "image",
+      "resource": "sha256:5fdcc97fed6ea92857dda5d36c5582193703835ff7ba7052b4774dbadd426f83",
+      "exit_code": 0
+    },
+    {
+      "kind": "container",
+      "resource": "age50-auth-browser-368b615b315bb2bb",
+      "exit_code": 0
+    },
+    {
+      "kind": "image",
+      "resource": "sha256:206695bb8114d0028ed161cb308fd4003c02895c12eb064d478f57248b43cf9c",
+      "exit_code": 0
+    }
+  ],
+  "model_calls": 0,
+  "product_tests_executed": false,
+  "prior_budget_reset": false,
+  "host_trust_changed": false,
+  "certificate_validation_disabled": false,
+  "private_key_published": false,
+  "max_active_ms": 240000,
+  "fixture_sha256": "00bb9972d263b5dd0a3ff89e1db2d11d700b5b51c8d6194ba4f6291a5f519906",
+  "public_CA_sha256": "5005b12e11d915b3a91b688733fb595ff3af0b6fd57f5650f0fab9e0d7a6381e",
+  "public_server_certificate_sha256": "f6b0b33b12f91f0e5ca646d732d8f61c0de177a4132399f903893aa661ceffe3",
+  "tool_acquisition_sha256": "a4489378abc9520a53002530307c338bec20003dc3a913f2b862ce77bbdddaae",
+  "started_at": "2026-10-02T17:42:39.014366+00:00",
+  "ubuntu_signature_verified": true,
+  "certutil_binary_sha256": "f037aa69a7c39b6441f47b91be8983e445b66c65feea086ace36e13c67f3c110",
+  "browser_check": {
+    "state": "qualified_disposable_chromium_TLS",
+    "browser_version": "141.0.7390.37",
+    "checks": [
+      "untrusted_CA_rejected",
+      "trusted_CA_HTTPS_secure_context",
+      "Secure_HttpOnly_Lax_path_and_TTL",
+      "HttpOnly_hidden_at_matching_path",
+      "browser_sends_cookie_over_validated_TLS",
+      "cookie_not_sent_outside_auth_path",
+      "wrong_hostname_rejected",
+      "certificate_validation_bypasses_absent"
+    ],
+    "product_tests_executed": false,
+    "host_trust_changed": false,
+    "certificate_validation_disabled": false,
+    "private_key_published": false
+  },
+  "duration_ms": 14657
+}

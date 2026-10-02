@@ -1,0 +1,12 @@
+AGE-50 — controlador local final, 01/10/2026
+
+Suite completa final: 480 passed, 1 skipped, 547 warnings in 93.15s.
+El caso omitido requiere creación de symlinks en Windows.
+33 pruebas nuevas de contrato, corrección, citas, contexto sin pérdida y distinción de fixtures.
+Python 3.12.14; CrewAI 1.15.22; pytest 9.1.1; jsonschema 4.26.0; PyYAML 6.0.3.
+Entorno local existente, dependencias sin modificaciones.
+Recibo: AGE-50-recibo-suite-r2.json.
+source_identity: be5c101333933f5ed32a0da7aa1d2b56aa3a4504f7c3bf695ff2b34c0fab62cd.
+
+Validación del controlador. No son pruebas FE/API/PostgreSQL/E2E/build del SaaS.
+La primera versión preserva su propio recibo y evidencia; no se reutilizan para certificar esta fuente.

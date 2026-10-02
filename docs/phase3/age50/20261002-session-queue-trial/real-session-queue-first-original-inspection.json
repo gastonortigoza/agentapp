@@ -1,0 +1,49 @@
+{
+  "id": "age50-saas-queue-20261002-r0-auth-api",
+  "state": "blocked_evidence",
+  "reason": "Truncated result, unverifiable usage or model identity",
+  "row_counts": {
+    "calls": 1,
+    "corrections": 0,
+    "input_tokens": 2427,
+    "output_tokens": 2000,
+    "active_ms": 118906
+  },
+  "row_sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d",
+  "operations_sha256": "69c197dcc399f0ff5332d9b859ee090c55e2f7b331fcce53b98206438720e640",
+  "operation_state": "confirmed",
+  "result": {
+    "ok": true,
+    "done": true,
+    "done_reason": "length",
+    "input_tokens": 2427,
+    "output_tokens": 2000,
+    "tool_calls": false,
+    "elapsed_ms": 115031,
+    "load_duration_ns": 51868304100,
+    "total_duration_ns": 114981206800
+  },
+  "text_bytes": 8214,
+  "text_first": "{\n  \"checks\": {\n    \"AS01\": {\n      \"passed\": false,\n      \"pointer\": \"/content\",\n      \"quote\": \"Export registerAuth(app,pool,config):Promise<void>, requireOwner(pool,config,authorization):Promise<Owner>, AuthConfig and Owner types. AuthConfig injects key:U\"\n    },\n    \"AS02\": {\n      \"passed\": false,\n      \"pointer\": \"/content\",\n      \"quote\": \"Register email trim/lowercase, password12..128 characters and strict valid YYYY-MM-DD private birth d",
+  "text_last": "id when its session is revoked. Use parameterized SQL and actual agentapp.users/agentapp.sessions columns from frozen contract, never mock DB, SELECT-only role or invented columns.\",\n      \"pointer\": \"/content\",\n      \"issue\": \"The candidate content is empty, failing to implement database locking strategies for session family serialization, transactional integrity for revocation, and parameterized SQL queries against the defined schema.\",\n      \"",
+  "observer_failures": [
+    {
+      "at": "2026-10-02T20:04:38.052176+00:00",
+      "calls": 1,
+      "corrections": 0,
+      "error_type": "OperationalError",
+      "kind": "observer.failed",
+      "seq": 2,
+      "state": "active"
+    },
+    {
+      "at": "2026-10-02T20:06:36.971417+00:00",
+      "calls": 1,
+      "corrections": 0,
+      "error_type": "OperationalError",
+      "kind": "observer.failed",
+      "seq": 4,
+      "state": "blocked_evidence"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "agentapp.auth-chromium-readiness/1",
+  "state": "disposable_browser_TLS_qualified_integration_pending",
+  "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+  "dispatch_enabled": false,
+  "model_calls": 0,
+  "product_tests_executed": false,
+  "product_acceptance": false,
+  "qualified_browser_infrastructure": {
+    "state": "qualified_disposable_chromium_TLS",
+    "browser_version": "141.0.7390.37",
+    "checks": [
+      "untrusted_CA_rejected",
+      "trusted_CA_HTTPS_secure_context",
+      "Secure_HttpOnly_Lax_path_and_TTL",
+      "HttpOnly_hidden_at_matching_path",
+      "browser_sends_cookie_over_validated_TLS",
+      "cookie_not_sent_outside_auth_path",
+      "wrong_hostname_rejected",
+      "certificate_validation_bypasses_absent"
+    ],
+    "product_tests_executed": false,
+    "host_trust_changed": false,
+    "certificate_validation_disabled": false,
+    "private_key_published": false
+  },
+  "pending": [
+    "API/UI/provider integration and frozen product browser tests",
+    "auth-specific execution manifest consuming original reviews",
+    "durable cross-increment queue",
+    "local-agent proposals and actual PG/API/browser acceptance"
+  ],
+  "profile_discrepancy_preserved": true,
+  "exhausted_profile_budget_preserved": true,
+  "linear_update": "pending_explicit_human_authorization"
+}

@@ -1,0 +1,10 @@
+{
+  "auth-gateway-qualification-intent.json": "8c5a5ac146c418e72628a816eda5fe5c5df8439759af8849ded13e6d7d740fc1",
+  "auth-integration-acquisition.json": "3118ac8b2520b5e0b089ea82a19af832055ec9eab57d32a68303e5b87b7264c4",
+  "auth-integration-qualification-intent.json": "5bd598429a901d2d7ecb5e8d8050e8ef2cd11e91b357426567b7f9de87a1355c",
+  "qualify_auth_gateway.py": "dfd841c492c0f01249cfd3ab3427eb009dfc8ab3ba9087e3fc675fbe254706af",
+  "qualify_auth_integration.py": "8a3157de9638c36b53720722665b6a9fa44f47e1ed5740e443c9d559fa3add94",
+  "readiness.json": "f93e426cfd5dcb389089b8a483f7eacd1d011f98537d5300076618efcd2aab37",
+  "RESULTADO.md": "327ea62e9203c10e88b3d239ecb825b047777a04da3fef315f7280312ced616e",
+  "workspace-SHA256.json": "4bc60ef6d17a7c03f47e53c1e0d14cdeb709de2b3ceec95bc24304036c90cddb"
+}

@@ -1,0 +1,12 @@
+{
+  "acquisition.json": "3c900df9d3fbf8cf6e6416ddb947eb184c293b03296f9effea0ca9522fa29b96",
+  "database-qualification.json": "bc5d79dec8dccced4950a679f06b1b4fa3bb186085291aea79a15518b46793ee",
+  "journal-audit.json": "ab67bdece490a623dae4b39987f4e3a9c4d434fe5bb0861b84246bb4d559a993",
+  "lock-original.log": "1f9649809d5709edecfabe76beb53018b85f09397e57c071192255166006a652",
+  "lock-resolution.json": "38713919efd85cada665431fda91c4f43d60bbe2c5b0917345ba27a4ea9571cf",
+  "readiness.json": "bd77158b1ffa1b0fdc49ac3bf9b5cf627eaedc4bee672a508e745312b020903b",
+  "RESULTADO.md": "6cdf82458dfb3212ee8741e97bc0c181b4e8cd79b9b5d843e68d0de3e057c06e",
+  "runtime-qualification.json": "2bbf7b5511fc1b4ec16ec130b42f1cdd09bbb3302e9bf7abe530e00a1c91f012",
+  "original-drivers/qualify_auth_database.py": "2f6d31474c179b8ef02de6e421461bd2f2b2064975bdca1e333cbb3a1c0dc109",
+  "original-drivers/qualify_auth_workspace.py": "8e917b3cad6be4d620005abbba236ab6438a29e6697bcbab8f43c0efc5d64572"
+}

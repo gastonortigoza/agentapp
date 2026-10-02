@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-02T23:50:52.375587+00:00",
+  "container": "agentapp-age34-test",
+  "database": "agentapp_age34_test",
+  "scope": "read-only AGE-34 infrastructure metadata, not generated source execution",
+  "transaction": "BEGIN READ ONLY /ROLLBACK",
+  "stdout_sha256": "111110c22f2f483f78e3e22ada81757709b4e4ab705068d954121fe0f109f564",
+  "stdout": "BEGIN\nPostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit\ncountries|CHECK ((code = 'AR'::text))\ncountries|NOT NULL code\ncountries|NOT NULL id\ncountries|NOT NULL name\ncountries|PRIMARY KEY (id)\ncountries|UNIQUE (code)\nprovinces|FOREIGN KEY (country_id) REFERENCES agentapp.countries(id)\nprovinces|NOT NULL country_id\nprovinces|NOT NULL id\nprovinces|NOT NULL name\nprovinces|PRIMARY KEY (id)\nprovinces|UNIQUE (country_id, name)\nprovinces|UNIQUE (id, country_id)\nzones|FOREIGN KEY (province_id, country_id) REFERENCES agentapp.provinces(id, country_id)\nzones|NOT NULL country_id\nzones|NOT NULL id\nzones|NOT NULL name\nzones|NOT NULL province_id\nzones|PRIMARY KEY (id)\nzones|UNIQUE (id, province_id, country_id)\nzones|UNIQUE (province_id, name)\ncountries|1\nprovinces|2\nzones|2\nROLLBACK\n",
+  "product_tests_executed": false,
+  "roles_created": false,
+  "data_changed": false,
+  "official_catalogue_loaded": false
+}

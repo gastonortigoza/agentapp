@@ -1,0 +1,6 @@
+{
+  "state": "confirmed_environment_failure",
+  "tests": "62 setup errors before tests ran",
+  "reason": "Sandbox denied pytest temp/cache directories",
+  "correction": "Scoped authorized suite executed outside filesystem sandbox; no controller acceptance until full suite green"
+}

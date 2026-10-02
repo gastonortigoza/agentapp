@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-02T22:38:09.867709+00:00",
+  "suite_identity": "420f096675660ce14734978c4353c76999cb038143d8a7047ea2bc673160a2c9",
+  "summary": "790 passed, 2 skipped, 553 warnings in 152.38s (0:02:32)",
+  "scope": "bounded geography correction and exact evidence",
+  "targeted": "16 new correction tests; preceding targeted61 passed including previous protocols",
+  "new_model_calls": 0,
+  "product_tests_executed": false,
+  "full_product_acceptance": false
+}

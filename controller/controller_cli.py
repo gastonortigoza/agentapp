@@ -14,9 +14,10 @@ DATABASE = ROOT/'.state/controller.sqlite'
 
 
 def tracked_inputs(root=ROOT):
-    paths = {*root.glob('*.py'), *root.glob('*.cmd'), *(root/'tests').glob('*.py'),
+    paths = {*root.glob('*.py'), *root.glob('*.cmd'), *root.glob('*.sql'), *(root/'tests').glob('*.py'),
              *(root/'schemas').glob('*.json'), root/'pyproject.toml', root/'uv.lock',
-             root/'config/agents.yaml',root/'config/pilot-manifest.json'}
+             root/'config/agents.yaml',root/'config/pilot-manifest.json',root/'config/phase3-input-lock.json',
+             *(root/'fixtures/phase3-contract-v1').glob('*.json')}
     return sorted(str(p.relative_to(root)).replace('\\','/') for p in paths)
 
 
@@ -24,6 +25,49 @@ def main(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command',required=True)
     sub.add_parser('self-test')
+    workflow=sub.add_parser('phase3-workflow',help='Autonomously chain review, source corrections and isolated product checks; stop with a durable dispute packet')
+    workflow.add_argument('--run-id',required=True)
+    workflow.add_argument('--workspace',type=Path,help='New run only: frozen planned scaffold and immutable acceptance tests')
+    workflow.add_argument('--plan',type=Path)
+    workflow.add_argument('--cache',type=Path)
+    workflow.add_argument('--parent-id',help='New continuation after a verified controller/input repair; preserve parent global budget and evidence')
+    workflow.add_argument('--review-every',type=int,default=3,help='New run: periodic operator inspection every N completed review/correction attempts; 0 is discrepancies-only mode')
+    workflow.add_argument('--input-amendment',type=Path,help='New terminal-parent continuation only: explicit operator test/fixture repair, preserving all parent consumption')
+    workflow.add_argument('--export',type=Path,required=True)
+    audit=sub.add_parser('phase3-flow-audit',help='Record an operator inspection of an exact periodic packet, without overriding product gates')
+    audit.add_argument('--run-id',required=True)
+    audit.add_argument('--packet-digest',required=True)
+    audit.add_argument('--decision',choices=['continue','discrepancy'],required=True)
+    audit.add_argument('--summary',type=Path,required=True)
+    audit.add_argument('--export',type=Path,required=True)
+    phase3=sub.add_parser('phase3-prepare',help='Prepare pinned phase3 input/file plan; no code execution')
+    phase3.add_argument('--bundle',type=Path,default=ROOT/'fixtures/phase3-contract-v1')
+    phase3.add_argument('--plan',type=Path,help='Optional typed planner output to validate')
+    review=sub.add_parser('phase3-review',help='Bounded local correction/review of a file plan; no product execution')
+    review.add_argument('--run-id',required=True)
+    review.add_argument('--seed',type=Path,help='New run only: original typed candidate, possibly defective')
+    review.add_argument('--export',type=Path)
+    review.add_argument('--section',choices=['api','data','subscriptions','manifest','application','public_api','public_profile','auth_api','auth_pages'],help='New run only: review a typed documentary section or bounded source file against the frozen rules')
+    execute=sub.add_parser('phase3-check-execution',help='Consume original plan/section reviews at the executor boundary; documentary policy blocks dispatch')
+    execute.add_argument('--preflight-id',required=True)
+    execute.add_argument('--reviews',type=Path,required=True,help='JSON object with original plan/api/data/subscriptions/manifest review IDs')
+    execute.add_argument('--workspace',type=Path,required=True)
+    execute.add_argument('--export',type=Path)
+    concrete=sub.add_parser('phase3-build-manifest',help='Bind concrete local-only sandbox, scripts, locks, images and input hashes')
+    concrete.add_argument('--plan',type=Path,required=True)
+    concrete.add_argument('--workspace',type=Path,required=True)
+    concrete.add_argument('--export',type=Path,required=True)
+    sandbox=sub.add_parser('phase3-run-sandbox',help='Execute a narrow local synthetic slice; immutable documentary policy stays disabled')
+    sandbox.add_argument('--run-id',required=True)
+    sandbox.add_argument('--reviews',type=Path,required=True)
+    sandbox.add_argument('--code-reviews',type=Path,required=True,help='JSON mapping application/public_api/public_profile to exact original review IDs')
+    sandbox.add_argument('--workspace',type=Path,required=True)
+    sandbox.add_argument('--manifest',type=Path,required=True)
+    sandbox.add_argument('--bound-digest',required=True)
+    sandbox.add_argument('--cache',type=Path,required=True)
+    sandbox.add_argument('--export',type=Path,required=True)
+    stop=sub.add_parser('phase3-cleanup-sandbox',help='Stop only containers identified by this durable run; never resend execution')
+    stop.add_argument('--run-id',required=True)
     check = sub.add_parser('manifest-check')
     check.add_argument('manifest',nargs='?',default=str(ROOT/'config/pilot-manifest.json'))
     run = sub.add_parser('run-stub')
@@ -62,7 +106,80 @@ def main(argv):
     ci.add_argument('job_id')
     args = parser.parse_args(argv)
     try:
-        if args.command=='ci-check':
+        if args.command=='phase3-flow-audit':
+            import phase3_review,phase3_workflow
+            journal=phase3_review.Journal()
+            result=phase3_workflow.acknowledge_audit(journal,args.run_id,args.packet_digest,args.decision,args.summary.read_text(encoding='utf-8'))
+            phase3_workflow.export(journal,args.run_id,args.export)
+            print(json.dumps({'id':result['id'],'state':result['state'],'last_audited_round':result['last_audited_round']},ensure_ascii=False))
+            return 0 if result['state']=='active' else 2
+        elif args.command=='phase3-workflow':
+            import phase3_review,phase3_workflow,phase3_studio
+            journal=phase3_review.Journal()
+            if any((args.workspace,args.plan,args.cache)):
+                if not all((args.workspace,args.plan,args.cache)):raise ValueError('New workflow requires workspace, plan and cache together')
+                phase3_workflow.create(journal,args.run_id,args.workspace,phase3_review.preparation.read_json(args.plan),args.cache,parent_id=args.parent_id,review_every=args.review_every,input_amendment=phase3_review.preparation.read_json(args.input_amendment) if args.input_amendment else None)
+            elif args.parent_id or args.input_amendment:raise ValueError('Parent continuation/amendment requires explicit frozen inputs')
+            observers=phase3_studio.configured_observers()
+            result=phase3_workflow.run(journal,args.run_id,**observers)
+            if observers:
+                try:observers['observer'](result)
+                except Exception:phase3_workflow.save(journal,result,{'kind':'observer.failed'})
+            phase3_workflow.export(journal,args.run_id,args.export)
+            print(json.dumps({k:result[k] for k in ('id','state','reason','used','scope','full_product_acceptance')},ensure_ascii=False,indent=2))
+            return 0 if result['state']=='completed_slice' else 2
+        elif args.command=='phase3-cleanup-sandbox':
+            import phase3_execution,phase3_review
+            journal=phase3_review.Journal();row=phase3_execution.get(journal,args.run_id)
+            if row is None:raise ValueError('Unknown sandbox run')
+            result=phase3_execution.cleanup(journal,row)
+        elif args.command in {'phase3-build-manifest','phase3-run-sandbox'}:
+            controller_gate.require_green()
+            import phase3_sandbox,phase3_review,executor
+            if args.command=='phase3-build-manifest':
+                result=phase3_sandbox.build_manifest(args.workspace,phase3_review.preparation.read_json(args.plan))
+            else:
+                result=executor.run_phase3_sandbox(phase3_review.Journal(),args.run_id,
+                    phase3_review.preparation.read_json(args.reviews),phase3_review.preparation.read_json(args.code_reviews),args.workspace,
+                    phase3_review.preparation.read_json(args.manifest),args.bound_digest,args.cache)
+            content=manifest.canonical(result)+'\n'
+            args.export.parent.mkdir(parents=True,exist_ok=True)
+            try:
+                with args.export.open('x',encoding='utf-8',newline='\n') as output:output.write(content)
+            except FileExistsError:
+                if args.export.read_text(encoding='utf-8')!=content:raise ValueError('Existing sandbox export differs; preserve original evidence')
+            print(json.dumps(result,ensure_ascii=False,indent=2))
+            return 0 if args.command=='phase3-build-manifest' or result['state']=='completed' else 2
+        elif args.command=='phase3-check-execution':
+            import executor,phase3_review
+            result=executor.run_phase3(phase3_review.Journal(),args.preflight_id,
+                                      phase3_review.preparation.read_json(args.reviews),args.workspace)
+            if args.export:
+                args.export.parent.mkdir(parents=True,exist_ok=True)
+                # Export immutable evidence; an uncertain retry must not replace it.
+                content=manifest.canonical(result)+'\n'
+                try:
+                    with args.export.open('x',encoding='utf-8',newline='\n') as output:output.write(content)
+                except FileExistsError:
+                    if args.export.read_text(encoding='utf-8')!=content:raise ValueError('Existing export differs; preserve the original evidence')
+            print(json.dumps(result,ensure_ascii=False,indent=2))
+            return 2
+        elif args.command=='phase3-review':
+            controller_gate.require_green()
+            import phase3_review
+            journal=phase3_review.Journal()
+            if args.section and not args.seed:raise ValueError('Section is bound by a new seed; omit --section when resuming')
+            if args.seed:journal.create(args.run_id,phase3_review.preparation.read_json(args.seed),section=args.section)
+            result=phase3_review.run(journal,args.run_id)
+            if args.export:phase3_review.export(journal,args.run_id,args.export)
+            print(json.dumps(result,ensure_ascii=False,indent=2))
+            return 0 if result['state'] in {'reviewed_plan','reviewed_contract_section','reviewed_application_file'} else 2
+        elif args.command=='phase3-prepare':
+            controller_gate.require_green()
+            import phase3_prepare
+            plan=phase3_prepare.read_json(args.plan) if args.plan else None
+            result=phase3_prepare.snapshot(args.bundle,ROOT/'.state/phase3/snapshots',plan)
+        elif args.command=='ci-check':
             from github_ci import inspect
             result=inspect(args.job_id)
         elif args.command=='delivery-prepare':

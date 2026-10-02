@@ -1,0 +1,14 @@
+{
+  ".gitattributes": "48747480eddba024928d03be9bf83dc579e5515768647507a767e8187a85c9ab",
+  "acquisition.json": "5271fe7137a8480042b33457d873a71c87748947c9b5bab3843f7874e9f94db3",
+  "auth-session-core-input.json": "941c2acd5f4c15fe3ae183ec3f6ec9458b8c3ca64ae004aa60a379d72381aaf0",
+  "next-increments.json": "b17618c0aeeee7d439d70f6c2197cfa2813e9114e4435b75bfde369f17fc0425",
+  "package-lock.json": "2abccb0342a30aeee3a025fb78118182755d07cce6a525fb9ae893f8a208abe8",
+  "package.json": "53be12775c2ba8dc598fadcf0a651a9e8f2475ee92cddd64992d323c92c388a7",
+  "qualification-r1-original.json": "1e60ad13304d682dbd8b01417d83015e3787e74133c265db43cc2383b71032b0",
+  "qualification-r2-original.json": "10702f1c7d5f391480077823300e85324c4ff6e0d7f7281deb2ac995f0473344",
+  "qualification.json": "210c687bcc948bac7a3926cd20545937f00b4ab25038b802789de0e8237fd493",
+  "qualification.test.mjs": "e61f1ebcc54bb2ce9a27c627efa2733a450a03ef7e2067dd28ccbb1ad299d43b",
+  "registry-metadata.json": "068d93634347aa274af3ad5e460f1b5dd07f54124eacfa7ee00a2ad4fb0d8df5",
+  "RESULTADO.md": "a2683a985293454e841f8eb964fece1816e1c143500628d89c797bd92c60e984"
+}

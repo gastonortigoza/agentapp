@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-02T23:13:06.474062+00:00",
+  "suite_identity": "656086f0291befff366f2768e708c580c55ed9223b854db39be06f19e596757d",
+  "summary": "815 passed, 2 skipped, 553 warnings in 167.04s (0:02:47)",
+  "scope": "prospective geography review preserving complete raw original and global audit lineage",
+  "targeted": "24 source-revalidation tests; simulated roles, no product proof",
+  "new_model_calls": 0,
+  "product_tests_executed": false,
+  "full_product_acceptance": false
+}

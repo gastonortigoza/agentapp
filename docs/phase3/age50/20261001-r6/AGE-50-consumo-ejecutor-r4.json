@@ -1,0 +1,66 @@
+{
+  "scope": "bounded_document_correction_and_executor_boundary_regression_not_holdout_qualification",
+  "source_identity": "f33a1591d0f0e25e7813f919225746c7d953c547cf5b5e943110cd85dd11f3e5",
+  "seed_sha256": "c8683349ce988393f3a36328939b3486cb7659de1c7a1b5501b1c11e7fdfbb3c",
+  "review_runs": [
+    {
+      "id": "age50-handoff-r4-plan-20261001",
+      "state": "reviewed_plan",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 1797,
+      "output_tokens": 670,
+      "active_ms": 22390,
+      "reason": "Structural plan accepted; no product execution"
+    },
+    {
+      "id": "age50-handoff-r4-api-20261001",
+      "state": "blocked_budget",
+      "calls": 5,
+      "corrections": 2,
+      "input_tokens": 25992,
+      "output_tokens": 8798,
+      "active_ms": 248218,
+      "reason": "Conservative call/round/time/token limit"
+    },
+    {
+      "id": "age50-handoff-r4-data-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5886,
+      "output_tokens": 234,
+      "active_ms": 7391,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-handoff-r4-subscriptions-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5998,
+      "output_tokens": 227,
+      "active_ms": 7109,
+      "reason": "Documentary section accepted; no product execution"
+    },
+    {
+      "id": "age50-handoff-r4-manifest-20261001",
+      "state": "reviewed_contract_section",
+      "calls": 1,
+      "corrections": 0,
+      "input_tokens": 5994,
+      "output_tokens": 230,
+      "active_ms": 7438,
+      "reason": "Documentary section accepted; no product execution"
+    }
+  ],
+  "calls": 9,
+  "corrections": 2,
+  "input_tokens": 45667,
+  "output_tokens": 10159,
+  "active_ms": 292546,
+  "product_tests_executed": false,
+  "execution_authorized": false,
+  "state": "blocked_review_evidence",
+  "reason": "At least one original review did not reach documentary acceptance; executor not called."
+}

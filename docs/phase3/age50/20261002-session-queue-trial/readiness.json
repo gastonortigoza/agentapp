@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-02T20:10:18.166922+00:00",
+  "state": "first_real_source_review_blocked_evidence",
+  "queue_id": "age50-saas-queue-20261002",
+  "suite_identity": "997e1ca41d0afe3636a6e2b7c6d7c6e41e75c2a39c7f2e728d1e3db32eda8e70",
+  "source_review_id": "age50-saas-queue-20261002-r0-auth-api",
+  "original_row_sha256": "2abaa89c5254ffd4f83152931c6f28b3f0e569853c264784b59bb0cf22e3758d",
+  "original_operations_sha256": "69c197dcc399f0ff5332d9b859ee090c55e2f7b331fcce53b98206438720e640",
+  "model_calls_actual": 1,
+  "completed_agent_attempts": 1,
+  "periodic_three_round_review_due": false,
+  "model_reported_input_tokens": 2427,
+  "model_reported_output_tokens": 2000,
+  "child_active_ms": 118906,
+  "queue_conservative_used": {
+    "active_ms": 600000,
+    "calls": 5,
+    "executions": 0,
+    "input_tokens": 163840,
+    "output_tokens": 20000
+  },
+  "queue_state": "awaiting_discrepancy",
+  "model_done_reason": "length",
+  "original_role": "reviewer",
+  "original_candidate_empty": true,
+  "product_tests_executed": false,
+  "real_auth_execution_rows": 0,
+  "auth_modules_written": false,
+  "studio_projection_reconciled": true,
+  "original_observer_failures_preserved": true,
+  "previous_profile_budget_reset": false,
+  "historical_uncertain_preserved": true,
+  "preview_http": 200,
+  "technical_next": [
+    "draft a missing auth module before reviewing it, without inventing product feedback",
+    "review schema/prompt should keep candidate evidence distinct from rule citations within bounded output",
+    "any controller continuation must preserve this queue ID, originals and full conservative budget; never rebind old reviews or resend this original"
+  ]
+}

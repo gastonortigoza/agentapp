@@ -1,0 +1,18 @@
+{
+  "same_original_on_resume": true,
+  "new_operations": 0,
+  "controller_passed": 579,
+  "controller_skipped": 1,
+  "unit_and_integration_passed": 7,
+  "chromium_passed": 8,
+  "source_bytes_match_accepted": true,
+  "cleanup_confirmed_successful": true,
+  "workflow_usage": {
+    "active_ms": 513000,
+    "calls": 15,
+    "executions": 1,
+    "input_tokens": 52427,
+    "output_tokens": 9763
+  },
+  "full_product_acceptance": false
+}

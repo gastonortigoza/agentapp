@@ -1,0 +1,9 @@
+{
+  "controller/phase3_increment_queue.py": "24568d218006d6519eff501336968050e7845de056beab2b3fc982a7dbe0ee60",
+  "controller/phase3_review.py": "7ee113c5ee6a713dbc80a78b927bea926834560f2fdc8b798c4029723f5eb82f",
+  "controller/phase3_source.py": "95525407b22e473ec7edfaf40409ac5995d8e980f766970b4f344d82b349f0ff",
+  "controller/phase3_geography_source.py": "50b1b0589739fbe880161ee2dcfb80409b03dd81bf5231502d1678d6d983d345",
+  "controller/phase3_queued_sources.py": "7795ff9667cba24111773cd0793aca8a916e4e175e7ee1d83694f372f1704910",
+  "controller/tests/test_phase3_queued_sources.py": "1ccc5437db3c402061ed904f8532e3a095581af5e4a9509c24e5b095d0424f22",
+  "controller/PHASE3-FUENTE-GEOGRAFIA.md": "6a966133ca623865f4f7082063e4e4c3df2158007b48032643d677d8e7343003"
+}

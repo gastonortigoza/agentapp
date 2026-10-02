@@ -1,0 +1,5 @@
+*.sql -text
+agent.py -text
+controller_gate.py -text
+.gitattributes -text
+tests/test_controller_gate.py -text

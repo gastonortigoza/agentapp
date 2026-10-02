@@ -1,0 +1,7 @@
+{
+  "state": "confirmed_test_fixture_failure",
+  "summary": "1 failed / 15 passed in 30.47s",
+  "failed_test": "test_drift_blocks_dispatch_and_preserves_originals[original]",
+  "reason": "Test opened nested SQLite BEGIN IMMEDIATE through journal.get inside transaction; database locked",
+  "correction": "Read child from the same test transaction; production Journal unchanged"
+}

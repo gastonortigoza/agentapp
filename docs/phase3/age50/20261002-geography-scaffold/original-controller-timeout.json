@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-02T23:47:11.723030+00:00",
+  "state": "controller_suite_timeout",
+  "timeout_seconds": 180,
+  "old_green_invalidated": true,
+  "original_log": "suite-geography-scaffold-full.txt",
+  "new_model_calls": 0,
+  "product_tests_executed": false,
+  "scaffold_receipt_created": false,
+  "verified_technical_finding": "Original provenance map overwrote three source hashes instead of keying by child ID; fixed before creating any preparation receipt."
+}
