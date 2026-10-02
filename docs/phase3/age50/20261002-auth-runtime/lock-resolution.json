@@ -1,0 +1,22 @@
+{
+  "state": "confirmed",
+  "argv": [
+    "C:/Program Files/nodejs/node.exe",
+    "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js",
+    "install",
+    "--package-lock-only",
+    "--ignore-scripts",
+    "--no-audit",
+    "--fund=false",
+    "--engine-strict",
+    "--registry=https://registry.npmjs.org",
+    "--fetch-retries=0",
+    "--fetch-timeout=20000",
+    "--cache=C:\\Users\\gasto\\Documents\\Codex\\2026-10-02\\segu-con-las-tareas-del-chat\\auth-runtime-npm-lock-cache"
+  ],
+  "scripts_executed": false,
+  "host_install": false,
+  "exit_code": 0,
+  "duration_ms": 26797,
+  "root_lock_sha256": "e4c4b4ad25631363aa7518383e1fe337d85b75fe726b622bac0ed9e1c5a756a6"
+}

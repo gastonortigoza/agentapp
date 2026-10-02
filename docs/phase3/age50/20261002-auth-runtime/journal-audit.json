@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-02T17:22:28.814676+00:00",
+  "workflows": [
+    {
+      "id": "age50-autonomous-20261002",
+      "state": "awaiting_discrepancy",
+      "used": {
+        "active_ms": 71828,
+        "calls": 1,
+        "executions": 0,
+        "input_tokens": 1617,
+        "output_tokens": 793
+      },
+      "last_audited_round": null
+    },
+    {
+      "id": "age50-autonomous-r2-20261002",
+      "state": "awaiting_discrepancy",
+      "used": {
+        "active_ms": 136031,
+        "calls": 2,
+        "executions": 0,
+        "input_tokens": 4723,
+        "output_tokens": 1268
+      },
+      "last_audited_round": null
+    },
+    {
+      "id": "age50-autonomous-r3-20261002",
+      "state": "awaiting_discrepancy",
+      "used": {
+        "active_ms": 151640,
+        "calls": 3,
+        "executions": 0,
+        "input_tokens": 8073,
+        "output_tokens": 1582
+      },
+      "last_audited_round": null
+    },
+    {
+      "id": "age50-autonomous-r4-20261002",
+      "state": "completed_slice",
+      "used": {
+        "active_ms": 513000,
+        "calls": 15,
+        "executions": 1,
+        "input_tokens": 52427,
+        "output_tokens": 9763
+      },
+      "last_audited_round": null
+    },
+    {
+      "id": "age50-periodic-20261002",
+      "state": "awaiting_discrepancy",
+      "used": {
+        "active_ms": 315329,
+        "calls": 10,
+        "executions": 1,
+        "input_tokens": 46950,
+        "output_tokens": 4373
+      },
+      "last_audited_round": 9
+    },
+    {
+      "id": "age50-periodic-r2-20261002",
+      "state": "awaiting_discrepancy",
+      "used": {
+        "active_ms": 920515,
+        "calls": 26,
+        "executions": 3,
+        "input_tokens": 129180,
+        "output_tokens": 15326
+      },
+      "last_audited_round": 12
+    }
+  ],
+  "uncertain_plans": [
+    "age50-handoff-r5-api-20261001"
+  ],
+  "replayed_operations": false,
+  "budget_resets": false
+}

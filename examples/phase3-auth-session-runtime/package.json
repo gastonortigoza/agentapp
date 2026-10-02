@@ -1,0 +1,18 @@
+{
+  "name": "agentapp-auth-session-runtime",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.18.0",
+    "npm": "10.9.3"
+  },
+  "scripts": {
+    "test:acceptance": "node --import tsx --test auth-acceptance.test.mjs",
+    "check:runtime": "node runtime-input-check.mjs"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
+}
