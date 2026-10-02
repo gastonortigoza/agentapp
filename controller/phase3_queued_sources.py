@@ -128,6 +128,8 @@ def aggregate(db,parent):
     for value in db.execute('SELECT body FROM phase3_queued_sources WHERE queue_id=?',(parent['id'],)):
         row=manifest.parse(value[0]);spent=check(db,row,parent)
         for k in used:used[k]+=spent[k]
+    from phase3_source_corrections import add_usage
+    used=add_usage(db,parent,used)
     if any(v>queue.LIMITS[k] for k,v in used.items()):raise ValueError('Shared queue aggregate exceeded')
     return used
 

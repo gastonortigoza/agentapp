@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-02T22:50:11.896625+00:00",
+  "suite_identity": "31a7318452293c924f679712f3dca6fa1252ed47c86dfe552e4b678e975083d7",
+  "summary": "791 passed, 2 skipped, 553 warnings in 148.07s (0:02:28)",
+  "scope": "bounded geography correction and exact evidence",
+  "targeted": "17 correction tests, including preceding joint-branch false-positive regression; 0 additional model calls for this repair",
+  "new_model_calls": 0,
+  "product_tests_executed": false,
+  "full_product_acceptance": false
+}

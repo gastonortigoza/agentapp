@@ -13,7 +13,7 @@ import manifest
 import phase3_prepare as preparation
 from worker_lock import worker_lock
 
-SOURCE_SECTIONS = ('application', 'public_api', 'public_profile', 'auth_api', 'auth_pages', 'geography_api')
+SOURCE_SECTIONS = ('application', 'public_api', 'public_profile', 'auth_api', 'auth_pages', 'geography_api', 'geography_correction')
 
 ROOT = Path(__file__).resolve().parent
 DATABASE = ROOT/'.state/phase3/review.sqlite'
@@ -150,7 +150,7 @@ def validate_recovery(value):
 def output_schema(row,op,lock,documents):
     if row['binding'].get('section') in SOURCE_SECTIONS:
         import phase3_source as application
-        return application.writer_schema(row['binding']['section']) if op['role']=='developer' else application.review_schema(row['binding']['section'])
+        return application.writer_schema(row['binding']['section']) if op['role']=='developer' else application.review_schema(row['binding']['section'],row['candidate'])
     if contract_mode(row):
         import phase3_contract as contract
         section=row['binding']['section']
@@ -229,7 +229,7 @@ class Journal:
             self.save(db,row,{'kind':'state.changed','reason':reason})
         return row
 
-    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None,product_feedback=None,review_recovery=None,initial_proposal=False):
+    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None,product_feedback=None,review_recovery=None,initial_proposal=False,source_feedback=None):
         if not re.fullmatch('[a-z0-9-]{1,100}',run_id):raise ValueError('Bad run ID')
         if len(manifest.canonical(candidate).encode())>24000:raise ValueError('Candidate too large')
         suite=controller_gate.require_green()
@@ -254,9 +254,14 @@ class Journal:
              'rules':rules,'seed_sha256':manifest.identity(candidate)}
         if section is not None:cfg['section']=section
         import phase3_auth_source as auth
-        if section in (*auth.SECTIONS,'geography_api'):
+        if section in (*auth.SECTIONS,'geography_api','geography_correction'):
             from phase3_transport import PROTOCOL
             cfg['transport_protocol']=PROTOCOL
+        if section=='geography_correction' or source_feedback is not None:
+            import phase3_geography_correction as geo_fix
+            if (section!=geo_fix.SECTION or initial_proposal or any(v is not None for v in (expected_checks,product_feedback,review_recovery))):raise ValueError('Source correction cannot alter product/fixture controls')
+            cfg['source_feedback']=geo_fix.validate_feedback(source_feedback,candidate)
+            cfg['source_feedback_seed']=candidate
         if type(initial_proposal) is not bool:raise ValueError('Invalid initial source proposal')
         if initial_proposal:
             import phase3_auth_source as auth
@@ -285,6 +290,8 @@ class Journal:
              'product_tests_executed':False,'scope':'contract_fixture_evaluation' if expected_checks is not None else
              'application_file_review' if section in SOURCE_SECTIONS else 'contract_section_document_review' if section else 'file_plan_structural_review'}
         if initial_proposal:row['role']='developer'
+        if source_feedback is not None:
+            row['role']='developer';row['findings']=source_feedback['findings']
         if product_feedback is not None:
             first=next(iter(rules));row['role']='developer'
             row['findings']=[{'rule':first,'source':'directory-code-rules/1' if section=='application' else 'public-source-rules/1',
@@ -301,7 +308,7 @@ class Journal:
             if row['state']!='active':raise ValueError('Run is stopped')
             limits=row['binding']['limits']
             tokens=5000 if row['role']=='developer' else 2000
-            if row['binding'].get('section')=='geography_api':tokens=1800 if row['role']=='developer' else 1000
+            if row['binding'].get('section') in ('geography_api','geography_correction'):tokens=1800 if row['role']=='developer' else 1000
             if (row['calls']>=limits['calls'] or row['input_tokens']+limits['context_tokens']>limits['input_tokens']
                 or row['output_tokens']+tokens>limits['output_tokens'] or row['active_ms']>=1000*limits['active_seconds']
                 or (row['role']=='developer' and row['corrections']>=limits['corrections'])):
@@ -384,10 +391,16 @@ class Journal:
 
 def verify_binding(row):
     if manifest.identity(row['binding'])!=row['binding_sha256']:raise ValueError('Binding changed')
+    if row['binding'].get('section')=='geography_correction' or 'source_feedback' in row['binding']:
+        import phase3_geography_correction as geo_fix
+        cfg=row['binding']
+        if (cfg.get('section')!=geo_fix.SECTION or any(k in cfg for k in ('initial_proposal','expected_checks','product_feedback','review_recovery'))
+            or manifest.identity(cfg.get('source_feedback_seed'))!=cfg['seed_sha256']):raise ValueError('Source feedback binding invalid')
+        geo_fix.validate_feedback(cfg['source_feedback'],cfg['source_feedback_seed'])
     if 'transport_protocol' in row['binding']:
         import phase3_auth_source as auth
         from phase3_transport import PROTOCOL
-        if row['binding'].get('section') not in (*auth.SECTIONS,'geography_api') or row['binding']['transport_protocol']!=PROTOCOL:
+        if row['binding'].get('section') not in (*auth.SECTIONS,'geography_api','geography_correction') or row['binding']['transport_protocol']!=PROTOCOL:
             raise ValueError('Durable transport binding invalid')
     if 'initial_proposal' in row['binding']:
         import phase3_auth_source as auth

@@ -1,0 +1,10 @@
+{
+  "controller/phase3_geography_correction.py": "42dfc8e62bc1dfcca694c80a6995e9207c8e508b27cfb307b19812d77d829fda",
+  "controller/phase3_source_corrections.py": "85fb1c63461549c3d46a8dbae5c8e7806978ae5e3e84990d90e35b6e2b9597ac",
+  "controller/phase3_source.py": "b8679214b0b494892fa253e6881023923344d75f71e5a46a64fd1523171caa9e",
+  "controller/phase3_review.py": "4ffba21bef2a3613cbe693db9ba49d2bfc8ef0170f640a2434308ee1f3002cf0",
+  "controller/phase3_handoff.py": "b974c39b6d8c649d75f2a0b7c5478e9560785acb40d32a4ae84b1ea08ee68f2f",
+  "controller/phase3_queued_sources.py": "ac4e4756b2b6759adf6996cf94a8afc4d1f34ac98102439132f18bcb652f1874",
+  "controller/tests/test_phase3_source_corrections.py": "8f041f6d0115e13fbf6468e8b77c3e9e1b20b4061e74b5615a2f76a4feb1d39c",
+  "controller/PHASE3-CORRECCION-GEOGRAFIA.md": "135430f39dc9d42ade193ddb98dc9f8ea0aa5621e2c07f8c2bed5e93ef02bf44"
+}

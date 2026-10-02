@@ -27,7 +27,7 @@ def finding(code,pointer,fix):
 
 def verify_chain(row,ops,lock,documents):
     expected=row['binding']['seed_sha256']
-    if row['binding'].get('initial_proposal') and (not ops or ops[0]['role']!='developer'):
+    if (row['binding'].get('initial_proposal') or row['binding'].get('source_feedback')) and (not ops or ops[0]['role']!='developer'):
         raise ValueError('Initial proposal must originate from the developer')
     if row['calls']!=len(ops) or row['corrections']!=sum(op['role']=='developer' for op in ops):
         raise ValueError('Review accounting drift')
@@ -59,6 +59,11 @@ def verify_chain(row,ops,lock,documents):
 
 def consume(journal,run_id,kind):
     row=journal.get(run_id)
+    feedback=row['binding'].get('source_feedback')
+    if feedback:
+        original=journal.get(feedback['original_id'])
+        if (manifest.identity(original)!=feedback['original_sha256'] or original['candidate']!=row['binding']['source_feedback_seed']
+            or manifest.identity(journal.records(original['id'],'plan_ops'))!=feedback['operations_sha256']):raise ValueError('Source correction original drift')
     expected_state='reviewed_plan' if kind=='plan' else 'reviewed_contract_section'
     expected_scope='file_plan_structural_review' if kind=='plan' else 'contract_section_document_review'
     if kind in review.SOURCE_SECTIONS:expected_state,expected_scope='reviewed_application_file','application_file_review'

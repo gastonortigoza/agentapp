@@ -10,6 +10,7 @@ import phase3_application as application
 import phase3_review as review
 import phase3_auth_source as auth
 import phase3_geography_source as geography
+import phase3_geography_correction as geo_fix
 
 SECTIONS = ('application', 'public_api', 'public_profile')
 PATHS = {'application': application.PATH, 'public_api': 'backend/src/app.ts',
@@ -25,6 +26,7 @@ PROFILE_RULES = {
     'V03': 'Use accessible main/heading, labelled photo gallery, meaningful photo alt text and status/error announcements. Fit360px and1280px with no horizontal overflow. No private fields, registration/auth implementation, hardcoded fixture IDs, dependencies or payment fields.'}
 
 def rules(section):
+    if section==geo_fix.SECTION:return geo_fix.RULES
     if section==geography.SECTION:return geography.RULES
     if section in auth.SECTIONS:return auth.rules(section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
@@ -40,13 +42,15 @@ def validate_feedback(value):
     return value
 
 def writer_schema(section):
+    if section==geo_fix.SECTION:return geography.writer_schema()
     if section==geography.SECTION:return geography.writer_schema()
     if section in auth.SECTIONS:return auth.writer_schema(section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.writer_schema()
     return review.obj({'path': {'const': PATHS[section]}, 'content': {'type': 'string', 'minLength': 1, 'maxLength': 16000}})
 
-def review_schema(section):
+def review_schema(section,candidate=None):
+    if section==geo_fix.SECTION:return geo_fix.review_schema(candidate or {})
     if section==geography.SECTION:return geography.review_schema()
     if section in auth.SECTIONS:return auth.review_schema(section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
@@ -59,6 +63,7 @@ def review_schema(section):
                        'findings': {'type': 'array', 'maxItems': 10, 'items': finding}})
 
 def defects(candidate, section):
+    if section==geo_fix.SECTION:return geography.defects(candidate)+geo_fix.findings(candidate)
     if section==geography.SECTION:return geography.defects(candidate)
     if section in auth.SECTIONS:return auth.defects(candidate, section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
@@ -79,6 +84,7 @@ def defects(candidate, section):
              'issue': 'code_structure', 'fix': fix} for k, fix in failures]
 
 def validate_review(value, candidate, section):
+    if section==geo_fix.SECTION:return geo_fix.validate_review(value,candidate)
     if section==geography.SECTION:return geography.validate_review(value,candidate)
     if section in auth.SECTIONS:return auth.validate_review(value, candidate, section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
@@ -93,6 +99,7 @@ def validate_review(value, candidate, section):
     return value
 
 def prompt(row, op, documents):
+    if row['binding'].get('section')==geo_fix.SECTION:return geo_fix.prompt(row,op,documents)
     section = row['binding']['section']
     if section==geography.SECTION:return geography.prompt(row,op,documents)
     if section in auth.SECTIONS:return auth.prompt(row,op,documents)
