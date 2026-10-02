@@ -1,0 +1,19 @@
+{
+  "id": "age50-saas-queue-20261002",
+  "state": "awaiting_discrepancy",
+  "at": "2026-10-02T20:04:37.699679+00:00",
+  "suite_identity": "997e1ca41d0afe3636a6e2b7c6d7c6e41e75c2a39c7f2e728d1e3db32eda8e70",
+  "author": "Original local CrewAI/Ollama proposals/reviews; Codex infrastructure and periodic auditor",
+  "scope": "session_core_only",
+  "full_product_acceptance": false,
+  "previous_profile_budget_reset": false,
+  "used": {
+    "active_ms": 600000,
+    "calls": 5,
+    "executions": 0,
+    "input_tokens": 163840,
+    "output_tokens": 20000
+  },
+  "product_tests_executed": false,
+  "completed_at": "2026-10-02T20:06:37.215706+00:00"
+}
