@@ -237,7 +237,9 @@ def reserve(journal,run_id,child_id,kind,amount):
         if row['state']!='active' or any(o['state']=='in_flight' for o in row['operations']):raise ValueError('Queue cannot reserve another operation')
         if any(o['child_id']==child_id for o in row['operations']):raise ValueError('Queue operation already recorded')
         if set(amount)-set(LIMITS) or any(type(v) is not int or v<0 for v in amount.values()):raise ValueError('Queue reservation invalid')
-        if any(row['used'][k]+amount.get(k,0)>LIMITS[k] for k in LIMITS):
+        from phase3_queued_sources import aggregate
+        total=aggregate(db,row)
+        if any(total[k]+amount.get(k,0)>LIMITS[k] for k in LIMITS):
             row.update(state='blocked_budget',reason='Increment aggregate budget exhausted before dispatch');save(db,row);return None
         for k in LIMITS:row['used'][k]+=amount.get(k,0)
         op={'seq':len(row['operations']),'child_id':child_id,'kind':kind,'state':'in_flight','reserved':copy.deepcopy(amount)}

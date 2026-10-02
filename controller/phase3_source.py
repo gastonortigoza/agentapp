@@ -9,6 +9,7 @@ import manifest
 import phase3_application as application
 import phase3_review as review
 import phase3_auth_source as auth
+import phase3_geography_source as geography
 
 SECTIONS = ('application', 'public_api', 'public_profile')
 PATHS = {'application': application.PATH, 'public_api': 'backend/src/app.ts',
@@ -24,6 +25,7 @@ PROFILE_RULES = {
     'V03': 'Use accessible main/heading, labelled photo gallery, meaningful photo alt text and status/error announcements. Fit360px and1280px with no horizontal overflow. No private fields, registration/auth implementation, hardcoded fixture IDs, dependencies or payment fields.'}
 
 def rules(section):
+    if section==geography.SECTION:return geography.RULES
     if section in auth.SECTIONS:return auth.rules(section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
     return application.RULES if section == 'application' else API_RULES if section == 'public_api' else PROFILE_RULES
@@ -38,12 +40,14 @@ def validate_feedback(value):
     return value
 
 def writer_schema(section):
+    if section==geography.SECTION:return geography.writer_schema()
     if section in auth.SECTIONS:return auth.writer_schema(section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.writer_schema()
     return review.obj({'path': {'const': PATHS[section]}, 'content': {'type': 'string', 'minLength': 1, 'maxLength': 16000}})
 
 def review_schema(section):
+    if section==geography.SECTION:return geography.review_schema()
     if section in auth.SECTIONS:return auth.review_schema(section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.review_schema()
@@ -55,6 +59,7 @@ def review_schema(section):
                        'findings': {'type': 'array', 'maxItems': 10, 'items': finding}})
 
 def defects(candidate, section):
+    if section==geography.SECTION:return geography.defects(candidate)
     if section in auth.SECTIONS:return auth.defects(candidate, section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.defects(candidate)
@@ -74,6 +79,7 @@ def defects(candidate, section):
              'issue': 'code_structure', 'fix': fix} for k, fix in failures]
 
 def validate_review(value, candidate, section):
+    if section==geography.SECTION:return geography.validate_review(value,candidate)
     if section in auth.SECTIONS:return auth.validate_review(value, candidate, section)
     if section not in SECTIONS:raise ValueError("Unsupported source section")
     if section == 'application': return application.validate_review(value, candidate)
@@ -88,6 +94,7 @@ def validate_review(value, candidate, section):
 
 def prompt(row, op, documents):
     section = row['binding']['section']
+    if section==geography.SECTION:return geography.prompt(row,op,documents)
     if section in auth.SECTIONS:return auth.prompt(row,op,documents)
     if section not in SECTIONS:raise ValueError('Unsupported source section')
     feedback=row['binding'].get('product_feedback')

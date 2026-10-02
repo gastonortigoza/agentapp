@@ -13,7 +13,7 @@ import manifest
 import phase3_prepare as preparation
 from worker_lock import worker_lock
 
-SOURCE_SECTIONS = ('application', 'public_api', 'public_profile', 'auth_api', 'auth_pages')
+SOURCE_SECTIONS = ('application', 'public_api', 'public_profile', 'auth_api', 'auth_pages', 'geography_api')
 
 ROOT = Path(__file__).resolve().parent
 DATABASE = ROOT/'.state/phase3/review.sqlite'
@@ -254,16 +254,18 @@ class Journal:
              'rules':rules,'seed_sha256':manifest.identity(candidate)}
         if section is not None:cfg['section']=section
         import phase3_auth_source as auth
-        if section in auth.SECTIONS:
+        if section in (*auth.SECTIONS,'geography_api'):
             from phase3_transport import PROTOCOL
             cfg['transport_protocol']=PROTOCOL
         if type(initial_proposal) is not bool:raise ValueError('Invalid initial source proposal')
         if initial_proposal:
             import phase3_auth_source as auth
-            if (section not in auth.SECTIONS or candidate!={'path':auth.PATHS[section],'content':''}
+            import phase3_geography_source as geography
+            paths=auth.PATHS|{geography.SECTION:geography.PATH}
+            if (section not in paths or candidate!={'path':paths[section],'content':''}
                 or any(v is not None for v in (expected_checks,product_feedback,review_recovery))):
-                raise ValueError('Initial proposal requires an absent auth module without other feedback')
-            cfg['initial_proposal']='absent-auth-module/1'
+                raise ValueError('Initial proposal requires an absent registered module without other feedback')
+            cfg['initial_proposal']='absent-geography-module/1' if section==geography.SECTION else 'absent-auth-module/1'
         if review_recovery is not None:
             if expected_checks is not None or product_feedback is not None:raise ValueError('Recovery cannot alter fixture or product-feedback control')
             cfg['review_recovery']=validate_recovery(review_recovery)
@@ -299,6 +301,7 @@ class Journal:
             if row['state']!='active':raise ValueError('Run is stopped')
             limits=row['binding']['limits']
             tokens=5000 if row['role']=='developer' else 2000
+            if row['binding'].get('section')=='geography_api':tokens=1800 if row['role']=='developer' else 1000
             if (row['calls']>=limits['calls'] or row['input_tokens']+limits['context_tokens']>limits['input_tokens']
                 or row['output_tokens']+tokens>limits['output_tokens'] or row['active_ms']>=1000*limits['active_seconds']
                 or (row['role']=='developer' and row['corrections']>=limits['corrections'])):
@@ -384,13 +387,16 @@ def verify_binding(row):
     if 'transport_protocol' in row['binding']:
         import phase3_auth_source as auth
         from phase3_transport import PROTOCOL
-        if row['binding'].get('section') not in auth.SECTIONS or row['binding']['transport_protocol']!=PROTOCOL:
+        if row['binding'].get('section') not in (*auth.SECTIONS,'geography_api') or row['binding']['transport_protocol']!=PROTOCOL:
             raise ValueError('Durable transport binding invalid')
     if 'initial_proposal' in row['binding']:
         import phase3_auth_source as auth
+        import phase3_geography_source as geography
         section=row['binding'].get('section')
-        if (row['binding']['initial_proposal']!='absent-auth-module/1' or section not in auth.SECTIONS
-            or row['binding']['seed_sha256']!=manifest.identity({'path':auth.PATHS[section],'content':''})
+        paths=auth.PATHS|{geography.SECTION:geography.PATH}
+        protocol='absent-geography-module/1' if section==geography.SECTION else 'absent-auth-module/1'
+        if (row['binding']['initial_proposal']!=protocol or section not in paths
+            or row['binding']['seed_sha256']!=manifest.identity({'path':paths[section],'content':''})
             or any(k in row['binding'] for k in ('expected_checks','product_feedback','review_recovery'))):
             raise ValueError('Initial source proposal binding invalid')
     if 'review_recovery' in row['binding']:validate_recovery(row['binding']['review_recovery'])
