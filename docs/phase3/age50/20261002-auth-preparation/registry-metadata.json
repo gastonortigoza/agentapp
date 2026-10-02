@@ -1,0 +1,799 @@
+{
+  "scope": "dependency_qualification_only",
+  "at": "2026-10-02T14:03:40.088695+00:00",
+  "scripts_executed": false,
+  "product_tests_executed": false,
+  "records": {
+    "@node-rs/argon2": {
+      "url": "https://registry.npmjs.org/%40node-rs%2Fargon2/latest",
+      "sha256": "f744f69c8d6d0791ada145b5065cba655aa05ac02fa864e108770ab027e9fb23",
+      "metadata": {
+        "bugs": {
+          "url": "https://github.com/napi-rs/node-rs/issues"
+        },
+        "dist": {
+          "shasum": "17c3ac1bd9dd16739a725e14171bcd6db6f36aa7",
+          "tarball": "https://registry.npmjs.org/@node-rs/argon2/-/argon2-2.2.1.tgz",
+          "fileCount": 6,
+          "integrity": "sha512-miqgmDcvOoAxCf0H3iW2nSd09FFO15geUU30yRNEr2XVXYreErwxAOm1rAKHxNDdjcySA+UTDGMXOWtvFJ3hXQ==",
+          "signatures": [
+            {
+              "sig": "MEUCIQDNnq6QWH73rZRNq9a9WOYBdvM1wc73XEkV6R84K4K3pAIgfqY3DIJsvJrAXek+PoaCS/eDVBfpUlkiVvoaWuhzBpw=",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            },
+            {
+              "sig": "MEYCIQCBBJO4jpBoYJWZSVQST1e5GRt95Ov6Nhz/U7XIQ4j6GQIhAL9bWKsIuAqXZlxldsp1N53Fa8XyluuMC9KGNjYNW2i0",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "attestations": {
+            "url": "https://registry.npmjs.org/-/npm/v1/attestations/@node-rs%2fargon2@2.2.1",
+            "provenance": {
+              "predicateType": "https://slsa.dev/provenance/v1"
+            }
+          },
+          "unpackedSize": 44839
+        },
+        "main": "index.js",
+        "name": "@node-rs/argon2",
+        "napi": {
+          "wasm": {
+            "browser": {
+              "fs": false
+            }
+          },
+          "targets": [
+            "x86_64-apple-darwin",
+            "aarch64-apple-darwin",
+            "x86_64-pc-windows-msvc",
+            "x86_64-unknown-linux-gnu",
+            "aarch64-linux-android",
+            "aarch64-unknown-linux-gnu",
+            "aarch64-unknown-linux-musl",
+            "aarch64-pc-windows-msvc",
+            "armv7-unknown-linux-gnueabihf",
+            "x86_64-unknown-linux-musl",
+            "x86_64-unknown-freebsd",
+            "i686-pc-windows-msvc",
+            "armv7-linux-androideabi",
+            "wasm32-wasip1-threads"
+          ],
+          "binaryName": "argon2"
+        },
+        "types": "index.d.ts",
+        "browser": "browser.js",
+        "engines": {
+          "node": ">= 10"
+        },
+        "gitHead": "56c64a1f875d9568b0a6a79b6c658ce5996d25a2",
+        "license": "MIT",
+        "scripts": {
+          "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/argon2.ts",
+          "build": "oxnode ./build.ts --platform --release",
+          "version": "napi version",
+          "artifacts": "napi artifacts -d ../../artifacts",
+          "build:debug": "oxnode ./build.ts --platform",
+          "prepublishOnly": "napi prepublish"
+        },
+        "_npmUser": {
+          "name": "GitHub Actions",
+          "email": "npm-oidc-no-reply@github.com",
+          "trustedPublisher": {
+            "id": "github",
+            "oidcConfigId": "oidc:2e8897f7-bf1c-4d12-a874-ed44beafc672"
+          }
+        },
+        "homepage": "https://github.com/napi-rs/node-rs",
+        "keywords": [
+          "argon2",
+          "argon2-password",
+          "crypto",
+          "encryption",
+          "hash",
+          "hashing",
+          "password",
+          "secure",
+          "verify"
+        ],
+        "repository": {
+          "url": "git+https://github.com/napi-rs/node-rs.git",
+          "type": "git"
+        },
+        "_npmVersion": "lerna/10.0.1/node@v24.20.0+x64 (linux)",
+        "description": "argon2-rust binding for Node.js",
+        "directories": {},
+        "maintainers": [
+          {
+            "name": "broooooklyn",
+            "email": "lynweklm@gmail.com"
+          }
+        ],
+        "_nodeVersion": "24.20.0",
+        "publishConfig": {
+          "access": "public",
+          "registry": "https://registry.npmjs.org/"
+        },
+        "_hasShrinkwrap": false,
+        "devDependencies": {
+          "argon2": "^0.45.1",
+          "cross-env": "^10.1.0",
+          "hash-wasm": "^4.12.0",
+          "tinybench": "^6.1.3",
+          "@napi-rs/cli": "^3.8.6",
+          "@noble/hashes": "^2.3.0",
+          "@oxc-node/cli": "^0.1.0",
+          "@oxc-node/core": "^0.1.0"
+        },
+        "optionalDependencies": {
+          "@node-rs/argon2-darwin-x64": "2.2.1",
+          "@node-rs/argon2-freebsd-x64": "2.2.1",
+          "@node-rs/argon2-darwin-arm64": "2.2.1",
+          "@node-rs/argon2-android-arm64": "2.2.1",
+          "@node-rs/argon2-linux-x64-gnu": "2.2.1",
+          "@node-rs/argon2-linux-x64-musl": "2.2.1",
+          "@node-rs/argon2-win32-x64-msvc": "2.2.1",
+          "@node-rs/argon2-linux-arm64-gnu": "2.2.1",
+          "@node-rs/argon2-win32-ia32-msvc": "2.2.1",
+          "@node-rs/argon2-android-arm-eabi": "2.2.1",
+          "@node-rs/argon2-linux-arm64-musl": "2.2.1",
+          "@node-rs/argon2-win32-arm64-msvc": "2.2.1",
+          "@node-rs/argon2-linux-arm-gnueabihf": "2.2.1"
+        },
+        "_npmOperationalInternal": {
+          "tmp": "tmp/argon2_2.2.1_1789020229215_0.6378957544064103",
+          "host": "s3://npm-registry-packages-npm-production"
+        },
+        "_id": "@node-rs/argon2@2.2.1",
+        "version": "2.2.1"
+      }
+    },
+    "jose": {
+      "url": "https://registry.npmjs.org/jose/latest",
+      "sha256": "f14210e19d0707500f359f380f6451bddc635580a0ceb7658ae5e63510aba0b9",
+      "metadata": {
+        "bugs": {
+          "url": "https://github.com/panva/jose/issues"
+        },
+        "dist": {
+          "shasum": "65663e146edd010b98ece83f81737d3aa95fd0d7",
+          "tarball": "https://registry.npmjs.org/jose/-/jose-6.2.12.tgz",
+          "fileCount": 80,
+          "integrity": "sha512-9NiFmJEex0sy2Dk58j2UGBSHgUs2ypF9eZSu4L6vjOX3Dp96Sw1F3uL+H+D1sx02jZZdzUT0HgvCy59CuvXcWw==",
+          "signatures": [
+            {
+              "sig": "MEUCIH54MZ3ab1LOZiKtOgPtjFeG0UvtzEibEczWh3i+t+AKAiEA6tx8srEcDiTxdNhgD1+HObbx+X9eP5Qinx/t0IFxQhM=",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "attestations": {
+            "url": "https://registry.npmjs.org/-/npm/v1/attestations/jose@6.2.12",
+            "provenance": {
+              "predicateType": "https://slsa.dev/provenance/v1"
+            }
+          },
+          "unpackedSize": 210660
+        },
+        "main": "./dist/webapi/index.js",
+        "name": "jose",
+        "type": "module",
+        "_from": "file:/home/runner/work/_temp/package/jose-6.2.12.tgz",
+        "types": "./dist/types/index.d.ts",
+        "author": {
+          "name": "Filip Skokan",
+          "email": "panva.ip@gmail.com"
+        },
+        "exports": {
+          ".": {
+            "types": "./dist/types/index.d.ts",
+            "default": "./dist/webapi/index.js"
+          },
+          "./jwe/*": {
+            "types": "./dist/types/jwe/*.d.ts",
+            "default": "./dist/webapi/jwe/*.js"
+          },
+          "./jwk/*": {
+            "types": "./dist/types/jwk/*.d.ts",
+            "default": "./dist/webapi/jwk/*.js"
+          },
+          "./jws/*": {
+            "types": "./dist/types/jws/*.d.ts",
+            "default": "./dist/webapi/jws/*.js"
+          },
+          "./jwt/*": {
+            "types": "./dist/types/jwt/*.d.ts",
+            "default": "./dist/webapi/jwt/*.js"
+          },
+          "./errors": {
+            "types": "./dist/types/util/errors.d.ts",
+            "default": "./dist/webapi/util/errors.js"
+          },
+          "./jwks/*": {
+            "types": "./dist/types/jwks/*.d.ts",
+            "default": "./dist/webapi/jwks/*.js"
+          },
+          "./base64url": {
+            "types": "./dist/types/util/base64url.d.ts",
+            "default": "./dist/webapi/util/base64url.js"
+          },
+          "./jwt/decode": {
+            "types": "./dist/types/util/decode_jwt.d.ts",
+            "default": "./dist/webapi/util/decode_jwt.js"
+          },
+          "./key/export": {
+            "types": "./dist/types/key/export.d.ts",
+            "default": "./dist/webapi/key/export.js"
+          },
+          "./key/import": {
+            "types": "./dist/types/key/import.d.ts",
+            "default": "./dist/webapi/key/import.js"
+          },
+          "./package.json": "./package.json",
+          "./key/generate/secret": {
+            "types": "./dist/types/key/generate_secret.d.ts",
+            "default": "./dist/webapi/key/generate_secret.js"
+          },
+          "./key/generate/keypair": {
+            "types": "./dist/types/key/generate_key_pair.d.ts",
+            "default": "./dist/webapi/key/generate_key_pair.js"
+          },
+          "./decode/protected_header": {
+            "types": "./dist/types/util/decode_protected_header.d.ts",
+            "default": "./dist/webapi/util/decode_protected_header.js"
+          }
+        },
+        "funding": {
+          "url": "https://github.com/sponsors/panva"
+        },
+        "license": "MIT",
+        "_npmUser": {
+          "name": "GitHub Actions",
+          "email": "npm-oidc-no-reply@github.com",
+          "approver": {
+            "name": "panva",
+            "email": "panva.ip@gmail.com"
+          },
+          "trustedPublisher": {
+            "id": "github",
+            "oidcConfigId": "oidc:5041dcaa-bbd1-4444-812e-123893b02b74"
+          }
+        },
+        "homepage": "https://github.com/panva/jose",
+        "keywords": [
+          "akp",
+          "browser",
+          "bun",
+          "cloudflare",
+          "compact",
+          "decode",
+          "decrypt",
+          "deno",
+          "detached",
+          "ec",
+          "ecdsa",
+          "ed25519",
+          "eddsa",
+          "edge",
+          "electron",
+          "embedded",
+          "encrypt",
+          "flattened",
+          "general",
+          "jose",
+          "json web token",
+          "jsonwebtoken",
+          "jwa",
+          "jwe",
+          "jwk",
+          "jwks",
+          "jws",
+          "jwt-decode",
+          "jwt",
+          "ml-dsa",
+          "netlify",
+          "next",
+          "nextjs",
+          "oct",
+          "okp",
+          "payload",
+          "pem",
+          "pkcs8",
+          "rsa",
+          "sign",
+          "signature",
+          "spki",
+          "validate",
+          "vercel",
+          "verify",
+          "webcrypto",
+          "workerd",
+          "workers",
+          "x509"
+        ],
+        "_resolved": "/home/runner/work/_temp/package/jose-6.2.12.tgz",
+        "_integrity": "sha512-9NiFmJEex0sy2Dk58j2UGBSHgUs2ypF9eZSu4L6vjOX3Dp96Sw1F3uL+H+D1sx02jZZdzUT0HgvCy59CuvXcWw==",
+        "repository": {
+          "url": "git+https://github.com/panva/jose.git",
+          "type": "git"
+        },
+        "_npmVersion": "12.0.2",
+        "description": "JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
+        "directories": {},
+        "maintainers": [
+          {
+            "name": "panva",
+            "email": "panva.ip@gmail.com"
+          }
+        ],
+        "sideEffects": false,
+        "_nodeVersion": "24.20.0",
+        "_hasShrinkwrap": false,
+        "_npmOperationalInternal": {
+          "tmp": "tmp/jose_6.2.12_1788599832517_0.9746305657734124",
+          "host": "s3://npm-registry-packages-npm-production"
+        },
+        "_id": "jose@6.2.12",
+        "version": "6.2.12"
+      }
+    },
+    "libphonenumber-js": {
+      "url": "https://registry.npmjs.org/libphonenumber-js/latest",
+      "sha256": "76ca37d667e1e4a9644c862b817c498ca2b9e9645bce62524dc1b44a26c8e7be",
+      "metadata": {
+        "bugs": {
+          "url": "https://gitlab.com/catamphetamine/libphonenumber-js/issues"
+        },
+        "dist": {
+          "shasum": "cf4e4a9a9c113566fc19917adfac77f8a4adb9bf",
+          "tarball": "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.13.14.tgz",
+          "fileCount": 952,
+          "integrity": "sha512-llihgCcx0BFLksecLP+x1J+6JDE1GsXS1RN/LoPF6qcwpeQcnjj0lcvZxY8AzbEpYwyZWPZW/nDuqkqzm3amiw==",
+          "signatures": [
+            {
+              "sig": "MEUCIQCYFVqnljn8yXUc2G3RINiRNQmayO9aI4cJ87AmSGff0wIgTf1gWn41HOcVCo07kQ1Bgp48IcI7GjJBFLm1kz8vLVs=",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            },
+            {
+              "sig": "MEYCIQD5RHv9sEPRh2AUiIJ6GVQ+mxRANXFwmEinZUet+GK/WAIhAJ4gFyRqqSJm3H2sGH1V4hPkzigRQhKbgHmPA3Hwnwrg",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "attestations": {
+            "url": "https://registry.npmjs.org/-/npm/v1/attestations/libphonenumber-js@1.13.14",
+            "provenance": {
+              "predicateType": "https://slsa.dev/provenance/v0.2"
+            }
+          },
+          "unpackedSize": 10207856
+        },
+        "main": "index.cjs",
+        "name": "libphonenumber-js",
+        "type": "module",
+        "types": "./index.d.ts",
+        "author": {
+          "name": "catamphetamine",
+          "email": "purecatamphetamine@gmail.com"
+        },
+        "module": "index.js",
+        "exports": {
+          ".": {
+            "import": "./index.js",
+            "require": "./index.cjs"
+          },
+          "./max": {
+            "import": "./max/index.js",
+            "require": "./max/index.cjs"
+          },
+          "./min": {
+            "import": "./min/index.js",
+            "require": "./min/index.cjs"
+          },
+          "./core": {
+            "import": "./core/index.js",
+            "require": "./core/index.cjs"
+          },
+          "./mobile": {
+            "import": "./mobile/index.js",
+            "require": "./mobile/index.cjs"
+          },
+          "./max/es6": {
+            "types": "./max/es6/index.d.ts",
+            "import": "./max/es6/index.js"
+          },
+          "./min/es6": {
+            "types": "./min/es6/index.d.ts",
+            "import": "./min/es6/index.js"
+          },
+          "./core/es6": {
+            "types": "./core/es6/index.d.ts",
+            "import": "./core/es6/index.js"
+          },
+          "./mobile/es6": {
+            "types": "./mobile/es6/index.d.ts",
+            "import": "./mobile/es6/index.js"
+          },
+          "./max/metadata": {
+            "import": "./metadata.max.json.js",
+            "require": "./metadata.max.json"
+          },
+          "./metadata.max": {
+            "import": "./metadata.max.json.js",
+            "require": "./metadata.max.json"
+          },
+          "./metadata.min": {
+            "import": "./metadata.min.json.js",
+            "require": "./metadata.min.json"
+          },
+          "./min/metadata": {
+            "import": "./metadata.min.json.js",
+            "require": "./metadata.min.json"
+          },
+          "./package.json": "./package.json",
+          "./metadata.full": {
+            "import": "./metadata.max.json.js",
+            "require": "./metadata.max.json"
+          },
+          "./examples.mobile": {
+            "import": "./examples.mobile.json.js",
+            "require": "./examples.mobile.json"
+          },
+          "./metadata.mobile": {
+            "import": "./metadata.mobile.json.js",
+            "require": "./metadata.mobile.json"
+          },
+          "./mobile/examples": {
+            "import": "./examples.mobile.json.js",
+            "require": "./examples.mobile.json"
+          },
+          "./mobile/metadata": {
+            "import": "./metadata.mobile.json.js",
+            "require": "./metadata.mobile.json"
+          },
+          "./metadata.max.json": {
+            "import": "./metadata.max.json.js",
+            "require": "./metadata.max.json"
+          },
+          "./metadata.min.json": {
+            "import": "./metadata.min.json.js",
+            "require": "./metadata.min.json"
+          },
+          "./metadata.full.json": {
+            "import": "./metadata.max.json.js",
+            "require": "./metadata.max.json"
+          },
+          "./examples.mobile.json": {
+            "import": "./examples.mobile.json.js",
+            "require": "./examples.mobile.json"
+          },
+          "./metadata.mobile.json": {
+            "import": "./metadata.mobile.json.js",
+            "require": "./metadata.mobile.json"
+          }
+        },
+        "gitHead": "1d7eda2aaad476dff63288e93d2e5f93b46bfcc4",
+        "license": "MIT",
+        "scripts": {
+          "test": "npm run test--mocha",
+          "build": "npm-run-all clean build:modules:copy-typescript-definitions build:modules build:modules:modern build:commonjs build:bundle build:copy-metadata-files-to-subpackage-folders build:copy-examples-files-to-subpackage-folders",
+          "clean": "rimraf --glob ./build/**/* ./es6/**/* ./es6-modern/**/*",
+          "test--jest": "npm-run-all test:except-exports--jest test:exports--mocha",
+          "postversion": "git push && git push --tags",
+          "test--mocha": "mocha --bail \"source/**/*.test.js\" \"test/*.test.js\" \"test/!(exports)/**/*.test.js\"",
+          "test-travis": "node --experimental-json-modules node_modules/istanbul/lib/cli.js cover -x \"build/**\" -x \"es6/**\" -x \"*.test.js\" -x \"source/findNumbers/Leniency.js\" -x \"source/findNumbers/matchPhoneNumberStringAgainstPhoneNumber.js\" -x \"source/findNumbers/RegExpCache.js\" -x \"source/findNumbers/LRUCache.js\" -x \"source/PhoneNumberMatcher.js\" -x \"source/tools/semver-compare.js\" node_modules/mocha/bin/_mocha --report lcovonly -- --colors --reporter spec --require ./test/globals.js \"source/**/*.test.js\" \"test/**/*.test.js\" --recursive",
+          "build:bundle": "rollup --config rollup.config.mjs",
+          "test:exports": "npm run test:exports--mocha",
+          "build:modules": "cross-env BABEL_ENV=es6 babel ./source --out-dir ./es6 --source-maps --ignore test.js",
+          "test-coverage": "npm run test-coverage--mocha",
+          "build:commonjs": "npm-run-all build:commonjs:with-tests build:commonjs:package.json build:commonjs:create-typescript-definitions build:commonjs:patch-typescript-definitions",
+          "prepublishOnly": "npm run metadata:generate && npm run typescript:generate-country-codes-list && crlf --set=LF metadata.*.json && npm-run-all build test test:exports",
+          "metadata:generate": "npm-run-all metadata:generate:non-minified metadata:generate:min metadata:generate:full metadata:generate:max metadata:generate:mobile metadata:generate:mobile:examples metadata:generate:min:js metadata:generate:full:js metadata:generate:max:js metadata:generate:mobile:js metadata:generate:mobile:examples:js",
+          "metadata:update:job": "node build-scripts/check-for-uncommitted-files && git reset --hard && git pull && npm install && npm run metadata:update-and-release",
+          "test-coverage--jest": "jest --coverage",
+          "test:exports--mocha": "mocha --bail \"test/exports/**/*.test.js\"",
+          "build:modules:modern": "cross-env BABEL_ENV=es6-modern babel ./source --out-dir ./es6-modern --source-maps --ignore test.js",
+          "test-coverage--mocha": "npm-run-all build:commonjs test-coverage:commonjs--mocha",
+          "metadata:generate:max": "node build-scripts/generate-metadata-from-google-metadata ./PhoneNumberMetadata.xml ./metadata.max.json --with-phone-number-types",
+          "metadata:generate:min": "node build-scripts/generate-metadata-from-google-metadata ./PhoneNumberMetadata.xml ./metadata.min.json",
+          "metadata:generate:full": "node build-scripts/generate-metadata-from-google-metadata ./PhoneNumberMetadata.xml ./metadata.full.json --with-phone-number-types",
+          "metadata:generate:max:js": "node build-scripts/create-js-file-for-json-file ./metadata.max.json",
+          "metadata:generate:min:js": "node build-scripts/create-js-file-for-json-file ./metadata.min.json",
+          "metadata:generate:mobile": "node build-scripts/generate-metadata-from-google-metadata ./PhoneNumberMetadata.xml ./metadata.mobile.json --with-phone-number-types --phone-number-types mobile",
+          "build:commonjs:with-tests": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./build --source-maps",
+          "metadata:generate:full:js": "node build-scripts/create-js-file-for-json-file ./metadata.full.json",
+          "test:except-exports--jest": "jest",
+          "build:commonjs:package.json": "node build-scripts/create-commonjs-package-json-file.js",
+          "metadata:generate:mobile:js": "node build-scripts/create-js-file-for-json-file ./metadata.mobile.json",
+          "metadata:update-and-release": "node build-scripts/pull-google-metadata ./PhoneNumberMetadata.xml ./metadata-info.json && node build-scripts/check-for-metadata-changes-and-release ./PhoneNumberMetadata.xml ./metadata-info.json",
+          "test-coverage:commonjs--mocha": "istanbul cover -x \"*.test.js\" -x \"build/findNumbers/Leniency.js\" -x \"build/findNumbers/matchPhoneNumberStringAgainstPhoneNumber.js\" -x \"build/findNumbers/RegExpCache.js\" -x \"build/findNumbers/LRUCache.js\" -x \"build/PhoneNumberMatcher.js\" -x \"build/tools/semver-compare.js\" node_modules/mocha/bin/_mocha -- --colors --reporter dot --require ./test/globals.js \"build/**/*.test.js\" --recursive",
+          "metadata:generate:non-minified": "node build-scripts/generate-metadata-from-google-metadata ./PhoneNumberMetadata.xml ./metadata.json --with-phone-number-types --with-phone-number-type-examples --non-minified",
+          "build:commonjs:before-es-modules": "cross-env BABEL_ENV=commonjs babel ./source --out-dir ./build --source-maps --ignore test.js",
+          "metadata:generate:mobile:examples": "node build-scripts/generate-metadata-from-google-metadata ./PhoneNumberMetadata.xml ./examples.mobile.json --with-phone-number-type-examples --phone-number-type-examples mobile",
+          "metadata:generate:mobile:examples:js": "node build-scripts/create-js-file-for-json-file ./examples.mobile.json",
+          "test:esm--nyc--does-not-seem-to-work": "cross-env nyc mocha --bail --require @babel/register --require ./test/globals.js \"source/**/*.test.js\" \"test/**/*.test.js\"",
+          "transform-mocha-tests-into-jest-tests": "npx jest-codemods",
+          "typescript:generate-country-codes-list": "node --experimental-json-modules build-scripts/generate-country-codes-list-in-typescript",
+          "build:modules:copy-typescript-definitions": "cpy --flat min/index.d.ts max && cpy --flat min/index.d.ts mobile",
+          "test-coverage--nyc--does-not-seem-to-work": "nyc report --reporter=text-lcov",
+          "build:commonjs:patch-typescript-definitions": "replace-in-file \".d.js';\" \".d.cjs';\" **/*.d.cts",
+          "build:commonjs:create-typescript-definitions": "rimraf --verbose --glob ./*.d.cts \"./!(node_modules)/**/*.d.cts\" && cpy **/{index,metadata*,examples*,types}.d.ts . --rename={{basename}}.cts && renamer --find d.cts.ts --replace d.cts ./*.d.cts.ts \"./!(node_modules)/**/*.d.cts.ts\"",
+          "build:copy-examples-files-to-subpackage-folders": "npm-run-all build:copy-examples-files-to-subpackage-folders:mobile",
+          "build:copy-metadata-files-to-subpackage-folders": "npm-run-all build:copy-metadata-files-to-subpackage-folders:max build:copy-metadata-files-to-subpackage-folders:min build:copy-metadata-files-to-subpackage-folders:mobile",
+          "test-coverage:esm--mocha--does-not-seem-to-work": "istanbul cover -x \"build/**\" -x \"es6/**\" -x \"*.test.js\" -x \"source/findNumbers/Leniency.js\" -x \"source/findNumbers/matchPhoneNumberStringAgainstPhoneNumber.js\" -x \"source/findNumbers/RegExpCache.js\" -x \"source/findNumbers/LRUCache.js\" -x \"source/PhoneNumberMatcher.js\" -x \"source/tools/semver-compare.js\" node_modules/mocha/bin/_mocha -- --colors --reporter dot --require ./test/globals.js \"source/**/*.test.js\" \"test/**/*.test.js\" --recursive",
+          "build:copy-metadata-files-to-subpackage-folders:max": "cpy --flat metadata.max.json metadata.max.json.js metadata.max.json.d.ts max/metadata && replace-in-file \" from './\" \" from '../../\" max/metadata/metadata.*.json.d.*",
+          "build:copy-metadata-files-to-subpackage-folders:min": "cpy --flat metadata.min.json metadata.min.json.js metadata.min.json.d.ts min/metadata && replace-in-file \" from './\" \" from '../../\" min/metadata/metadata.*.json.d.*",
+          "build:copy-examples-files-to-subpackage-folders:mobile": "cpy --flat examples.mobile.json examples.mobile.json.js examples.mobile.json.d.ts mobile/examples && replace-in-file \" from './\" \" from '../../\" mobile/examples/examples.*.json.d.*",
+          "build:copy-metadata-files-to-subpackage-folders:mobile": "cpy --flat metadata.mobile.json metadata.mobile.json.js metadata.mobile.json.d.ts mobile/metadata && replace-in-file \" from './\" \" from '../../\" mobile/metadata/metadata.*.json.d.*"
+        },
+        "_npmUser": {
+          "name": "GitLab CI/CD",
+          "email": "npm-oidc-no-reply@github.com",
+          "trustedPublisher": {
+            "id": "gitlab",
+            "oidcConfigId": "oidc:ed585149-6807-46e1-85cf-3fb4e662eb1f"
+          }
+        },
+        "homepage": "https://gitlab.com/catamphetamine/libphonenumber-js#readme",
+        "keywords": [
+          "telephone",
+          "phone",
+          "number",
+          "input",
+          "mobile",
+          "libphonenumber"
+        ],
+        "repository": {
+          "url": "git+https://gitlab.com/catamphetamine/libphonenumber-js.git",
+          "type": "git"
+        },
+        "_npmVersion": "11.19.0",
+        "description": "A simpler (and smaller) rewrite of Google Android's libphonenumber library in javascript",
+        "directories": {},
+        "maintainers": [
+          {
+            "name": "catamphetamine",
+            "email": "purecatamphetamine@gmail.com"
+          }
+        ],
+        "sideEffects": false,
+        "_nodeVersion": "24.21.0",
+        "contributors": [
+          {
+            "name": "Google Inc."
+          },
+          {
+            "name": "Vonage Holdings Corp."
+          },
+          {
+            "name": "Ian Galpin"
+          },
+          {
+            "name": "Ben Gertzfield"
+          },
+          {
+            "name": "https://gitlab.com/catamphetamine"
+          }
+        ],
+        "_hasShrinkwrap": false,
+        "devDependencies": {
+          "nyc": "^17.1.0",
+          "chai": "^5.2.1",
+          "crlf": "^1.1.1",
+          "jest": "^30.0.5",
+          "mocha": "^10.0.0",
+          "tslib": "^2.8.1",
+          "rimraf": "^6.0.1",
+          "rollup": "^4.46.2",
+          "cpy-cli": "^5.0.0",
+          "renamer": "^5.0.2",
+          "istanbul": "^1.1.0-alpha.1",
+          "minimist": "^1.2.8",
+          "cross-env": "^10.0.0",
+          "@babel/cli": "^7.28.0",
+          "gmail-send": "^1.8.14",
+          "@babel/core": "^7.28.0",
+          "npm-run-all": "^4.1.5",
+          "jest-codemods": "^0.34.2",
+          "@babel/register": "^7.27.1",
+          "replace-in-file": "^8.3.0",
+          "@babel/preset-env": "^7.28.0",
+          "@rollup/plugin-json": "^6.1.0",
+          "@rollup/plugin-terser": "^0.4.4",
+          "babel-plugin-istanbul": "^7.0.0",
+          "@babel/plugin-transform-for-of": "^7.27.1",
+          "libphonenumber-metadata-generator": "^2.0.6",
+          "@babel/plugin-syntax-import-assertions": "^7.27.1"
+        },
+        "_npmOperationalInternal": {
+          "tmp": "tmp/libphonenumber-js_1.13.14_1790241180682_0.01675407841518739",
+          "host": "s3://npm-registry-packages-npm-production"
+        },
+        "_id": "libphonenumber-js@1.13.14",
+        "version": "1.13.14"
+      }
+    },
+    "@fastify/cookie": {
+      "url": "https://registry.npmjs.org/%40fastify%2Fcookie/latest",
+      "sha256": "23abf6a950aaab62ffb061c43b29b39b4c47675ba4955150b400c2a101070881",
+      "metadata": {
+        "bugs": {
+          "url": "https://github.com/fastify/fastify-cookie/issues"
+        },
+        "dist": {
+          "shasum": "73f4e2881c1fff20c7219681d5cc84c234344568",
+          "tarball": "https://registry.npmjs.org/@fastify/cookie/-/cookie-11.1.2.tgz",
+          "fileCount": 19,
+          "integrity": "sha512-Dtrpk/YOGUsbRMvP/8ZqPpwnMRv0qSqodFdoQ2B589Obc7jw4s4Qla+cV72Bsm7WsZJnqlYFX/i7uSBq0xzg6g==",
+          "signatures": [
+            {
+              "sig": "MEYCIQDY1JHEpam6qRn29NpYOfU563C9pq6RoANR+hM2RZ8qWQIhAJjyNEBG9lY4HWziMb/qopdoYTSdrtZYEw+KSVwPBWdm",
+              "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+            }
+          ],
+          "unpackedSize": 87539
+        },
+        "main": "index.js",
+        "name": "@fastify/cookie",
+        "type": "commonjs",
+        "types": "types/index.d.ts",
+        "author": {
+          "name": "James Sumners",
+          "email": "james.sumners@gmail.com"
+        },
+        "funding": [
+          {
+            "url": "https://github.com/sponsors/fastify",
+            "type": "github"
+          },
+          {
+            "url": "https://opencollective.com/fastify",
+            "type": "opencollective"
+          }
+        ],
+        "gitHead": "c2407730e56bd75210bc67f73b6d4b14fdcde2cd",
+        "license": "MIT",
+        "scripts": {
+          "lint": "eslint",
+          "test": "npm run test:unit && npm run test:typescript",
+          "coverage": "npm run test:unit -- --coverage-report=html",
+          "lint:fix": "eslint --fix",
+          "test:unit": "c8 --100 node --test",
+          "test:typescript": "tstyche",
+          "test:unit:verbose": "npm run test:unit -- -Rspec"
+        },
+        "_npmUser": {
+          "name": "climba03003",
+          "email": "kaka@kakawebsitedemo.com"
+        },
+        "homepage": "https://github.com/fastify/fastify-cookie#readme",
+        "keywords": [
+          "fastify",
+          "cookie"
+        ],
+        "repository": {
+          "url": "git+https://github.com/fastify/fastify-cookie.git",
+          "type": "git"
+        },
+        "_npmVersion": "11.9.0",
+        "description": "Plugin for fastify to add support for cookies",
+        "directories": {},
+        "maintainers": [
+          {
+            "name": "simoneb",
+            "email": "simone.busoli@gmail.com"
+          },
+          {
+            "name": "delvedor",
+            "email": "tommydelved@gmail.com"
+          },
+          {
+            "name": "matteo.collina",
+            "email": "hello@matteocollina.com"
+          },
+          {
+            "name": "jsumners",
+            "email": "james.sumners@gmail.com"
+          },
+          {
+            "name": "zekth",
+            "email": "vince.legoff@gmail.com"
+          },
+          {
+            "name": "eomm",
+            "email": "behemoth89@gmail.com"
+          },
+          {
+            "name": "fox1t",
+            "email": "maksim@sinik.it"
+          },
+          {
+            "name": "airhorns",
+            "email": "harry@harry.me"
+          },
+          {
+            "name": "kibertoad",
+            "email": "iselwin@gmail.com"
+          },
+          {
+            "name": "climba03003",
+            "email": "kaka@kakawebsitedemo.com"
+          },
+          {
+            "name": "galvez",
+            "email": "jonasgalvez@gmail.com"
+          },
+          {
+            "name": "simenb",
+            "email": "sbekkhus91@gmail.com"
+          },
+          {
+            "name": "gurgunday",
+            "email": "hey@gurgun.day"
+          },
+          {
+            "name": "tony133",
+            "email": "a.tripodi133@gmail.com"
+          },
+          {
+            "name": "metcoder95",
+            "email": "me@metcoder.dev"
+          },
+          {
+            "name": "jean-michelet",
+            "email": "jean.antoine.michelet@gmail.com"
+          },
+          {
+            "name": "ilteoood",
+            "email": "matteopietro.dazzi@gmail.com"
+          },
+          {
+            "name": "fdawgs",
+            "email": "frazer.dev@icloud.com"
+          }
+        ],
+        "_nodeVersion": "24.14.0",
+        "contributors": [
+          {
+            "name": "Salman Mitha",
+            "email": "SalmanMitha@gmail.com"
+          },
+          {
+            "name": "Matteo Collina",
+            "email": "hello@matteocollina.com"
+          },
+          {
+            "name": "Manuel Spigolon",
+            "email": "behemoth89@gmail.com"
+          },
+          {
+            "url": "https://github.com/fdawgs",
+            "name": "Frazer Smith",
+            "email": "frazer.dev@icloud.com"
+          }
+        ],
+        "dependencies": {
+          "cookie": "^2.0.0",
+          "fastify-plugin": "^6.0.0"
+        },
+        "publishConfig": {
+          "access": "public"
+        },
+        "_hasShrinkwrap": false,
+        "devDependencies": {
+          "c8": "^11.0.0",
+          "sinon": "^22.0.0",
+          "eslint": "^9.17.0",
+          "fastify": "^5.0.0",
+          "tstyche": "^7.0.0",
+          "benchmark": "^2.1.4",
+          "@types/node": "^26.0.1",
+          "neostandard": "^0.13.0"
+        },
+        "_npmOperationalInternal": {
+          "tmp": "tmp/cookie_11.1.2_1784150967022_0.8621677712622564",
+          "host": "s3://npm-registry-packages-npm-production"
+        },
+        "_id": "@fastify/cookie@11.1.2",
+        "version": "11.1.2"
+      }
+    }
+  }
+}

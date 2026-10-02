@@ -1,0 +1,183 @@
+{
+  "scope": "auth-session-core-preparation",
+  "status": "prepared_not_dispatchable",
+  "contract_sha256": "c94f752ed8b08eefb16fa5dc840e8c04fd947070e773cd3139d7bbd7465475dc",
+  "auth_rule": "Public register/login/forgot/reset; refresh authenticates cookie, all /api/me/* and activation except production early guard require valid access session. JWT signed server key reference, exp15min, sub=user_id, sid=session id; API validates signature/issuer/audience/expiry and sessions revoked_at/expiry on each private request. Password Argon2id proposed m=65536KiB,t=3,p=1 with library defaults for random salt; library pin pending. Email trimmed/lowercase unique. Refresh random32bytes, SHA256 hash only DB, cookie HttpOnly Secure SameSite=Lax Path=/api/auth MaxAge7days; rotation locks session, revokes old and issues new same family; reuse revokes family, logout family, reset all sessions. Dev localhost HTTPS setup required before enabling secure-cookie flow; no weakened production config. Cookie-auth refresh additionally rejects Origin other than configured same origin; FE sends credentials, token stays in memory, no localStorage. Forgot-password always202 generic, random32bytes base64url reset email Mailpit(dev), hash DB,1h expiry,single-use; reset atomically consumes token/changes password/revokes sessions. Never log tokens. Proposed rate limits:5 failed logins/IP/15min,3 reset requests/IP/hour ->429. Registration DOB civil date America/Argentina/Buenos_Aires must compute age>=18; DOB private self-declaration, no stronger identity claim. Profile phone libphonenumber-js full metadata parses AR international E.164, isValid AND getType=MOBILE, fixed or FIXED_LINE_OR_MOBILE/unknown422; FE applies same library/metadata rule, server authoritative. This validates classification, not possession or WhatsApp account. Description plain text, escape rendering, never dangerouslySetInnerHTML. Public DTO permits intentional WhatsApp contact link only; exclude email,DOB,hashes,sessions,owner IDs and billing details. Ownership selected through sessions, no client user_id. Nonowned photo404; expired plan does not disable authenticated profile management.",
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "auth": "public",
+      "request": {
+        "email": "string email",
+        "password": "string 12..128 chars",
+        "birth_date": "YYYY-MM-DD private"
+      },
+      "response": {
+        "session": "$Session"
+      },
+      "status": 201,
+      "errors": [
+        400,
+        409,
+        422,
+        429,
+        503
+      ],
+      "rule": "Adult age >=18 civil date America/Argentina/Buenos_Aires, no future date. One email case-insensitive. Set refresh cookie. Self-declared DOB, no identity verification claim."
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "auth": "public",
+      "request": {
+        "email": "string",
+        "password": "string"
+      },
+      "response": {
+        "session": "$Session"
+      },
+      "status": 200,
+      "errors": [
+        400,
+        401,
+        429,
+        503
+      ],
+      "rule": "Generic invalid_credentials for wrong user/password; new hashed refresh session and cookie."
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/refresh",
+      "auth": "public",
+      "request": {},
+      "response": {
+        "session": "$Session"
+      },
+      "status": 200,
+      "errors": [
+        401,
+        429,
+        503
+      ],
+      "rule": "Authenticate via refresh cookie, rotate transactionally, single use; reused revoked token revokes its family; CSRF same-origin rule."
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "auth": "owner",
+      "request": {},
+      "response": {},
+      "status": 204,
+      "errors": [
+        401,
+        403,
+        503
+      ],
+      "rule": "Revoke refresh family and associated access sessions; clear cookie. Bearer required; no caller user_id."
+    }
+  ],
+  "session_dto": {
+    "access_token": "JWT string",
+    "expires_in": "integer seconds =900",
+    "user_id": "uuid: authenticated owner"
+  },
+  "database_tables": {
+    "users": {
+      "columns": {
+        "id": "uuid NOT NULL",
+        "email": "text NOT NULL: normalized lowercase",
+        "password_hash": "text NOT NULL Argon2id",
+        "birth_date": "date NOT NULL private",
+        "role": "text NOT NULL default member CHECK role=member",
+        "created_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "email"
+        ]
+      ],
+      "foreign_keys": []
+    },
+    "sessions": {
+      "columns": {
+        "id": "uuid NOT NULL: JWT sid",
+        "user_id": "uuid NOT NULL",
+        "family_id": "uuid NOT NULL",
+        "refresh_hash": "text NOT NULL SHA256",
+        "expires_at": "timestamptz NOT NULL",
+        "revoked_at": "timestamptz nullable",
+        "created_at": "timestamptz NOT NULL"
+      },
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "refresh_hash"
+        ]
+      ],
+      "foreign_keys": [
+        "user_id REFERENCES users(id) ON DELETE CASCADE"
+      ]
+    }
+  },
+  "acceptance": [
+    {
+      "id": "A01",
+      "method": "POST",
+      "path": "/api/auth/register",
+      "setup": "Known fixture adult on AR civil date; then fixture age17 and future DOB",
+      "expected": "Adult201 Session/cookie; minor/future422 age_invalid, zero user/session rows; DOB never in public DTO",
+      "status": "specified_not_executed"
+    },
+    {
+      "id": "A02",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "setup": "Wrong password and unknown account",
+      "expected": "Both401 same invalid_credentials shape; rate limit sixth failed login per IP in15min429",
+      "status": "specified_not_executed"
+    },
+    {
+      "id": "A03",
+      "method": "POST",
+      "path": "/api/auth/refresh",
+      "setup": "Use same valid refresh twice",
+      "expected": "First200 new Session/cookie, old token revoked; second401 and whole family revoked; protected request with family JWT401",
+      "status": "specified_not_executed"
+    },
+    {
+      "id": "A24",
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "setup": "Valid owner then reuse access/refresh",
+      "expected": "204 and cleared cookie; access/refresh401 after revocation DB check; no owner data in error",
+      "status": "specified_not_executed"
+    }
+  ],
+  "ui_acceptance": [
+    "UI06 registration adult boundary and phone fixed/ambiguous errors shown; server same rule",
+    "UI10 at360px and1280px filters/forms/gallery usable without horizontal scroll; labelled controls, keyboard access and announced form errors"
+  ],
+  "proposed_source_modules": [
+    "backend/src/auth.ts",
+    "frontend/src/AuthPages.tsx"
+  ],
+  "unverified_prerequisites": [
+    "fixed typed source rules/path registration for auth",
+    "HTTPS local with Secure-cookie browser checks",
+    "controlled auth-specific disposable DB role and transactional fixtures",
+    "PostgreSQL tests for concurrent rotation, reused refresh, revocation, age boundary and rate limit",
+    "frozen Chromium tests and source integration wiring",
+    "durable cross-increment queue and reviewed dispatch profile"
+  ],
+  "not_in_this_increment": [
+    "password reset/Mailpit follows separately",
+    "uploads and simulated activation follow separately"
+  ],
+  "author": "Codex preparation; no local-agent implementation or product acceptance"
+}
