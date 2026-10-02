@@ -1,0 +1,10 @@
+{
+  "prepare_auth_certutil.py": "98c6b474464bcd013d161d64441b66c67be50cb70b2a3738452fdad7cb911400",
+  "qualification.json": "ce46c67bed9711c4775968697bb1d620adfd51e87fe452a8855aeadd353e8fd5",
+  "qualify_auth_browser_tls.py": "bbbb4e293a3430326b9271bbc23107dc6d40768a2a128946ab0e7a0bea74f790",
+  "readiness.json": "d2f7d727627862ff81a9835a4e6105ec716a0ae5b6eee64620d06baefe40c050",
+  "RESULTADO.md": "d202dcc1b7da7434cffa47265623d5c1f7315e39adb01e83f87ad52e2960af56",
+  "tools-acquisition.json": "a4489378abc9520a53002530307c338bec20003dc3a913f2b862ce77bbdddaae",
+  "tools-inventory-original.json": "1dfee1c791383561f4d8e22ff214ff43922115c5d6d0709926dc36094ea618fc",
+  "workspace-SHA256.json": "5c96079615c19b813986be9bd409f270c1d2f52e8021d65c6ee8549a920bd92c"
+}
