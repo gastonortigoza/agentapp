@@ -77,8 +77,13 @@ def prompt(row,op,documents):
     section=row['binding']['section'];rules(section)
     contract=documents['contract.json']
     instruction=('Replace the COMPLETE module in {path,content}; preserve contract and tests. ' if op['role']=='developer' else
-      'Review each rule independently; exact contiguous quote <=160characters for every pass, /content pointer. Failures require entire exact rule_quote, source=public-source-rules/1 and actionable fix. Static markers alone do not prove correct transactions, security or UI behavior. ')
-    context={'candidate':row['candidate'],'required_corrections':row['findings'],'contract_sha256':CONTRACT_SHA,
+      'Review each rule independently; quote must be copied ONLY from candidate.content, never from Rules or instructions. Use exact contiguous quote <=160characters for every pass, /content pointer. Failures require entire exact rule_quote copied from Rules, source=public-source-rules/1 and actionable fix. Static markers alone do not prove correct transactions, security or UI behavior. ')
+    # Rules remain authoritative and originals retain complete findings. Avoid
+    # repeating those same long rules inside untrusted correction data.
+    corrections=[{k:v for k,v in f.items() if k!='rule_quote'} for f in row['findings']]
+    if row['binding'].get('initial_proposal'):
+        instruction+='The registered module is absent. Write its first complete implementation; no product failure or prior source approval is implied. '
+    context={'candidate':row['candidate'],'required_corrections':corrections,'contract_sha256':CONTRACT_SHA,
       'session_dto':contract['api']['dtos']['Session'],'auth_rule':contract['auth'],
       'routes':[r for r in contract['api']['routes'] if r['path'] in ('/api/auth/register','/api/auth/login','/api/auth/refresh','/api/auth/logout')],
       'tables':{k:contract['data']['tables'][k] for k in ('users','sessions')},

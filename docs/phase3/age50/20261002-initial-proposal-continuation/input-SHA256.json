@@ -1,0 +1,9 @@
+{
+  "controller/phase3_auth_source.py": "1396d9ed161dabfc8f30714189b168e4ae20a6c814e0bb9641d151830fef03ac",
+  "controller/phase3_handoff.py": "a73a7c31d3676babff49e37ec4ebfac86d809e77f6eb6eb8910125ac2b5a621e",
+  "controller/phase3_increment_queue.py": "38f0bd3f47429f271d699ff24575787cf51b929490950171ab0b089c5df93d49",
+  "controller/phase3_review.py": "8aa84c37cd3fbf91f0ac3fc4e0919dd4ef74c662aaed900c9c33c0fe9445a334",
+  "controller/tests/test_phase3_auth_source.py": "8a0800f84e7653b11eb373fafb4357eedc5e6354a1d076c310e6097f33e6468b",
+  "controller/tests/test_phase3_increment_queue.py": "38f74236de7ee82b0683aee05b47d11ccb7fc7c7c7ee87750cb9f5618015c522",
+  "controller/PHASE3-COLA-INCREMENTOS.md": "a705beda03b35b46d91e52e55186a1a4566ea26f1947f72b98fdea25883074e3"
+}

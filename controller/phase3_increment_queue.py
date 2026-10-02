@@ -117,8 +117,10 @@ def create(journal,run_id,cache,tls_directory,nss_deb):
 
 
 def verify(journal,row):
+    verify_continuation(journal,row)
     binding=row['binding']
     if (manifest.identity(binding)!=row['binding_sha256'] or binding['limits']!=LIMITS
+        or binding['contract_sha256']!=auth.CONTRACT_SHA
         or binding['review_every']!=REVIEW_EVERY or binding['items']!=items()
         or binding['supported_dispatch']!=['auth-session-core'] or binding['deployment_authorized'] is not False
         or controller_gate.require_green()!=binding['suite_identity']
@@ -148,6 +150,77 @@ def verify(journal,row):
             if item!=expected:raise ValueError('Increment acceptance scope drift')
     verify_audits(row)
     return private
+
+
+def verify_continuation(journal,row):
+    """One scoped protocol upgrade; the initial stopped attempt stays immutable."""
+    history=row.get('continuations',[])
+    if not history:
+        if row.get('revision',0)!=0:raise ValueError('Increment continuation missing')
+        return
+    if len(history)!=1 or row.get('revision')!=1:raise ValueError('Increment continuation scope drift')
+    entry=history[0];prior=entry['original'];op=prior['operations'][0]
+    expected=prior['binding']|{'suite_identity':row['binding']['suite_identity']}
+    if (entry['original_sha256']!=manifest.identity(prior) or entry['reason']!='absent-auth-module/1'
+        or expected!=row['binding'] or prior['id']!=row['id']
+        or manifest.identity(prior['binding'])!=prior['binding_sha256']
+        or prior.get('continuations') or prior.get('revision',0)!=0
+        or prior['state']!='awaiting_discrepancy' or len(prior['operations'])!=1
+        or op['kind']!='review' or op['state']!='confirmed' or op['child_state']!='blocked_evidence'
+        or prior['used']!={k:op['actual'].get(k,0) for k in LIMITS}
+        or prior['reviews'] or prior['review_index'] or prior['round'] or prior['audits'] or prior['last_audited_round']
+        or prior['product_feedback'] or prior['product_tests_executed']
+        or row['operations'][:1]!=prior['operations'] or row['events'][:len(prior['events'])]!=prior['events']
+        or row['created_at']!=prior['created_at']):raise ValueError('Increment continuation history drift')
+    child=journal.get(op['child_id']);ops=journal.records(child['id'],'plan_ops')
+    if (manifest.identity(child)!=op['result_sha256'] or manifest.identity(ops)!=entry['operations_sha256']
+        or manifest.identity(journal.records(child['id'],'plan_events'))!=entry['events_sha256']
+        or len(ops)!=1 or ops[0]['role']!='reviewer' or ops[0]['state']!='confirmed'
+        or ops[0]['candidate']!={'path':auth.PATHS['auth_api'],'content':''}
+        or child['binding'].get('section')!='auth_api' or child['state']!='blocked_evidence'
+        or child['binding']['suite_identity']!=prior['binding']['suite_identity']
+        or ops[0]['result'].get('done_reason')!='length' or not ops[0]['result'].get('ok')
+        or ops[0]['result'].get('done') is not True
+        or ops[0]['result'].get('model_digest')!=child['binding']['digest']):
+        raise ValueError('Increment continuation original drift')
+    # The unqualified completion remains charged at the full original recipe.
+    limits=source.LIMITS
+    full={k:limits[k] for k in ('calls','input_tokens','output_tokens')}|{'active_ms':limits['active_seconds']*1000}
+    if op['reserved']!=full or op['actual']!=full:raise ValueError('Increment continuation budget refund denied')
+
+
+def continue_initial_proposal(journal,run_id,original_digest,summary):
+    """Adopt a green controller after the single empty-source truncated review.
+
+    This does not recover its partial JSON, change old children or resume an
+    uncertain operation. A fresh developer proposal uses a distinct version ID.
+    """
+    if not isinstance(summary,str) or not 1<=len(summary.encode())<=5000:raise ValueError('Bad continuation inspection')
+    with worker_lock(journal.path,'increment-'+run_id) as owned:
+        if not owned:raise ValueError('Queue worker busy')
+        row=get(journal,run_id)
+        if manifest.identity(row)!=original_digest:raise ValueError('Stale continuation original digest')
+        suite=controller_gate.require_green()
+        if (row.get('continuations') or suite==row['binding']['suite_identity']
+            or row['state']!='awaiting_discrepancy' or len(row['operations'])!=1):
+            raise ValueError('Only the initial empty-source protocol stop can continue')
+        child=journal.get(row['operations'][0]['child_id'])
+        proposed=copy.deepcopy(row)
+        proposed['binding']['suite_identity']=suite
+        proposed['binding_sha256']=manifest.identity(proposed['binding'])
+        proposed['continuations']=[{'reason':'absent-auth-module/1','original':copy.deepcopy(row),
+          'original_sha256':original_digest,'operations_sha256':manifest.identity(journal.records(child['id'],'plan_ops')),
+          'events_sha256':manifest.identity(journal.records(child['id'],'plan_events')),
+          'summary':summary,'operator':'Codex','at':review.now()}]
+        proposed['revision']=1
+        # All normal contract/resource/original/accounting checks also apply.
+        verify(journal,proposed)
+        proposed.update(state='active',reason='',pending_attention=None,attention=None)
+        with journal.transaction() as db:
+            if manifest.identity(load(db,run_id))!=original_digest:raise ValueError('Concurrent continuation drift')
+            save(db,proposed,{'kind':'queue.controller_continued','original_sha256':original_digest,
+              'previous_suite':row['binding']['suite_identity'],'suite':suite,'revision':1})
+        return proposed
 
 
 def stop(journal,run_id,state,reason,child=None):
@@ -298,7 +371,8 @@ def run(journal,run_id,caller=None,review_observer=None,transport=None):
             pending=next((o for o in row['operations'] if o['state']=='in_flight'),None)
             if row['review_index']<len(auth.SECTIONS):
                 kind=auth.SECTIONS[row['review_index']];recovery=row['recoveries'].get(kind,0)
-                child_id=run_id+'-r'+str(row['round'])+'-'+kind.replace('_','-')+('-fix1' if recovery else '')
+                prefix=run_id+('-v'+str(row['revision']) if row.get('revision') else '')
+                child_id=prefix+'-r'+str(row['round'])+'-'+kind.replace('_','-')+('-fix1' if recovery else '')
                 seed=journal.get(row['reviews'][kind])['candidate'] if kind in row['reviews'] else {'path':auth.PATHS[kind],'content':''}
                 seed=row['overrides'].get(kind,seed)
                 if pending and (pending['child_id']!=child_id or pending['kind']!='review'):return stop(journal,run_id,'uncertain_operation','Pending review identity differs',pending['child_id'])
@@ -310,7 +384,8 @@ def run(journal,run_id,caller=None,review_observer=None,transport=None):
                 try:
                     try:child=journal.get(child_id)
                     except ValueError:child=journal.create(child_id,seed,section=kind,
-                      product_feedback=row['product_feedback'] if not recovery else None,review_recovery=row['recovery_feedback'].get(kind))
+                      product_feedback=row['product_feedback'] if not recovery else None,review_recovery=row['recovery_feedback'].get(kind),
+                      initial_proposal=not seed['content'] and not recovery and row['product_feedback'] is None)
                     if child['binding']['seed_sha256']!=manifest.identity(seed) or child['binding'].get('section')!=kind:raise ValueError('Queue child seed identity differs')
                     if not confirmed:child=review.run(journal,child_id,caller=caller,observer=review_observer)
                 except Exception:return stop(journal,run_id,'uncertain_operation','Review acknowledgement uncertain; original inference is never resent',child_id)
@@ -396,6 +471,9 @@ def main(argv=None):
     audit=sub.add_parser('audit');audit.add_argument('--run-id',required=True);audit.add_argument('--packet-digest',required=True)
     audit.add_argument('--decision',choices=('continue','discrepancy'),required=True);audit.add_argument('--summary',type=Path,required=True);audit.add_argument('--export',type=Path,required=True)
     status=sub.add_parser('status');status.add_argument('--run-id',required=True)
+    adopt=sub.add_parser('continue-initial');adopt.add_argument('--run-id',required=True)
+    adopt.add_argument('--original-digest',required=True);adopt.add_argument('--summary',type=Path,required=True)
+    adopt.add_argument('--export',type=Path,required=True)
     args=parser.parse_args(argv);journal=review.Journal()
     if args.command=='run':
         resources=(args.cache,args.tls_directory,args.nss_deb)
@@ -405,6 +483,9 @@ def main(argv=None):
         row=run(journal,args.run_id);export(journal,args.run_id,args.export)
     elif args.command=='audit':
         row=acknowledge_audit(journal,args.run_id,args.packet_digest,args.decision,args.summary.read_text(encoding='utf-8'))
+        export(journal,args.run_id,args.export)
+    elif args.command=='continue-initial':
+        row=continue_initial_proposal(journal,args.run_id,args.original_digest,args.summary.read_text(encoding='utf-8'))
         export(journal,args.run_id,args.export)
     else:row=get(journal,args.run_id)
     print(json.dumps({k:row[k] for k in ('id','state','reason','used','round','review_index','last_audited_round','product_tests_executed','full_product_acceptance')},ensure_ascii=False,indent=2))

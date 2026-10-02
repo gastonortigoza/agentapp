@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-02T21:25:17.267931+00:00",
+  "suite_identity": "b3b0fe28b9c809ed5bb8a6f83bc571edce948d514fbbf25238c3e95ddd697471",
+  "controller_tests": "728 passed, 1 skipped, 547 warnings in 136.07s (0:02:16)",
+  "queue_id": "age50-saas-queue-20261002",
+  "queue_state": "uncertain_operation",
+  "reason": "Incomplete original inference preserved",
+  "queue_sha256": "9754fef3d378c13ff2ffa839faeba69152fdb9c4cdfef9c041cdba2d79731613",
+  "revision": 1,
+  "used": {
+    "active_ms": 1200000,
+    "calls": 10,
+    "executions": 0,
+    "input_tokens": 327680,
+    "output_tokens": 40000
+  },
+  "completed_agent_attempts": 1,
+  "last_audited_round": 0,
+  "new_review_ids": [
+    "age50-saas-queue-20261002-v1-r0-auth-api"
+  ],
+  "product_tests_executed": false,
+  "full_product_acceptance": false,
+  "historical_original_and_full_reservation_preserved": true,
+  "profile_budget_preserved": true,
+  "historical_uncertain_preserved": true,
+  "preview_http": 200,
+  "auth_source_author": "Original local CrewAI/Ollama; controller and infrastructure Codex",
+  "no_merge_or_deployment": true
+}

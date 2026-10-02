@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-02T21:21:21.022521+00:00",
+  "state": "qualified_initial_proposal_continuation_protocol",
+  "suite_identity": "b3b0fe28b9c809ed5bb8a6f83bc571edce948d514fbbf25238c3e95ddd697471",
+  "summary": "728 passed, 1 skipped, 547 warnings in 136.07s (0:02:16)",
+  "model_calls": 0,
+  "auth_product_tests_executed": false,
+  "full_product_acceptance": false,
+  "targeted_initial_failures": [
+    "two test fixture errors corrected",
+    "missing explicit contract hash check added after test caught it"
+  ],
+  "no_model_budget_increase": true,
+  "no_original_modified": true
+}

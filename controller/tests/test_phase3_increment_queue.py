@@ -78,7 +78,7 @@ def test_simulated_queue_generates_reviews_and_runs_fixed_original_recipe(queued
     assert row['state']=='awaiting_supported_increment',row['reason']
     assert row['items'][0]['state']=='qualified_session_core' and row['product_tests_executed']
     assert not row['full_product_acceptance'] and len(row['operations'])==3
-    assert row['used']['executions']==1 and row['used']['calls']==6
+    assert row['used']['executions']==1 and row['used']['calls']==4
     assert not transport.images and not transport.containers
     queue.verify(j,row)
     calls=len(transport.calls);again=queue.run(j,'queue',caller=caller,transport=transport)
@@ -91,7 +91,7 @@ def test_product_failure_goes_to_agents_and_stops_for_audit_at_three_completed_a
     assert row['state']=='awaiting_flow_audit' and row['review_index']==1 and row['round']==1
     assert row['pending_audit']['packet']['through_round']==3
     assert row['pending_audit']['packet']['product_feedback']['stage']=='unit'
-    assert row['used']['executions']==1 and row['used']['calls']==8
+    assert row['used']['executions']==1 and row['used']['calls']==6
     digest=row['pending_audit']['sha256']
     continued=queue.acknowledge_audit(j,'queue',digest,'continue','Inspect original failure, corrections, usage and isolation.')
     assert continued['last_audited_round']==3
@@ -156,11 +156,12 @@ def test_recovery_of_invalid_complete_review_is_charged_then_audited(queued):
             request={'model':row['binding']['model'],'digest':row['binding']['digest'],
               'messages':[{'role':'user','content':roles.prompt(row,op,lock,docs)}],'format':review.output_schema(row,op,lock,docs)}
             op['_record_request'](request)
-            value=accepted({'content':markers('auth_api')},'auth_api')
+            value=accepted(row['candidate'],'auth_api')
+            value['checks']['AS01']['quote']='invented evidence outside original module'
             return result(value,prompt_sha256=manifest.identity(request['messages']))
         return caller(row,op,lock,docs)
     row=queue.run(j,'queue',caller=call)
-    assert row['state']=='awaiting_flow_audit' and row['used']['calls']==7
+    assert row['state']=='awaiting_flow_audit' and row['used']['calls']==5
     assert len(row['operations'])==3 and row['used']['executions']==0
     assert row['operations'][0]['child_state']=='blocked_evidence'
     assert row['pending_audit']['packet']['through_round']==3
@@ -197,7 +198,7 @@ def test_restart_after_parent_settlement_advances_without_repeating_child(queued
     before=queue.get(j,'queue');assert before['operations'][-1]['state']=='confirmed'
     calls=len(transport.calls);monkeypatch.setattr(queue,'change',original)
     row=queue.run(j,'queue',caller=caller,transport=transport)
-    assert row['state']=='awaiting_supported_increment' and row['used']['calls']==6 and row['used']['executions']==1
+    assert row['state']=='awaiting_supported_increment' and row['used']['calls']==4 and row['used']['executions']==1
     if boundary=='execution':assert len(transport.calls)==calls
 
 
@@ -239,3 +240,71 @@ def test_malformed_or_duplicate_cleanup_success_is_rejected(queued):
     assert not queue.accepted(broken)
     broken=copy.deepcopy(child);broken['cleanup'][-1]=copy.deepcopy(broken['cleanup'][0])
     assert not queue.accepted(broken)
+
+
+def initial_truncation(journal):
+    """Historical buggy initiation, preserved; this is a simulated model result."""
+    rid='queue-r0-auth-api';seed={'path':auth.PATHS['auth_api'],'content':''}
+    amount={'calls':5,'input_tokens':163840,'output_tokens':20000,'active_ms':600000}
+    queue.reserve(journal,'queue',rid,'review',amount)
+    journal.create(rid,seed,section='auth_api')
+    child=review.run(journal,rid,caller=lambda *a:result({},done_reason='length'))
+    queue.settle(journal,'queue',child,amount)
+    return queue.stop(journal,'queue','awaiting_discrepancy','Original review truncated',rid)
+
+
+def test_scoped_controller_continuation_preserves_history_budget_and_three_attempt_audit(queued,monkeypatch):
+    j,_,_=queued;prior=initial_truncation(j);digest=manifest.identity(prior)
+    old_child=j.get(prior['operations'][0]['child_id']);old_ops=j.records(old_child['id'],'plan_ops')
+    monkeypatch.setattr(controller_gate,'require_green',lambda:'qualified-upgraded-controller')
+    row=queue.continue_initial_proposal(j,'queue',digest,'Inspected original; start a new developer proposal.')
+    assert row['used']==prior['used'] and row['operations']==prior['operations']
+    assert row['continuations'][0]['original']==prior and row['revision']==1
+    assert j.get(old_child['id'])==old_child and j.records(old_child['id'],'plan_ops')==old_ops
+    queue.verify(j,row)
+    row=queue.run(j,'queue',caller=caller,transport=lambda *a:pytest.fail('Audit precedes execution'))
+    assert row['state']=='awaiting_flow_audit' and row['used']['calls']==9 and row['used']['executions']==0
+    assert row['pending_audit']['packet']['through_round']==3
+    assert [o['child_id'] for o in row['operations']]==['queue-r0-auth-api','queue-v1-r0-auth-api','queue-v1-r0-auth-pages']
+    assert j.records('queue-v1-r0-auth-api','plan_ops')[0]['role']=='developer'
+    queue.acknowledge_audit(j,'queue',row['pending_audit']['sha256'],'continue','Reviewed all three originals and inherited charges.')
+    transport=DockerProtocol(j,'queue-auth-exec-r0')
+    final=queue.run(j,'queue',caller=caller,transport=transport)
+    assert final['state']=='awaiting_supported_increment' and final['last_audited_round']==3
+    assert final['used']['calls']==9 and final['used']['executions']==1
+    queue.verify(j,final)
+
+
+@pytest.mark.parametrize('mutation',['in_flight','budget','original','contract','resources','state','stale_digest'])
+def test_continuation_rejects_unknown_work_refunds_and_changed_inputs(queued,monkeypatch,mutation):
+    j,_,recipe=queued;prior=initial_truncation(j);digest=manifest.identity(prior)
+    if mutation=='original':
+        with j.transaction() as db:
+            child=manifest.parse(db.execute('SELECT body FROM plan_runs WHERE id=?',(prior['operations'][0]['child_id'],)).fetchone()[0])
+            child['candidate']['content']='mutated original';j.save(db,child,{'kind':'simulated.original_tampering'})
+    elif mutation=='resources':recipe['tls_public']['ca_sha256']='b'*64
+    elif mutation=='stale_digest':digest='0'*64
+    else:
+        with j.transaction() as db:
+            row=queue.load(db,'queue')
+            if mutation=='in_flight':row['operations'][0]['state']='in_flight'
+            elif mutation=='budget':row['operations'][0]['actual']['calls']=1;row['used']['calls']=1
+            elif mutation=='contract':row['binding']['contract_sha256']='b'*64;row['binding_sha256']=manifest.identity(row['binding'])
+            elif mutation=='state':row['state']='uncertain_operation'
+            queue.save(db,row)
+        prior=queue.get(j,'queue');digest=manifest.identity(prior)
+    monkeypatch.setattr(controller_gate,'require_green',lambda:'qualified-upgraded-controller')
+    before=queue.get(j,'queue')
+    with pytest.raises(ValueError):queue.continue_initial_proposal(j,'queue',digest,'Reject unsafe continuation.')
+    assert queue.get(j,'queue')==before
+
+
+def test_continuation_history_cannot_be_edited_or_used_for_a_second_budget(queued,monkeypatch):
+    j,_,_=queued;prior=initial_truncation(j)
+    monkeypatch.setattr(controller_gate,'require_green',lambda:'qualified-upgraded-controller')
+    row=queue.continue_initial_proposal(j,'queue',manifest.identity(prior),'Inspected original.')
+    with pytest.raises(ValueError):queue.continue_initial_proposal(j,'queue',manifest.identity(row),'No second adoption.')
+    with j.transaction() as db:
+        changed=queue.load(db,'queue');changed['continuations'][0]['original']['used']['calls']=0;queue.save(db,changed)
+    result_row=queue.run(j,'queue',caller=lambda *a:pytest.fail('History mutation blocks inference'))
+    assert result_row['state']=='blocked_drift'

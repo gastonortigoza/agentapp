@@ -27,6 +27,8 @@ def finding(code,pointer,fix):
 
 def verify_chain(row,ops,lock,documents):
     expected=row['binding']['seed_sha256']
+    if row['binding'].get('initial_proposal') and (not ops or ops[0]['role']!='developer'):
+        raise ValueError('Initial proposal must originate from the developer')
     if row['calls']!=len(ops) or row['corrections']!=sum(op['role']=='developer' for op in ops):
         raise ValueError('Review accounting drift')
     for seq,op in enumerate(ops):

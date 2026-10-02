@@ -229,7 +229,7 @@ class Journal:
             self.save(db,row,{'kind':'state.changed','reason':reason})
         return row
 
-    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None,product_feedback=None,review_recovery=None):
+    def create(self,run_id,candidate,bundle=preparation.FIXTURE,section=None,expected_checks=None,product_feedback=None,review_recovery=None,initial_proposal=False):
         if not re.fullmatch('[a-z0-9-]{1,100}',run_id):raise ValueError('Bad run ID')
         if len(manifest.canonical(candidate).encode())>24000:raise ValueError('Candidate too large')
         suite=controller_gate.require_green()
@@ -253,6 +253,13 @@ class Journal:
              'digest':documents['policy.json']['local_model_digest'],'limits':limits,
              'rules':rules,'seed_sha256':manifest.identity(candidate)}
         if section is not None:cfg['section']=section
+        if type(initial_proposal) is not bool:raise ValueError('Invalid initial source proposal')
+        if initial_proposal:
+            import phase3_auth_source as auth
+            if (section not in auth.SECTIONS or candidate!={'path':auth.PATHS[section],'content':''}
+                or any(v is not None for v in (expected_checks,product_feedback,review_recovery))):
+                raise ValueError('Initial proposal requires an absent auth module without other feedback')
+            cfg['initial_proposal']='absent-auth-module/1'
         if review_recovery is not None:
             if expected_checks is not None or product_feedback is not None:raise ValueError('Recovery cannot alter fixture or product-feedback control')
             cfg['review_recovery']=validate_recovery(review_recovery)
@@ -271,6 +278,7 @@ class Journal:
              'snapshot_directory':snapshot['snapshot_directory'], 'execution_authorized':False,
              'product_tests_executed':False,'scope':'contract_fixture_evaluation' if expected_checks is not None else
              'application_file_review' if section in SOURCE_SECTIONS else 'contract_section_document_review' if section else 'file_plan_structural_review'}
+        if initial_proposal:row['role']='developer'
         if product_feedback is not None:
             first=next(iter(rules));row['role']='developer'
             row['findings']=[{'rule':first,'source':'directory-code-rules/1' if section=='application' else 'public-source-rules/1',
@@ -369,6 +377,13 @@ class Journal:
 
 def verify_binding(row):
     if manifest.identity(row['binding'])!=row['binding_sha256']:raise ValueError('Binding changed')
+    if 'initial_proposal' in row['binding']:
+        import phase3_auth_source as auth
+        section=row['binding'].get('section')
+        if (row['binding']['initial_proposal']!='absent-auth-module/1' or section not in auth.SECTIONS
+            or row['binding']['seed_sha256']!=manifest.identity({'path':auth.PATHS[section],'content':''})
+            or any(k in row['binding'] for k in ('expected_checks','product_feedback','review_recovery'))):
+            raise ValueError('Initial source proposal binding invalid')
     if 'review_recovery' in row['binding']:validate_recovery(row['binding']['review_recovery'])
     if 'product_feedback' in row['binding']:
         import phase3_source

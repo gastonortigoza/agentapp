@@ -8,7 +8,8 @@ inventa módulos, pruebas o permisos para ejecutarlos.
 
 La cola de sesiones encadena dos revisiones de fuentes locales CrewAI/Ollama,
 materializa únicamente sus bytes originales y ejecuta el materializador auth.
-Los seeds iniciales están vacíos: Codex no suministra una implementación de
+Los seeds iniciales están vacíos y comienza el redactor, seguido del revisor:
+Codex no suministra una implementación de
 auth.ts/AuthPages.tsx ni un fixture en sus rutas. Las revisiones documentales no
 aceptan el producto. Sólo compile/bundle, nueve pruebas PG/API y cinco Chromium
 con TLS estricto, junto con cleanup confirmado, pueden aceptar session-core.
@@ -67,7 +68,17 @@ Auth en la vista LAN sigue requiriendo aceptación real, HTTPS y cliente-IP/rate
 
 La identidad actual del controlador permanece ligada al recorrido. Cambiar código
 o recursos durante una cola activa detiene trabajo con `blocked_drift`; no editar
-el binding para reactivar ni crear otra cola del mismo contrato. Una eventual
-migración deberá preservar originales y gasto y producir revisiones nuevas,
-nunca cambiar la identidad de aprobaciones anteriores. Los cinco runners restantes
+el binding para reactivar ni crear otra cola del mismo contrato. La continuación
+`continue-initial` admite sólo el primer reviewer de auth_api vacío terminado con
+`done_reason=length`, una vez, sin ejecuciones ni aprobaciones. Exige digest del
+expediente inspeccionado, suite nueva verde y entradas idénticas. Conserva snapshot,
+hashes de row/ops/events, reserva completa, ID y contador de rondas; el nuevo
+redactor usa un ID de revisión v1. No recupera JSON parcial ni repite ese reviewer.
+No permite refund, operaciones inciertas o migraciones generales. Uso:
+
+```powershell
+python controller/agent.py phase3-increment-queue continue-initial --run-id ID --original-digest SHA --summary inspection.txt --export RESULT.json
+```
+
+Los cinco runners restantes
 todavía requieren trabajo técnico antes de poder continuar entre incrementos.

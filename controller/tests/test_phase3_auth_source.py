@@ -107,3 +107,30 @@ def test_product_feedback_reaches_auth_writer_and_reviewer_with_fixed_test_const
     for role in ('developer','reviewer'):
         prompt=source.prompt(row,{'role':role},docs)
         assert 'Concurrent reuse left a live session' in prompt and 'preserve tests/dependencies' in prompt
+
+
+@pytest.mark.parametrize('section',auth.SECTIONS)
+def test_absent_module_starts_with_original_writer_without_invented_failure(tmp_path,monkeypatch,section):
+    monkeypatch.setattr(controller_gate,'require_green',lambda:'qualified-controller')
+    monkeypatch.setattr(review,'ROOT',tmp_path)
+    j=review.Journal(tmp_path/'review.sqlite');seed={'path':auth.PATHS[section],'content':''}
+    row=j.create('first-proposal',seed,section=section,initial_proposal=True)
+    assert row['role']=='developer' and row['findings']==[] and 'product_feedback' not in row['binding']
+    from test_phase3_increment_queue import caller
+    final=review.run(j,row['id'],caller)
+    assert final['state']=='reviewed_application_file' and final['calls']==2
+    assert [op['role'] for op in j.records(row['id'],'plan_ops')]==['developer','reviewer']
+    assert handoff.consume(j,row['id'],section)[0]==final
+    assert not final['product_tests_executed']
+
+
+@pytest.mark.parametrize('section,content,feedback',[
+    ('public_api','',None),('auth_api','existing source',None),
+    ('auth_api','',{'execution_id':'failure','execution_sha256':'0'*64,'stage':'unit','output':'failed'})])
+def test_initial_proposal_cannot_bypass_existing_source_review(tmp_path,monkeypatch,section,content,feedback):
+    monkeypatch.setattr(controller_gate,'require_green',lambda:'qualified-controller')
+    monkeypatch.setattr(review,'ROOT',tmp_path)
+    j=review.Journal(tmp_path/'review.sqlite')
+    path=auth.PATHS.get(section,source.PATHS.get(section))
+    with pytest.raises(ValueError,match='Initial proposal'):
+        j.create('invalid-proposal',{'path':path,'content':content},section=section,initial_proposal=True,product_feedback=feedback)
